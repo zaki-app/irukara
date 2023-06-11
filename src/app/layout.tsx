@@ -1,22 +1,29 @@
 import React from 'react';
 import '@/styles/globals.css';
-import { metaDescription, metaTitle } from '@/common/meta/findMeta';
-import Header from '@/components/client/organisms/Header';
-import Footer from '@/components/client/organisms/Footer';
+import {
+  defaultDescription,
+  siteConfig,
+  siteTitle,
+} from '@/common/config/site.config';
+import { Header, Footer } from '@/components/client';
 
 // メタデータ
 export const metadata = {
   title: {
-    default: metaTitle,
-    template: `%s | ${metaTitle}`,
+    default: siteTitle,
+    template: `%s | ${siteTitle}`,
   },
-  description: metaDescription,
+  description: defaultDescription,
   icons: {
-    icon: '/tokeru.svg',
+    icon: siteConfig.icon,
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang='ja'>
       <body>

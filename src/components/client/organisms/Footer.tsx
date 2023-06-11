@@ -1,16 +1,20 @@
 'use client';
 
-import { footerList } from '@/common/meta/findMeta';
+import { footerList } from '@/common/config/site.config';
+import Link from 'next/link';
+import { navbar } from '@/styles/common/styles';
 
 export default function Footer() {
   return (
-    <footer>
+    <footer className={navbar.basic}>
       <p>{footerList.title}</p>
-      <ul>
-        <li>利用規約</li>
-        <li>プライバシーポリシー</li>
-        <li>特定商取引に基づく表記</li>
-      </ul>
+      {footerList.list.map((list) => (
+        <ul key={list.title}>
+          <Link href={list.href}>
+            <li>{list.title}</li>
+          </Link>
+        </ul>
+      ))}
     </footer>
   );
 }
