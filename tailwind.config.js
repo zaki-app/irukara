@@ -8,15 +8,25 @@ module.exports = {
       './src/components/**/*.{js,ts,jsx,tsx,mdx}',
       './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     ],
-    theme: {
-      extend: {
-        backgroundImage: {
-          'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-          'gradient-conic':
-            'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        },
+    plugins: [],
+  },
+  theme: {
+    extend: {
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      // 基本カラー
+      colors: {
+        transparent: 'transparent',
+        current: 'currentColor',
+        nav: '#172554',
+        white: '#ffffff',
+        mainBg: '#e9ebee',
+        skyblue: '#06b6d4',
+        line: '#06c755',
       },
     },
-    plugins: [],
   },
 };

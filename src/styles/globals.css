@@ -16,3 +16,9 @@ h5,
 h6 {
   color: #0b214a;
 }
+
+/* メインコンテンツ */
+.contents {
+  max-width: 800px;
+  min-height: 100vh;
+}
