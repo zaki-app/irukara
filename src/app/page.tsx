@@ -1,13 +1,12 @@
 import React from 'react';
-import Link from 'next/link';
+import TopContents from '@/components/client/organisms/TopContents';
+import TopContentsDescription from '@/components/client/organisms/TopContentsDescription';
 
 export default function Home() {
   return (
     <div>
-      <h1>Irukara</h1>
-      <p>いるから</p>
-      <Link href='/mypage/useriddesu'>マイページへ</Link>
-      <Link href='/testpage'>テストページへ</Link>
+      <TopContents />
+      <TopContentsDescription />
     </div>
   );
 }
