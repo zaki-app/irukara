@@ -5,7 +5,7 @@ import {
   siteConfig,
   siteTitle,
 } from '@/common/config/site.config';
-import { Header, Footer } from '@/components/client';
+import ProvidersWrapper from '@/components/server/ProvidersWrapper';
 
 // メタデータ
 export const metadata = {
@@ -25,12 +25,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='ja'>
-      <body>
-        <Header />
-        <div className='min-h-screen max-w-screen-lg'>{children}</div>
-        <Footer />
-      </body>
-    </html>
+    <ProvidersWrapper>
+      <div className='min-h-screen max-w-screen-lg'>{children}</div>
+    </ProvidersWrapper>
   );
 }
