@@ -3,8 +3,24 @@
 import Link from 'next/link';
 import { siteConfig } from '@/common/config/site.config';
 import Image from 'next/image';
+import type { Liff } from '@line/liff/exports';
+import { useRouter } from 'next/navigation';
+import { deleteCookie } from '@/common/utils/authLINE/manageCookies';
 
-function Header() {
+interface LiffProps {
+  liff: Liff | null | undefined;
+}
+
+function Header({ liff }: LiffProps) {
+  const router = useRouter();
+
+  function confirmSignOut() {
+    liff?.logout();
+    // ログアウト後は、ページをリフレッシュしてアクセストークンを削除
+    router.refresh();
+    deleteCookie();
+  }
+
   return (
     <header className='bg-nav text-white p-4 flex justify-between'>
       <div className='flex items-center'>
@@ -27,7 +43,11 @@ function Header() {
           </ul>
         ))}
       </div>
-      {/* {children} */}
+      {liff?.isLoggedIn() ? (
+        <button onClick={confirmSignOut}>サインアウト</button>
+      ) : (
+        <button onClick={() => liff?.login()}>ログイン</button>
+      )}
     </header>
   );
 }
