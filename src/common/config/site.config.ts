@@ -43,3 +43,28 @@ export const footerList = {
     },
   ],
 };
+
+// 使い方
+export const usedServiceList = {
+  title: '一番簡単な方法はLINEで使用する方法です！',
+  list: [
+    { number: '①', text: '友達になる' },
+    { number: '②', text: 'メッセージを送ってみる' },
+    { number: '③', text: '回答が返ってくる' },
+    { number: '④', text: '保存するボタンをタップ！' },
+    { number: '⑤', text: 'LINE画面の下にあるリッチメニューをタップ！' },
+    { number: '⑥', text: 'Irukara.netのマイページで確認' },
+  ],
+};
+
+// 料金
+export const servicePriceList = {
+  list: [
+    { text: 'メッセージ30通無料・保存3回', price: '無料' },
+    { text: 'メッセージ100通無料・保存50回', price: '350円(1ヶ月)' },
+    { text: 'メッセージ・保存回数無制限', price: '870円(1ヶ月)' },
+  ],
+};
+
+// トップ画面ラストメッセージ
+export const lastMessage = '今すぐIrukaraとお友達になって、お話ししましょう';

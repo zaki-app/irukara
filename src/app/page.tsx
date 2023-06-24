@@ -1,12 +1,20 @@
 import React from 'react';
-import TopContents from '@/components/client/organisms/TopContents';
-import TopContentsDescription from '@/components/client/organisms/TopContentsDescription';
+import {
+  TopService,
+  TopServiceDescription,
+  TopUsedService,
+  TopServicePrice,
+  TopLastMessage,
+} from '@/components/client/organisms';
 
 export default function Home() {
   return (
     <div>
-      <TopContents />
-      <TopContentsDescription />
+      <TopService />
+      <TopServiceDescription />
+      <TopUsedService />
+      <TopServicePrice />
+      <TopLastMessage />
     </div>
   );
 }

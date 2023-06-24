@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { irukaraLogo } from '@/common/config/site.config';
 import InButton from '../atoms/InButton';
 
-export default function TopContents() {
+export default function TopService() {
   return (
     <div className='flex flex-col py-12'>
       <div className='flex justify-center font-bold text-3xl py-4'>
