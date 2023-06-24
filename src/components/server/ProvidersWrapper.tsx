@@ -15,6 +15,8 @@ export default function ProvidersWrapper({
 }) {
   const [liffObject, setLiffObject] = useState<Liff | null>();
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>('');
+  const [isToken, setIsToken] = useState<boolean | undefined>(false);
   const router = useRouter();
 
   async function liffInit() {
@@ -31,20 +33,18 @@ export default function ProvidersWrapper({
         // ログイン後の処理
         if (!(await isCookie())) {
           console.log('クッキー', await isCookie());
-          const token = liff.getAccessToken();
-          const isToken = await isVerifyToken(token ?? '');
+          setToken(liff.getAccessToken());
+          console.log('トークン', token);
+          setIsToken(await isVerifyToken(token ?? ''));
+          console.log('トークンboolean', isToken);
           if (isToken) {
             // アクセストークンの有効性があればcookiesに保存 デフォルトのLIFFのcookies削除したい
             setCookie(token ?? '');
             router.push('/');
             console.log('Welcome to Irukara👍');
           }
-          // else {
-          //   liff.login();
-          // }
         }
 
-        console.log('login後', liff.isLoggedIn());
         setLiffObject(liff);
         setIsLogin(true);
         console.log('ログイン', isLogin);
@@ -56,7 +56,7 @@ export default function ProvidersWrapper({
 
   useEffect(() => {
     liffInit();
-  }, [isLogin]);
+  }, [isToken, isLogin]);
 
   return (
     <html lang='ja'>
