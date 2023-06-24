@@ -1,6 +1,6 @@
 'use client';
 
-export default function TopContentsDescription() {
+export default function TopServiceDescription() {
   return (
     <div className='font-semibold text-2xl bg-gray-300 py-12 px-4'>
       <div className='mb-10'>
