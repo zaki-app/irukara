@@ -25,12 +25,12 @@ export default function ProvidersWrapper({
     liff.ready
       .then(async () => {
         if (!liff.isLoggedIn()) {
-          setIsLogin(false);
+          // setIsLogin(false);
           liff.login();
         }
         // ログイン後の処理
         if (!(await isCookie())) {
-          console.log(await isCookie());
+          console.log('クッキー', await isCookie());
           const token = liff.getAccessToken();
           const isToken = await isVerifyToken(token ?? '');
           if (isToken) {
@@ -38,14 +38,16 @@ export default function ProvidersWrapper({
             setCookie(token ?? '');
             router.push('/');
             console.log('Welcome to Irukara👍');
-          } else {
-            liff.login();
           }
+          // else {
+          //   liff.login();
+          // }
         }
 
-        // console.log('login後', liff.isLoggedIn());
+        console.log('login後', liff.isLoggedIn());
         setLiffObject(liff);
         setIsLogin(true);
+        console.log('ログイン', isLogin);
       })
       .catch((err) => {
         console.error('liff init error', err);
