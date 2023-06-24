@@ -1,6 +1,6 @@
 'use client';
 
-import { Header, Footer } from '@/components/client';
+import { Header, Footer } from '@/components/client/organisms';
 import liff from '@line/liff';
 import { useEffect, useState } from 'react';
 import type { Liff } from '@line/liff/exports';
