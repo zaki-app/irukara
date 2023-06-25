@@ -5,7 +5,7 @@ import {
   siteConfig,
   siteTitle,
 } from '@/common/config/site.config';
-import ProvidersWrapper from '@/components/server/ProvidersWrapper';
+import ProvidersWrapper from '@/components/client/template/ProvidersWrapper';
 
 // メタデータ
 export const metadata = {

@@ -1,20 +1,20 @@
 'use server';
 
 import { cookies } from 'next/headers';
-// import { CookieJar } from 'tough-cookie';
 
-// アクセストークンをcookiesに保存する
-export async function setCookie(token: string) {
+// cookiesに保存する
+export async function setCookie(name: string, value: string) {
   console.time('cookies');
   cookies().set({
-    name: 'irukara',
-    value: token,
+    name,
+    value,
     httpOnly: true,
     path: '/',
   });
   console.timeEnd('cookies');
 }
 
+// cookiesを削除
 export async function deleteCookie() {
   console.time('cookies2');
   cookies().set({
@@ -23,10 +23,16 @@ export async function deleteCookie() {
     expires: new Date('2016-10-6'),
     path: '/',
   });
+  cookies().set({
+    name: 'irukaraId',
+    value: '',
+    expires: new Date('2016-10-6'),
+    path: '/',
+  });
   console.timeEnd('cookies2');
 }
 
-/** cookieの存在確認 */
+/** cookieにアクセストークンがあるかの存在確認 */
 export async function isCookie() {
   const cookiesList = cookies().get('irukara');
   let isCookieValue;

@@ -1,5 +1,10 @@
 'use server';
 
+/**
+ * アクセストークンが有効かを判定する
+ * @param token string
+ * @returns
+ */
 export default async function isVerifyToken(token: string) {
   let isToken;
   try {

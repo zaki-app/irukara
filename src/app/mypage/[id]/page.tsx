@@ -7,7 +7,11 @@ interface Repository {
   full_name: string;
 }
 
-export default async function MyPage({ params }: { params: { id: string } }) {
+export default async function MyPageDetail({
+  params,
+}: {
+  params: { id: string };
+}) {
   // data fetch
   const response = await fetch('https://api.github.com/repos/vercel/next.js', {
     cache: 'no-store',

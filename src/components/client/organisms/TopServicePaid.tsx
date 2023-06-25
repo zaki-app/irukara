@@ -3,7 +3,7 @@
 import { PriceCard, LineButton } from '@/components/client/atoms';
 import { servicePriceList } from '@/common/config/site.config';
 
-export default function TopServicePrice() {
+export default function TopServicePaid() {
   return (
     <div>
       <div>
