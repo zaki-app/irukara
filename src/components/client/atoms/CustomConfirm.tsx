@@ -7,8 +7,6 @@ import Modal from 'react-modal';
 export default function CustomConfirm() {
   console.log('モーダル');
   const [isOpen, setIsOpen] = useState<boolean>(true);
-
-  const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
   return (
     <div>
