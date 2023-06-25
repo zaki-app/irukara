@@ -58,6 +58,13 @@ export const usedServiceList = {
 };
 
 // 料金
+export const servicePaid = {
+  title1: '料金について',
+  description1: 'Irukaraでは3つのプランをご用意しております。',
+  description2: 'それぞれのプランを選択していただくと決済画面に移動します。',
+  title2: '選べる3つのプラン',
+  line: 'まだお友達になっていない方は',
+};
 export const servicePriceList = {
   list: [
     { text: 'メッセージ30通無料・保存3回', price: '無料' },

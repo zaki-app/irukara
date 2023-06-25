@@ -3,7 +3,7 @@ import {
   TopService,
   TopServiceDescription,
   TopUsedService,
-  TopServicePrice,
+  TopServicePaid,
   TopLastMessage,
 } from '@/components/client/organisms';
 
@@ -13,7 +13,7 @@ export default function Home() {
       <TopService />
       <TopServiceDescription />
       <TopUsedService />
-      <TopServicePrice />
+      <TopServicePaid />
       <TopLastMessage />
     </div>
   );

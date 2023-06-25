@@ -18,7 +18,7 @@ export default function TopService() {
           height={130}
         />
       </div>
-      <InButton text='マイページへ' link='/mypage/fejaofja' />
+      <InButton text='マイページへ' link='/mypage' />
     </div>
   );
 }

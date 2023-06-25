@@ -7,6 +7,10 @@ import type { Liff } from '@line/liff/exports';
 import { useRouter } from 'next/navigation';
 import { setCookie, isCookie } from '@/common/utils/authLINE/manageCookies';
 import isVerifyToken from '@/common/utils/authLINE/isVerifyToken';
+import getProfile from '@/common/utils/authLINE/getProfile';
+import { Provider } from 'react-redux';
+import { store } from '@/store';
+import { setUserProfile } from '@/store/line-profile/slice';
 
 export default function ProvidersWrapper({
   children,
@@ -15,11 +19,11 @@ export default function ProvidersWrapper({
 }) {
   const [liffObject, setLiffObject] = useState<Liff | null>();
   const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [token, setToken] = useState<string | null>('');
   const [isToken, setIsToken] = useState<boolean | undefined>(false);
   const router = useRouter();
 
   async function liffInit() {
+    // TODO アクセスがwebの時は自動ログインしないようにしたい
     const liffId = process.env.NEXT_PUBLIC_LIFF_ID ?? '';
 
     liff.init({ liffId });
@@ -27,23 +31,23 @@ export default function ProvidersWrapper({
     liff.ready
       .then(async () => {
         if (!liff.isLoggedIn()) {
-          // setIsLogin(false);
           liff.login();
         }
-        // ログイン後の処理
+
+        // irukaraのcookieがない時(初回ログイン時)はトークン有効性検証、有効ならcookieに保存する
         if (!(await isCookie())) {
-          console.log('クッキー', await isCookie());
-          setToken(liff.getAccessToken());
-          console.log('トークン', token);
+          const token = liff.getAccessToken();
           setIsToken(await isVerifyToken(token ?? ''));
-          console.log('トークンboolean', isToken);
           if (isToken) {
-            // アクセストークンの有効性があればcookiesに保存 デフォルトのLIFFのcookies削除したい
-            setCookie(token ?? '');
+            setCookie('irukara', token ?? '');
             router.push('/');
             console.log('Welcome to Irukara👍');
           }
         }
+
+        /* irukaraのcookieがある場合 */
+        const profile = await getProfile();
+        store.dispatch(setUserProfile(profile));
 
         setLiffObject(liff);
         setIsLogin(true);
@@ -62,11 +66,11 @@ export default function ProvidersWrapper({
     <html lang='ja'>
       <body>
         {isLogin ? (
-          <>
+          <Provider store={store}>
             <Header liff={liffObject} />
             {children}
             <Footer />
-          </>
+          </Provider>
         ) : (
           <div>loading...</div>
         )}
