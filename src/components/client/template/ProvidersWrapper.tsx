@@ -5,7 +5,12 @@ import liff from '@line/liff';
 import { useEffect, useState } from 'react';
 import type { Liff } from '@line/liff/exports';
 import { useRouter } from 'next/navigation';
-import { setCookie, isCookie } from '@/common/utils/authLINE/manageCookies';
+import {
+  setCookie,
+  isCookie,
+  getAccessToken,
+  getUserId,
+} from '@/common/utils/authLINE/manageCookies';
 import isVerifyToken from '@/common/utils/authLINE/isVerifyToken';
 import getProfile from '@/common/utils/authLINE/getProfile';
 import { Provider } from 'react-redux';
@@ -19,7 +24,6 @@ export default function ProvidersWrapper({
 }) {
   const [liffObject, setLiffObject] = useState<Liff | null>();
   const [isLogin, setIsLogin] = useState<boolean>(false);
-  // const [isToken, setIsToken] = useState<boolean | undefined>(false);
   const router = useRouter();
 
   async function liffInit() {
@@ -33,18 +37,23 @@ export default function ProvidersWrapper({
         if (!liff.isLoggedIn()) {
           liff.login();
         }
+        console.log('最初のログイン状態', liff.isLoggedIn());
 
         // irukaraのcookieがない時(初回ログイン時)はトークン有効性検証、有効ならcookieに保存する
         try {
           if (!(await isCookie())) {
+            console.log('クッキーがない', await isCookie());
             const token = liff.getAccessToken();
-            // setIsToken(await isVerifyToken(token ?? ''));
+            console.log('トークン', token);
             const isToken = await isVerifyToken(token ?? '');
-            if (isToken) {
+            console.log('有効性', isToken);
+            if (token && isToken) {
               setCookie('irukara', token ?? '');
               router.push('/');
               console.log('Welcome to Irukara👍');
             }
+            console.log('クッキーアクセストークン', await getAccessToken());
+            console.log('クッキーユーザーID', await getUserId());
           }
 
           /* irukaraのcookieがあり、かつログイン状態の場合プロフィールを取得する */
