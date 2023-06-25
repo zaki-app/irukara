@@ -7,7 +7,7 @@ export default function Paid() {
   return (
     <div>
       <div>
-        <StatePlan />
+        <StatePlan text='現在のプラン' />
       </div>
       <div>
         <h1>{servicePaid.title1}</h1>

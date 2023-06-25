@@ -47,6 +47,18 @@ export async function isCookie() {
   return isCookieValue;
 }
 
+/* cookieからアクセストークンを取得する */
+export async function getAccessToken() {
+  const token = cookies().get('irukara');
+  return token?.value;
+}
+
+/* cookieからuserIdを取得する */
+export async function getUserId() {
+  const irukara = cookies().get('irukaraId');
+  return irukara?.value;
+}
+
 /** 現在保存されているcookiewのサイズを確認する(ローカルでのみ使用) */
 // export async function getCookiesSize() {
 //   const cookieJar = new CookieJar();
