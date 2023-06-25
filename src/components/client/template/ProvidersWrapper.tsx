@@ -19,7 +19,7 @@ export default function ProvidersWrapper({
 }) {
   const [liffObject, setLiffObject] = useState<Liff | null>();
   const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [isToken, setIsToken] = useState<boolean | undefined>(false);
+  // const [isToken, setIsToken] = useState<boolean | undefined>(false);
   const router = useRouter();
 
   async function liffInit() {
@@ -35,32 +35,40 @@ export default function ProvidersWrapper({
         }
 
         // irukaraのcookieがない時(初回ログイン時)はトークン有効性検証、有効ならcookieに保存する
-        if (!(await isCookie())) {
-          const token = liff.getAccessToken();
-          setIsToken(await isVerifyToken(token ?? ''));
-          if (isToken) {
-            setCookie('irukara', token ?? '');
-            router.push('/');
-            console.log('Welcome to Irukara👍');
+        try {
+          if (!(await isCookie())) {
+            const token = liff.getAccessToken();
+            // setIsToken(await isVerifyToken(token ?? ''));
+            const isToken = await isVerifyToken(token ?? '');
+            if (isToken) {
+              setCookie('irukara', token ?? '');
+              router.push('/');
+              console.log('Welcome to Irukara👍');
+            }
           }
+
+          /* irukaraのcookieがあり、かつログイン状態の場合プロフィールを取得する */
+          if ((await isCookie()) && isLogin) {
+            const profile = await getProfile();
+            store.dispatch(setUserProfile(profile));
+            console.log('プロフィール', profile);
+          }
+
+          setLiffObject(liff);
+          setIsLogin(true);
+          console.log('ログイン', isLogin);
+        } catch (err) {
+          console.error('liffでのエラーなのでエラー画面に飛ばしたい', err);
         }
-
-        /* irukaraのcookieがある場合 */
-        const profile = await getProfile();
-        store.dispatch(setUserProfile(profile));
-
-        setLiffObject(liff);
-        setIsLogin(true);
-        console.log('ログイン', isLogin);
       })
       .catch((err) => {
-        console.error('liff init error', err);
+        console.error('liff init error, これもエラー画面に飛ばしたい', err);
       });
   }
 
   useEffect(() => {
     liffInit();
-  }, [isToken, isLogin]);
+  }, [isLogin]);
 
   return (
     <html lang='ja'>
