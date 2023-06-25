@@ -10,6 +10,7 @@ interface SaveMessageDataProps {
 export default async function MyPage() {
   // ユーザーの保存メッセージを取得
   const { data }: SaveMessageDataProps = await fetchMessage();
+  console.log('レスポンス', data);
   return (
     <div>
       <StatePlan text='マイページ' />
