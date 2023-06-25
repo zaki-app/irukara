@@ -37,30 +37,23 @@ export default function ProvidersWrapper({
         if (!liff.isLoggedIn()) {
           liff.login();
         }
-        console.log('最初のログイン状態', liff.isLoggedIn());
 
         // irukaraのcookieがない時(初回ログイン時)はトークン有効性検証、有効ならcookieに保存する
         try {
           if (!(await isCookie())) {
-            console.log('クッキーがない', await isCookie());
             const token = liff.getAccessToken();
-            console.log('トークン', token);
             const isToken = await isVerifyToken(token ?? '');
-            console.log('有効性', isToken);
             if (token && isToken) {
               setCookie('irukara', token ?? '');
               router.push('/');
               console.log('Welcome to Irukara👍');
             }
-            console.log('クッキーアクセストークン', await getAccessToken());
-            console.log('クッキーユーザーID', await getUserId());
           }
 
           /* irukaraのcookieがあり、かつログイン状態の場合プロフィールを取得する */
           if ((await isCookie()) && isLogin) {
             const profile = await getProfile();
             store.dispatch(setUserProfile(profile));
-            console.log('プロフィール', profile);
           }
 
           setLiffObject(liff);
