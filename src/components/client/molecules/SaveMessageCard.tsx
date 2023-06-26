@@ -1,41 +1,45 @@
 'use client';
 
-import { useSelector } from 'react-redux';
 import Image from 'next/image';
 import { irukaraLogo } from '@/common/config/site.config';
-import { Suspense } from 'react';
+import dateFormat from '@/common/libs/dateFromat';
+import { useEffect, useState } from 'react';
+import { ProfileImage } from '@/components/client/atoms';
 
+export interface UserProfile {
+  displayName: string;
+  pictureUrl: string;
+}
 interface SaveMessageProps {
   question: string;
   answer: string;
+  createdAt: number | undefined;
 }
 
 export default function SaveMessageCard({
   question,
   answer,
+  createdAt,
 }: SaveMessageProps) {
-  // ユーザーのLINE画像を取得
-  const userProfile = useSelector(
-    ({ authUserProfileSlice }) => authUserProfileSlice,
-  );
+  const [createdAtTime, setCreatedAtTime] = useState<string>('');
+
+  // UNIX時間を変換
+  useEffect(() => {
+    setCreatedAtTime(dateFormat(createdAt ?? 0));
+  }, []);
 
   return (
-    <Suspense fallback={<p>...loading</p>}>
+    <div>
       <div>
         <div>
-          <Image
-            src={userProfile.pictureUrl ?? ''}
-            alt={`${userProfile.displayName}}さんのプロフィール画像`}
-            width={30}
-            height={30}
-          />
+          <ProfileImage />
         </div>
         <div>{question}</div>
       </div>
       <div>
         <div>
           <Image
-            src={irukaraLogo.src}
+            src={irukaraLogo.src ?? null}
             alt={irukaraLogo.alt}
             width={30}
             height={30}
@@ -43,6 +47,7 @@ export default function SaveMessageCard({
         </div>
         <div>{answer}</div>
       </div>
-    </Suspense>
+      <div>{createdAtTime}</div>
+    </div>
   );
 }

@@ -2,6 +2,7 @@ import fetchMessage from '@/common/libs/fetchMessage';
 import { StatePlan } from '@/components/client/organisms';
 import SaveMessageCard from '@/components/client/molecules/SaveMessageCard';
 import type { SaveMessageData } from '@/common/types/LineTypes';
+import { Suspense } from 'react';
 
 interface SaveMessageDataProps {
   data: SaveMessageData[];
@@ -16,7 +17,11 @@ export default async function MyPage() {
       <StatePlan text='マイページ' />
       {data.map((item) => (
         <div key={item.messageId}>
-          <SaveMessageCard question={item.question} answer={item.answer} />
+          <SaveMessageCard
+            question={item.question}
+            answer={item.answer}
+            createdAt={item.createdAt}
+          />
         </div>
       ))}
     </div>

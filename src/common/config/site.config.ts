@@ -75,3 +75,6 @@ export const servicePriceList = {
 
 // トップ画面ラストメッセージ
 export const lastMessage = '今すぐIrukaraとお友達になって、お話ししましょう';
+
+// alt文字
+export const userIcon = 'ユーザーアイコン画像';
