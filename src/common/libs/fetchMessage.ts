@@ -11,6 +11,7 @@ export default async function fetchMessage() {
     const userId = (await getUserId()) ?? '';
     const token = (await getAccessToken()) ?? '';
     const endpoint = `${process.env.IRUKARA_API_ENDPOINT}save-messages/${userId}`;
+    console.log('エンドポイント', endpoint);
     const response = await fetch(endpoint, {
       headers: { Authorization: token },
       cache: 'no-cache',
