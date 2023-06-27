@@ -5,6 +5,7 @@ import { irukaraLogo } from '@/common/config/site.config';
 import dateFormat from '@/common/libs/dateFromat';
 import { useEffect, useState } from 'react';
 import { ProfileImage } from '@/components/client/atoms';
+import textTruncate from '@/common/libs/textTruncate';
 
 export interface UserProfile {
   displayName: string;
@@ -34,7 +35,7 @@ export default function SaveMessageCard({
         <div>
           <ProfileImage />
         </div>
-        <div>{question}</div>
+        <div>{textTruncate(question, 20)}</div>
       </div>
       <div>
         <div>
@@ -45,7 +46,7 @@ export default function SaveMessageCard({
             height={30}
           />
         </div>
-        <div>{answer}</div>
+        <div>{textTruncate(answer, 30)}</div>
       </div>
       <div>{createdAtTime}</div>
     </div>
