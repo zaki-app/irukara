@@ -5,14 +5,10 @@ import Image from 'next/image';
 import { useEffect, useState, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { userIcon } from '@/common/config/site.config';
-
-interface UserProfile {
-  displayName?: string;
-  pictureUrl: string;
-}
+import type { UserProfileSelector } from '@/common/types/LineTypes';
 
 export default function ProfileImage() {
-  const userProfile: UserProfile = useSelector(
+  const userProfile: UserProfileSelector = useSelector(
     ({ authUserProfileSlice }) => authUserProfileSlice,
   );
 

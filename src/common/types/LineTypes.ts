@@ -5,6 +5,11 @@ export interface UserProfile {
   pictureUrl: string | null;
 }
 
+export interface UserProfileSelector {
+  displayName?: string;
+  pictureUrl: string;
+}
+
 export interface PlanText {
   text: string;
 }

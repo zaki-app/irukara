@@ -1,28 +1,35 @@
 'use client';
 
 import { useSelector } from 'react-redux';
-import type { UserProfile, PlanText } from '@/common/types/LineTypes';
-
-interface ProfileState {
-  authUserProfileSlice: UserProfile;
-}
+import type { UserProfileSelector, PlanText } from '@/common/types/LineTypes';
+import { useEffect, useState } from 'react';
 
 export default function StatePlan({ text }: PlanText) {
-  const profile = useSelector(
-    (state: ProfileState) => state.authUserProfileSlice,
+  const userProfile: UserProfileSelector = useSelector(
+    ({ authUserProfileSlice }) => authUserProfileSlice,
   );
 
-  // console.log('プロフィール', profile);
+  const [isUser, setIsUser] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (userProfile.displayName) {
+      setIsUser(true);
+    }
+  }, [userProfile, isUser]);
 
   return (
     <div>
-      <div>
-        <h1>
-          {profile.displayName}さんの{text}
-        </h1>
-        <p>現在のプラン: イルカモプラン</p>
-        <p>プランを変更する</p>
-      </div>
+      {isUser ? (
+        <div>
+          <h1>
+            {userProfile.displayName}さんの{text}
+          </h1>
+          <p>現在のプラン: イルカモプラン</p>
+          <p>プランを変更する</p>
+        </div>
+      ) : (
+        <div>ユーザーローディング</div>
+      )}
     </div>
   );
 }
