@@ -1,12 +1,11 @@
-import fetchMessage from '@/common/libs/fetchMessage';
+import { fetchMessage } from '@/common/libs/fetchMessage';
 import { StatePlan } from '@/components/client/organisms';
 import SaveMessageCard from '@/components/client/molecules/SaveMessageCard';
 import type { SaveMessageData } from '@/common/types/LineTypes';
 import { Suspense } from 'react';
-import { isCookie } from '@/common/utils/authLINE/manageCookies';
 
 interface SaveMessageDataProps {
-  data: SaveMessageData[];
+  data: SaveMessageData[] | boolean;
 }
 
 export default async function MyPage() {
@@ -15,17 +14,25 @@ export default async function MyPage() {
   console.log('レスポンス', data);
   return (
     <div>
-      <StatePlan text='マイページ' />
       <Suspense fallback={<div>ローディング中です</div>}>
-        {data.map((item) => (
-          <div key={item.messageId}>
-            <SaveMessageCard
-              question={item.question}
-              answer={item.answer}
-              createdAt={item.createdAt}
-            />
-          </div>
-        ))}
+        {data && Array.isArray(data) ? (
+          data.map((item) => (
+            <>
+              <StatePlan text='マイページ' />
+              <div key={item.messageId}>
+                <SaveMessageCard
+                  messageId={item.messageId}
+                  question={item.question}
+                  answer={item.answer}
+                  createdAt={item.createdAt}
+                />
+              </div>
+            </>
+          ))
+        ) : (
+          // TODO データが見つからなかった時とエラーになった時で描画するコンポーネントを分けたい
+          <div>データが見つかりません</div>
+        )}
       </Suspense>
     </div>
   );

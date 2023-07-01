@@ -38,6 +38,8 @@
     "no-console": "off", // console.log
     "react/react-in-jsx-scope": "off", // tsxの時、必要がなければReactをimportしなくてもよい
     "react/button-has-type": "off", // buttonにtype属性がなくてもよい
-    "import/no-extraneous-dependencies": "off" // dependenciesのimportでもエラーになる時があるので一時的にオフ
+    "import/no-extraneous-dependencies": "off", // dependenciesのimportでもエラーになる時があるので一時的にオフ
+    "no-shadow": "off", // 上位スコープのエラーをスルー
+    "@typescript-eslint/no-shadow": "warn"
   }
 }

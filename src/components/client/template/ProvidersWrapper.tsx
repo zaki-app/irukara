@@ -4,13 +4,8 @@ import { Header, Footer } from '@/components/client/organisms';
 import liff from '@line/liff';
 import { useEffect, useState } from 'react';
 import type { Liff } from '@line/liff/exports';
-import { useRouter } from 'next/navigation';
-import {
-  setCookie,
-  isCookie,
-  getAccessToken,
-  getUserId,
-} from '@/common/utils/authLINE/manageCookies';
+import { useRouter, notFound } from 'next/navigation';
+import { setCookie, isCookie } from '@/common/utils/authLINE/manageCookies';
 import isVerifyToken from '@/common/utils/authLINE/isVerifyToken';
 import getProfile from '@/common/utils/authLINE/getProfile';
 import { Provider } from 'react-redux';
@@ -61,10 +56,12 @@ export default function ProvidersWrapper({
           console.log('ログイン', isLogin);
         } catch (err) {
           console.error('liffでのエラーなのでエラー画面に飛ばしたい', err);
+          // notFound();
         }
       })
       .catch((err) => {
         console.error('liff init error, これもエラー画面に飛ばしたい', err);
+        notFound();
       });
   }
 
