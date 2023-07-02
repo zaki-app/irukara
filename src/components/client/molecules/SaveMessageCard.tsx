@@ -8,10 +8,6 @@ import { ProfileImage } from '@/components/client/atoms';
 import textTruncate from '@/common/libs/textTruncate';
 import Link from 'next/link';
 
-export interface UserProfile {
-  displayName: string;
-  pictureUrl: string;
-}
 interface SaveMessageProps {
   messageId: string;
   question: string;

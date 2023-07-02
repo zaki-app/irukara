@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Link from 'next/link';
 import { fetchMessageDetail } from '@/common/libs/fetchMessage';
 import type { SaveMessageData } from '@/common/types/LineTypes';
+import { StatePlan } from '@/components/client/organisms';
+import SaveMessageDetailCard from '@/components/client/molecules/SaveMessageDetailCard';
 
 interface SearchParamsProps {
   searchParams: {
@@ -12,29 +14,25 @@ interface SearchParamsProps {
 export default async function MyPageDetail({
   searchParams,
 }: SearchParamsProps) {
-  const data: SaveMessageData | boolean = await fetchMessageDetail(
+  const data: SaveMessageData = await fetchMessageDetail(
     searchParams.messageId,
   );
   console.log('クライアント詳細', data);
 
   return (
-    <div>
-      {data ? (
+    <Suspense fallback={<div>ローディング中です</div>}>
+      <StatePlan text='マイページ' />
+      <div>
         <div>
-          <h1>マイページです</h1>
-          <p>
-            Next.js
-            {/* {data.full_name} */}
-          </p>
-          <div>
-            {/* <p>{data.question}</p>
-            <p>{data.answer}</p> */}
-          </div>
-          <Link href='/'>トップへ戻る</Link>
+          <SaveMessageDetailCard
+            question={data.question}
+            answer={data.answer}
+            createdAt={data.createdAt}
+            updatedAt={data.updatedAt ? data.updatedAt : null}
+          />
         </div>
-      ) : (
-        <div>データが見つかりません</div>
-      )}
-    </div>
+        <Link href='/'>トップへ戻る</Link>
+      </div>
+    </Suspense>
   );
 }

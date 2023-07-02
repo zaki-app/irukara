@@ -43,9 +43,7 @@ export async function fetchMessage(): Promise<AllSaveMessageProps> {
 }
 
 /* 保存メッセージの詳細を取得する */
-export async function fetchMessageDetail(
-  id: string,
-): Promise<SaveMessageData | boolean> {
+export async function fetchMessageDetail(id: string): Promise<SaveMessageData> {
   console.time('detailTest');
   let data;
   try {

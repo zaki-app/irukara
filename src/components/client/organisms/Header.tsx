@@ -31,7 +31,6 @@ function Header({ liff }: LiffProps) {
             width={60}
             height={60}
           />
-          <h1 className=''>{siteConfig.siteTitle}</h1>
         </Link>
       </div>
       <div className='flex items-center'>
