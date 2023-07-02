@@ -15,6 +15,7 @@ export default async function MyPageDetail({
   const data: SaveMessageData | boolean = await fetchMessageDetail(
     searchParams.messageId,
   );
+  console.log('クライアント詳細', data);
 
   return (
     <div>
