@@ -15,19 +15,17 @@ export default async function MyPage() {
   return (
     <div>
       <Suspense fallback={<div>ローディング中です</div>}>
+        <StatePlan text='マイページ' />å
         {data && Array.isArray(data) ? (
           data.map((item) => (
-            <>
-              <StatePlan text='マイページ' />
-              <div key={item.messageId}>
-                <SaveMessageCard
-                  messageId={item.messageId}
-                  question={item.question}
-                  answer={item.answer}
-                  createdAt={item.createdAt}
-                />
-              </div>
-            </>
+            <div key={item.messageId}>
+              <SaveMessageCard
+                messageId={item.messageId}
+                question={item.question}
+                answer={item.answer}
+                createdAt={item.createdAt}
+              />
+            </div>
           ))
         ) : (
           // TODO データが見つからなかった時とエラーになった時で描画するコンポーネントを分けたい

@@ -21,7 +21,7 @@ module.exports = {
       colors: {
         transparent: 'transparent',
         current: 'currentColor',
-        nav: '#172554',
+        nav: '#14b8a6',
         white: '#ffffff',
         mainBg: '#e9ebee',
         skyblue: '#06b6d4',
