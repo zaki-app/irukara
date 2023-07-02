@@ -32,11 +32,12 @@ export async function deleteCookie() {
   console.timeEnd('cookies2');
 }
 
-/** cookieにアクセストークンがあるかの存在確認 */
+/** cookieにアクセストークンとuserIdがあるかの存在確認 */
 export async function isCookie() {
-  const cookiesList = cookies().get('irukara');
+  const accessToken = cookies().get('irukara');
+  const userId = cookies().get('irukaraId');
   let isCookieValue;
-  if (!cookiesList) {
+  if (!accessToken || !userId) {
     console.log('クッキーなし');
     isCookieValue = false;
   } else {
@@ -52,15 +53,3 @@ export async function getCookie(name: string) {
   const cookie = cookies().get(name);
   return cookie?.value;
 }
-
-/** 現在保存されているcookiewのサイズを確認する(ローカルでのみ使用) */
-// export async function getCookiesSize() {
-//   const cookieJar = new CookieJar();
-//   const cookiesUrl = cookieJar.getCookiesSync('/');
-
-//   let totalSize = 0;
-//   cookiesUrl.forEach((cookie) => {
-//     totalSize += cookie.cookieString().length;
-//   });
-//   console.log('容量', totalSize);
-// }
