@@ -5,7 +5,11 @@ import liff from '@line/liff';
 import { useEffect, useState } from 'react';
 import type { Liff } from '@line/liff/exports';
 import { useRouter, notFound } from 'next/navigation';
-import { setCookie, isCookie } from '@/common/utils/authLINE/manageCookies';
+import {
+  setCookie,
+  isCookie,
+  getCookie,
+} from '@/common/utils/authLINE/manageCookies';
 import isVerifyToken from '@/common/utils/authLINE/isVerifyToken';
 import getProfile from '@/common/utils/authLINE/getProfile';
 import { Provider } from 'react-redux';
@@ -33,26 +37,38 @@ export default function ProvidersWrapper({
           liff.login();
         }
 
-        // irukaraのcookieがない時(初回ログイン時)はトークン有効性検証、有効ならcookieに保存する
+        // irukaraのcookieなし
+        // (初回ログイン時)はトークン有効性検証、有効ならcookieに保存する
         try {
           if (!(await isCookie())) {
+            console.log('クライアント　クッキーなし');
             const token = liff.getAccessToken();
             const isToken = await isVerifyToken(token ?? '');
             if (token && isToken) {
               setCookie('irukara', token ?? '');
               router.push('/');
+              setIsLogin(true);
               console.log('Welcome to Irukara👍');
+            } else if (!isToken) {
+              liff.login();
             }
+          } else {
+            // irukaraのcookieあり
+            // 有効性を検証しfalseの場合ログイン画面へ遷移
+            console.log('クライアント クッキーあり');
+            const existingCookie = await getCookie('irukara');
+            const isExistingCookie = await isVerifyToken(existingCookie ?? '');
+            setIsLogin(true);
+            if (!isExistingCookie) liff.login();
           }
 
-          /* irukaraのcookieがあり、かつログイン状態の場合プロフィールを取得する */
-          if ((await isCookie()) && isLogin) {
-            const profile = await getProfile();
+          // 有効性が確認できたらプロフィールを取得
+          const profile = await getProfile();
+          if (profile) {
             store.dispatch(setUserProfile(profile));
           }
 
           setLiffObject(liff);
-          setIsLogin(true);
           console.log('ログイン', isLogin);
         } catch (err) {
           console.error('liffでのエラーなのでエラー画面に飛ばしたい', err);
@@ -67,7 +83,7 @@ export default function ProvidersWrapper({
 
   useEffect(() => {
     liffInit();
-  }, [isLogin]);
+  }, []);
 
   return (
     <html lang='ja'>

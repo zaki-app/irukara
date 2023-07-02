@@ -1,7 +1,4 @@
-import {
-  getAccessToken,
-  getUserId,
-} from '@/common/utils/authLINE/manageCookies';
+import { getCookie } from '@/common/utils/authLINE/manageCookies';
 import type { SaveMessageData } from '../types/LineTypes';
 
 interface AllSaveMessageProps {
@@ -14,12 +11,16 @@ export async function fetchMessage(): Promise<AllSaveMessageProps> {
   let data;
   const errorResponse: { data: boolean } = { data: false };
   try {
-    const userId = (await getUserId()) ?? '';
-    const token = (await getAccessToken()) ?? '';
+    const userId = (await getCookie('irukaraId')) ?? '';
+    const token = (await getCookie('irukara')) ?? '';
     const endpoint = `${process.env.IRUKARA_API_ENDPOINT}save-messages/${userId}`;
     console.log('エンドポイント', endpoint);
     const response = await fetch(endpoint, {
-      headers: { Authorization: token },
+      // method: 'GET',
+      headers: {
+        // 'Content-Type': 'application/json',
+        Authorization: token,
+      },
       cache: 'no-cache',
     });
     if (response.status === 200) {
@@ -48,10 +49,14 @@ export async function fetchMessageDetail(
   console.time('detailTest');
   let data;
   try {
-    const token = (await getAccessToken()) ?? '';
+    const token = (await getCookie('irukara')) ?? '';
     const endpoint = `${process.env.IRUKARA_API_ENDPOINT}save-message-detail/${id}`;
     const res = await fetch(endpoint, {
-      headers: { Authorization: token },
+      // method: 'GET',
+      headers: {
+        // 'Content-Type': 'application/json',
+        Authorization: token,
+      },
       cache: 'no-cache',
     });
     if (res.status === 200) {
@@ -70,6 +75,6 @@ export async function fetchMessageDetail(
   if (!Object.keys(data).length) {
     data = false;
   }
-  console.log('final response', data);
+  console.log('final detail response', data);
   return data;
 }
