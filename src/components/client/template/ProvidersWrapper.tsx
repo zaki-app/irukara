@@ -23,28 +23,29 @@ export default function ProvidersWrapper({
 }) {
   const [liffObject, setLiffObject] = useState<Liff | null>();
   const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [isWeb, setIsWeb] = useState<boolean>(false);
   const router = useRouter();
 
   async function liffInit() {
     const liffId = process.env.NEXT_PUBLIC_LIFF_ID ?? '';
+    const { userAgent } = window.navigator;
+    const searchUserAgent = 'LIFF';
 
     // 外部ブラウザで最初にログイン画面に自動的に飛ばさないようにする
     liff.init({ liffId, withLoginOnExternalBrowser: false });
     // 初期化できたか判定する
     liff.ready
       .then(async () => {
-        if (liff.getOS() === 'web') {
-          console.log('ユーザーのOS', liff.getOS());
-          setIsWeb(true);
-          setCookie('os', '0');
-        } else if (!liff.isLoggedIn()) {
-          liff.login();
-        }
-
-        // irukaraのcookieなし
-        // (初回ログイン時)はトークン有効性検証、有効ならcookieに保存する
-        try {
+        // 外部ブラウザかLIFFかを判定
+        if (!userAgent.includes(searchUserAgent)) {
+          // 外部ブラウザの場合
+          setIsLogin(true);
+          setCookie('browser', 'external');
+        } else {
+          // LIFFの場合
+          if (!liff.isLoggedIn()) {
+            liff.login();
+          }
+          setCookie('browser', 'LIFF');
           if (!(await isCookie())) {
             console.log('クライアント　クッキーなし');
             const token = liff.getAccessToken();
@@ -55,19 +56,23 @@ export default function ProvidersWrapper({
               setIsLogin(true);
               console.log('Welcome to Irukara👍');
             } else if (!isToken) {
-              // liff.login();
+              liff.login();
             }
-          } else {
-            // irukaraのcookieあり
-            // 有効性を検証しfalseの場合ログイン画面へ遷移
-            console.log('クライアント クッキーあり');
-            const existingCookie = await getCookie('irukara');
-            const isExistingCookie = await isVerifyToken(existingCookie ?? '');
-            if (isExistingCookie) {
-              setIsLogin(true);
-            }
-            // if (!isExistingCookie) liff.login();
           }
+        }
+
+        // irukaraのcookieなし
+        // (初回ログイン時)はトークン有効性検証、有効ならcookieに保存する
+        try {
+          // 有効性を検証しfalseの場合ログイン画面へ遷移
+          console.log('クライアント クッキーあり');
+          const existingCookie = await getCookie('irukara');
+          const isExistingCookie = await isVerifyToken(existingCookie ?? '');
+          if (isExistingCookie) {
+            setIsLogin(true);
+          }
+          // if (!isExistingCookie) liff.login();
+          // }
 
           // 有効性が確認できたらプロフィールを取得
           const profile = await getProfile();
@@ -95,7 +100,7 @@ export default function ProvidersWrapper({
   return (
     <html lang='ja'>
       <body>
-        {isLogin || isWeb ? (
+        {isLogin ? (
           <Provider store={store}>
             <Header liff={liffObject} />
             {children}
