@@ -6,6 +6,9 @@ import Image from 'next/image';
 import type { Liff } from '@line/liff/exports';
 import { useRouter } from 'next/navigation';
 import { deleteCookie } from '@/common/utils/authLINE/manageCookies';
+import { FaBarsStaggered } from 'react-icons/fa6';
+import { FaTimes } from 'react-icons/fa';
+import { useRef } from 'react';
 
 interface LiffProps {
   liff: Liff | null | undefined;
@@ -13,6 +16,7 @@ interface LiffProps {
 
 function Header({ liff }: LiffProps) {
   const router = useRouter();
+  const menuRef = useRef<HTMLDivElement>(null);
 
   function confirmSignOut() {
     liff?.logout();
@@ -21,9 +25,14 @@ function Header({ liff }: LiffProps) {
     deleteCookie();
   }
 
+  // メニューの開閉
+  // function showMenu() {
+  //   menuRef.current?.classList.toggle();
+  // }
+
   return (
     <header className='bg-nav text-white p-4 flex justify-between'>
-      <div className='flex items-center'>
+      <nav className='flex items-center'>
         <Link href={siteConfig.topHref}>
           <Image
             src={siteConfig.headerLogo}
@@ -32,8 +41,8 @@ function Header({ liff }: LiffProps) {
             height={60}
           />
         </Link>
-      </div>
-      <div className='flex items-center'>
+      </nav>
+      <nav className='flex items-center' ref={menuRef}>
         {siteConfig.headerList.map((list) => (
           <ul key={list.title}>
             <Link href={list.href}>
@@ -41,12 +50,18 @@ function Header({ liff }: LiffProps) {
             </Link>
           </ul>
         ))}
-      </div>
-      {liff?.isLoggedIn() ? (
-        <button onClick={confirmSignOut}>サインアウト</button>
-      ) : (
-        <button onClick={() => liff?.login()}>ログイン</button>
-      )}
+        {liff?.isLoggedIn() ? (
+          <button onClick={confirmSignOut}>サインアウト</button>
+        ) : (
+          <button onClick={() => liff?.login()}>ログイン</button>
+        )}
+        <button>
+          <FaTimes />
+        </button>
+      </nav>
+      <button>
+        <FaBarsStaggered />
+      </button>
     </header>
   );
 }
