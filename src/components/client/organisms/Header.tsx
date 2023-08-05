@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { deleteCookie } from '@/common/utils/authLINE/manageCookies';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { FaTimes } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { InButton, KanitFont } from '../atoms';
 
 interface LiffProps {
@@ -26,6 +26,10 @@ function Header({ liff }: LiffProps) {
     router.refresh();
     deleteCookie();
   }
+
+  useEffect(() => {
+    // setIsOpen(false);
+  }, []);
 
   return (
     <header className='shadow-md w-full fixed top-0 left-0'>
@@ -63,7 +67,9 @@ function Header({ liff }: LiffProps) {
                 key={list.title}
                 className='font-semibold text-xl md:text-base my-8 md:my-0 md:ml-8'
               >
-                <Link href={list.href}>{list.title}</Link>
+                <Link href={list.href} onClick={() => setIsOpen(!isOpen)}>
+                  {list.title}
+                </Link>
               </li>
             ))}
             {liff?.isLoggedIn() ? (

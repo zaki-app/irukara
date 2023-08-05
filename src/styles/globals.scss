@@ -14,18 +14,9 @@ body {
   }
 }
 
-/* h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #0b214a;
-} */
-
 /* 全体 */
 .main-contents {
-  @apply bg-red-300 min-h-screen w-full;
+  @apply bg-red-300 min-h-screen w-full pt-20;
 }
 
 /* トップページ以外のコンテンツ */

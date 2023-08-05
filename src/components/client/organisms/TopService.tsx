@@ -25,7 +25,7 @@ export default function TopService() {
   }
 
   return (
-    <div className='flex flex-col pt-28 pb-12 bg-gradient-to-r from-sky-50 to-sky-100'>
+    <div className='flex flex-col pt-14 pb-12 bg-gradient-to-r from-sky-50 to-sky-100'>
       <div className='flex justify-center font-bold text-4xl py-4'>
         <KanitFont
           tag='h1'
@@ -47,7 +47,7 @@ export default function TopService() {
           <button onClick={lineLogin}>
             <InButton
               buttonStyle='mx-8 mb-4 bg-gradient-to-r from-blue-700 to-sky-500 text-white py-4 text-center shadow-md rounded-lg text-xl font-bold'
-              text={buttonText}
+              text='LINEログイン'
             />
           </button>
         ) : (
