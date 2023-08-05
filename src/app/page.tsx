@@ -10,12 +10,13 @@ import { getCookie } from '@/common/utils/authLINE/manageCookies';
 import CurrentUrl from '@/components/client/atoms/CurrentUrl';
 
 export default async function Home() {
-  const isOsWeb = (await getCookie('os')) ? await getCookie('os') : 'false';
-  console.log('osあるか？', isOsWeb);
+  // const isOsWeb = (await getCookie('os')) ? await getCookie('os') : 'false';
+  // console.log('osあるか？', isOsWeb);
   return (
     <div>
       {/* <CurrentUrl /> */}
-      <TopService isWeb={isOsWeb ?? ''} />
+      {/* <TopService isWeb={isOsWeb ?? ''} /> */}
+      <TopService />
       <TopServiceDescription />
       <TopUsedService />
       <TopServicePaid />
