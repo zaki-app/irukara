@@ -8,7 +8,7 @@ interface ButtonProps {
 
 export default function InButton({ text }: ButtonProps) {
   return (
-    <div className='bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-bold p-2 text-center shadow-md rounded-lg'>
+    <div className='mx-8 mb-4 bg-gradient-to-r from-blue-700 to-sky-500 text-white py-4 text-center shadow-md rounded-lg text-xl font-bold'>
       {text}
     </div>
   );

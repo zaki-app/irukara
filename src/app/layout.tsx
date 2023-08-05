@@ -1,5 +1,5 @@
 import React from 'react';
-import '@/styles/globals.css';
+import '@/styles/globals.scss';
 import {
   defaultDescription,
   siteConfig,
@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <ProvidersWrapper>
-      <div className='min-h-screen max-w-screen-lg'>{children}</div>
+      <div>{children}</div>
     </ProvidersWrapper>
   );
 }

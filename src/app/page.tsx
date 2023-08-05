@@ -14,7 +14,7 @@ export default async function Home() {
   console.log('osあるか？', isOsWeb);
   return (
     <div>
-      <CurrentUrl />
+      {/* <CurrentUrl /> */}
       <TopService isWeb={isOsWeb ?? ''} />
       <TopServiceDescription />
       <TopUsedService />

@@ -60,14 +60,11 @@ export default function ProvidersWrapper({
           }
         }
 
-        // irukaraのcookieあり
-        // (初回ログイン時)はトークン有効性検証、有効ならcookieに保存する
+        // irukaraのcookieあり アクセストークンがある場合プロフィールを取得する
         try {
-          // 有効性を検証しfalseの場合ログイン画面へ遷移
           console.log('クライアント クッキーあり');
           const token = await getCookie('irukara');
           if (token) {
-            // 有効性が確認できたらプロフィールを取得
             const profile = await getProfile();
             if (profile) {
               store.dispatch(setUserProfile(profile));
@@ -97,7 +94,7 @@ export default function ProvidersWrapper({
         {isLoaded ? (
           <Provider store={store}>
             <Header liff={liffObject} />
-            {children}
+            <div className='main-contents'>{children}</div>
             <Footer />
           </Provider>
         ) : (

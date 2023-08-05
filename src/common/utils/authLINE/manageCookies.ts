@@ -37,7 +37,7 @@ export async function isCookie() {
   const accessToken = cookies().get('irukara');
   const userId = cookies().get('irukaraId');
   let isCookieValue;
-  if (!accessToken || !userId) {
+  if (accessToken || !userId) {
     console.log('クッキーなし');
     isCookieValue = false;
   } else {

@@ -17,15 +17,15 @@ export const siteConfig = {
   headerList: [
     {
       title: '使い方',
-      href: '/usage',
+      href: '/for-users/usage',
     },
     {
       title: 'お問い合わせ',
-      href: '/contact',
+      href: '/for-users/contact',
     },
     {
       title: '料金プラン',
-      href: '/paid',
+      href: '/for-users/membership',
     },
   ],
 };
@@ -35,11 +35,11 @@ export const footerList = {
   title: '©︎ 2023 All rights reserved Irukara',
   icon: '/images/irukara.webp',
   list: [
-    { title: '利用規約', href: '/policy-suite/terms' },
-    { title: 'プライバシーポリシー', href: '/policy-suite/privacy-policy' },
+    { title: '利用規約', href: '/legal/irukara-terms' },
+    { title: 'プライバシーポリシー', href: '/legal/privacy-policy' },
     {
       title: '特定商取引に基づく表示',
-      href: '/policy-suite/specified-commercial',
+      href: '/legal/specified-commercial',
     },
   ],
 };

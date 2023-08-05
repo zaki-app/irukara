@@ -6,6 +6,7 @@ import { irukaraLogo } from '@/common/config/site.config';
 import { useEffect, useState } from 'react';
 import liff from '@line/liff';
 import InButton from '../atoms/InButton';
+import KanitFont from '../atoms/KanitFont';
 
 export default function TopService({ isWeb }: { isWeb: string }) {
   const [buttonText, setButtonText] = useState<string>('');
@@ -21,11 +22,15 @@ export default function TopService({ isWeb }: { isWeb: string }) {
   }
 
   return (
-    <div className='flex flex-col py-12'>
-      <div className='flex justify-center font-bold text-3xl py-4'>
-        <h1>Welcome to Irukara!</h1>
+    <div className='flex flex-col py-12 bg-gradient-to-r from-sky-50 to-sky-100'>
+      <div className='flex justify-center font-bold text-4xl py-4'>
+        <KanitFont
+          tag='h1'
+          fontStyle='text-center font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-blue-700 to-sky-400'
+          text='Welcome to Irukara!!'
+        />
       </div>
-      <div className='flex justify-center py-6'>
+      <div className='flex justify-center pt-4 pb-8'>
         <Image
           src={irukaraLogo.src}
           alt={irukaraLogo.alt}
