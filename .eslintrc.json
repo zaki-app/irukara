@@ -16,7 +16,8 @@
   "ignorePatterns": [
     "next.config.js",
     "tailwind.config.js",
-    "postcss.config.js"
+    "postcss.config.js",
+    "next-sitemap.config.js"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

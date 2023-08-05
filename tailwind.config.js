@@ -21,12 +21,15 @@ module.exports = {
       colors: {
         transparent: 'transparent',
         current: 'currentColor',
-        nav: '#14b8a6',
+        // nav: '#14b8a6',
+        nav: '#2563eb',
         white: '#ffffff',
         mainBg: '#e9ebee',
         skyblue: '#06b6d4',
         line: '#06c755',
       },
+      // フォント
+      fontFamily: {},
     },
   },
 };

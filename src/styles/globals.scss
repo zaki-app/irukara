@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  color: #1c1c1cc1;
+}
+
+/* base */
+@layer base {
+  html {
+    font-family: 'Hiragino Sans', 'sans-serif';
+    background: #e9ebee;
+  }
+}
+
+/* h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #0b214a;
+} */
+
+/* 全体 */
+.main-contents {
+  @apply bg-red-300 min-h-screen w-full;
+}
+
+/* トップページ以外のコンテンツ */
+.contents-wrapper {
+  @apply px-8 w-11/12 mx-auto bg-gray-300 py-10;
+}
+
+/* マークダウン */
+.contents-md {
+  h1 {
+    @apply text-center font-bold text-3xl mb-4;
+  }
+  h2 {
+    @apply font-bold text-2xl;
+  }
+  h3 {
+    @apply font-bold text-xl my-4 border-b-2 bg-gradient-to-b border-gray-300;
+  }
+  ol {
+    @apply list-decimal mt-4 pl-4;
+    li {
+      @apply mb-2;
+    }
+  }
+}
