@@ -18,6 +18,12 @@ export async function setCookie(name: string, value: string) {
 export async function deleteCookie() {
   console.time('cookies2');
   cookies().set({
+    name: 'auth',
+    value: '',
+    expires: new Date('2016-10-6'),
+    path: '/',
+  });
+  cookies().set({
     name: 'irukara',
     value: '',
     expires: new Date('2016-10-6'),

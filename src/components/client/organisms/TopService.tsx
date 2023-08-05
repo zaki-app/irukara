@@ -5,16 +5,19 @@ import Link from 'next/link';
 import { irukaraLogo } from '@/common/config/site.config';
 import { useEffect, useState } from 'react';
 import liff from '@line/liff';
+import { getCookie } from '@/common/utils/authLINE/manageCookies';
 import InButton from '../atoms/InButton';
 import KanitFont from '../atoms/KanitFont';
 
-export default function TopService({ isWeb }: { isWeb: string }) {
+export default function TopService() {
   const [buttonText, setButtonText] = useState<string>('');
 
   useEffect(() => {
-    if (parseInt(isWeb, 10) === 0) {
-      setButtonText('LINEでログイン');
-    }
+    // if (parseInt(isWeb, 10) === 0) {
+    //   setButtonText('LINEでログイン');
+    // }
+    // if (getCookie("auth") === "true") {
+    // }
   }, []);
 
   function lineLogin() {
@@ -22,7 +25,7 @@ export default function TopService({ isWeb }: { isWeb: string }) {
   }
 
   return (
-    <div className='flex flex-col py-12 bg-gradient-to-r from-sky-50 to-sky-100'>
+    <div className='flex flex-col pt-28 pb-12 bg-gradient-to-r from-sky-50 to-sky-100'>
       <div className='flex justify-center font-bold text-4xl py-4'>
         <KanitFont
           tag='h1'
@@ -42,7 +45,10 @@ export default function TopService({ isWeb }: { isWeb: string }) {
       <div>
         {buttonText ? (
           <button onClick={lineLogin}>
-            <InButton text={buttonText} />
+            <InButton
+              buttonStyle='mx-8 mb-4 bg-gradient-to-r from-blue-700 to-sky-500 text-white py-4 text-center shadow-md rounded-lg text-xl font-bold'
+              text={buttonText}
+            />
           </button>
         ) : (
           <Link href='/mypage'>
