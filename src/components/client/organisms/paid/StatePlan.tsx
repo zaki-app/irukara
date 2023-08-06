@@ -33,16 +33,24 @@ export default function StatePlan({ text }: PlanText) {
             </h1>
           </div>
           <div>
-            <p className='mb-2'>
+            <p className='my-4'>
               現在のプラン: <span>イルカモプラン</span>
             </p>
             {text === 'マイページ' && (
-              <Link
-                href='for-users/membership'
-                className='text-blue-500 hover:opacity-80'
-              >
-                プランを変更する
-              </Link>
+              <div className='flex flex-col'>
+                <Link
+                  href='for-users/membership'
+                  className='mb-2 text-blue-500 hover:opacity-80'
+                >
+                  プランを変更する
+                </Link>
+                <Link
+                  href='user-info/profile'
+                  className='text-blue-500 hover:opacity-80'
+                >
+                  ユーザー情報を編集する
+                </Link>
+              </div>
             )}
           </div>
         </div>
