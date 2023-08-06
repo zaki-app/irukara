@@ -49,9 +49,11 @@ export default function ProvidersWrapper({
 
         // browser登録後(tokenのcookieがない場合 アクセストークンを取得して有効性を確認)
         if (!(await getCookie('irukara'))) {
-          console.log('クライアントクッキーあり');
+          console.log('クライアントクッキーなし');
           const token = liff.getAccessToken();
+          console.log('アクセストークン', token);
           const isToken = await isVerifyToken(token ?? '');
+          console.log('有効性', isToken);
           if (token && isToken) {
             setCookie('irukara', token ?? '');
             setIsLoaded(true);

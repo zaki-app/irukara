@@ -18,7 +18,6 @@ interface LiffProps {
 function Header({ liff }: LiffProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  console.log('オープン状態', isOpen);
 
   function confirmSignOut() {
     liff?.logout();
