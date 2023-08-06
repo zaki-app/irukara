@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { deleteCookie } from '@/common/utils/authLINE/manageCookies';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { FaTimes } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { InButton, KanitFont } from '../atoms';
 
 interface LiffProps {
@@ -27,15 +27,11 @@ function Header({ liff }: LiffProps) {
     deleteCookie();
   }
 
-  useEffect(() => {
-    // setIsOpen(false);
-  }, []);
-
   return (
     <header className='shadow-md w-full fixed top-0 left-0'>
       <div className='bg-nav text-white p-4 md:flex items-center justify-between'>
         <nav>
-          <Link href={siteConfig.topHref} className='flex items-center'>
+          <a href={siteConfig.topHref} className='flex items-center'>
             <Image
               src={siteConfig.headerLogo}
               alt={siteConfig.logoAlt}
@@ -47,7 +43,7 @@ function Header({ liff }: LiffProps) {
               fontStyle='text-white text-3xl ml-4'
               text='Irukara'
             />
-          </Link>
+          </a>
         </nav>
         {/* アイコン */}
         <button
