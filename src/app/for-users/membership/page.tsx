@@ -30,7 +30,7 @@ export default function Paid() {
             <h2>{servicePaid.line}</h2>
           </div>
           <div>
-            <LineButton />
+            <LineButton type={1} />
           </div>
         </div>
       </div>

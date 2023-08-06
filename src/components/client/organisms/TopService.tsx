@@ -6,18 +6,19 @@ import { irukaraLogo } from '@/common/config/site.config';
 import { useEffect, useState } from 'react';
 import liff from '@line/liff';
 import { getCookie } from '@/common/utils/authLINE/manageCookies';
-import InButton from '../atoms/InButton';
-import KanitFont from '../atoms/KanitFont';
+import { InButton, KanitFont, LineButton } from '@/components/client/atoms';
 
 export default function TopService() {
-  const [buttonText, setButtonText] = useState<string>('');
+  // const [buttonText, setButtonText] = useState<string>('');
+  const [isUserId, setIsUserId] = useState<boolean>(false);
 
   useEffect(() => {
-    // if (parseInt(isWeb, 10) === 0) {
-    //   setButtonText('LINEでログイン');
-    // }
-    // if (getCookie("auth") === "true") {
-    // }
+    (async () => {
+      const userId = await getCookie('irukaraId');
+      if (userId) {
+        setIsUserId(true);
+      }
+    })();
   }, []);
 
   function lineLogin() {
@@ -42,18 +43,22 @@ export default function TopService() {
         />
       </div>
 
-      <div>
-        {buttonText ? (
-          <button onClick={lineLogin}>
-            <InButton
-              buttonStyle='mx-8 mb-4 bg-gradient-to-r from-blue-700 to-sky-500 text-white py-4 text-center shadow-md rounded-lg text-xl font-bold'
-              text='LINEログイン'
-            />
-          </button>
-        ) : (
+      <div className='flex justify-center'>
+        {isUserId ? (
           <Link href='/mypage'>
-            <InButton text='マイページへ' />
+            <InButton
+              buttonStyle='bg-gradient-to-r from-blue-700 to-sky-500'
+              text='マイページへ'
+            />
           </Link>
+        ) : (
+          <div className='flex flex-col justify-center w-full mx-4 md:mx-36'>
+            <button onClick={lineLogin}>
+              <LineButton type={2} />
+            </button>
+            <p className='text-center py-4'>お友達登録がまだの方は</p>
+            <LineButton type={1} />
+          </div>
         )}
       </div>
     </div>

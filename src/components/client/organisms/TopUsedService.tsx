@@ -24,7 +24,7 @@ export default function TopUsedService() {
           ))}
         </div>
         <div>
-          <LineButton />
+          <LineButton type={1} />
         </div>
         <div>
           <Link href='/usage'>使い方を詳しくみる</Link>

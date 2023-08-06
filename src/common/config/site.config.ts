@@ -78,3 +78,6 @@ export const lastMessage = '今すぐIrukaraとお友達になって、お話し
 
 // alt文字
 export const userIcon = 'ユーザーアイコン画像';
+
+// lineロゴ
+export const lineLogo = '/logo/LINE_Brand_icon.png';
