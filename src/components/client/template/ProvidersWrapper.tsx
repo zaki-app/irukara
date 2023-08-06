@@ -49,22 +49,23 @@ export default function ProvidersWrapper({
 
         // browser登録後(tokenのcookieがない場合 アクセストークンを取得して有効性を確認)
         if (!(await getCookie('irukara'))) {
-          console.log('クライアントクッキーなし');
+          console.log('クライアントクッキーなし not Login');
           const token = liff.getAccessToken();
           console.log('アクセストークン', token);
           const isToken = await isVerifyToken(token ?? '');
           console.log('有効性', isToken);
           if (token && isToken) {
-            setCookie('irukara', token ?? '');
+            setCookie('irukaraAT', token ?? '');
             setIsLoaded(true);
             router.push('/');
             console.log('Welcome to Irukara👍');
           }
         }
 
-        // irukaraのcookieあり アクセストークンがある場合プロフィールを取得する
+        // irukaraのcookieあり すでにログイン済みの状態。
+        // アクセストークンがある場合プロフィールを取得する
         try {
-          console.log('クライアント クッキーあり');
+          console.log('クライアント クッキーあり Login');
           const token = await getCookie('irukara');
           if (token) {
             const profile = await getProfile();
