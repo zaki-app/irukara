@@ -1,5 +1,7 @@
 'use server';
 
+import logColor from '@/common/config/logColor';
+
 /**
  * アクセストークンが有効かを判定する
  * @param token string
@@ -7,25 +9,22 @@
  */
 export default async function isVerifyToken(token: string) {
   let isToken;
-  console.log('有効性の環境変数', process.env.NEXT_PUBLIC_LINE_CLIENT_ID);
   try {
     const VERIFY_URL = process.env.VERIFY_TOKEN_URL ?? '';
     const response = await fetch(VERIFY_URL + token);
-    console.log('このレスポンスはどうなる？', response);
     if (response.status === 200) {
       const data = await response.json();
-      console.log('有効性JSON', data);
+      // console.log('有効性JSON', data);
       if (data.client_id === process.env.NEXT_PUBLIC_LINE_CLIENT_ID) {
         isToken = true;
-        console.log('token is ok');
+        console.log(`${logColor.green}token is ok${logColor.reset}`);
       }
     } else {
       isToken = false;
     }
   } catch (err) {
-    console.log('token is not verify...', err);
+    console.log(`${logColor.red}token is not verify...`, +logColor.reset, err);
     isToken = false;
   }
-  console.log('有効性結果', isToken);
   return isToken;
 }

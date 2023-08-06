@@ -12,7 +12,7 @@ export async function fetchMessage(): Promise<AllSaveMessageProps> {
   const errorResponse: { data: boolean } = { data: false };
   try {
     const userId = (await getCookie('irukaraId')) ?? '';
-    const token = (await getCookie('irukara')) ?? '';
+    const token = (await getCookie('irukaraAT')) ?? '';
     const endpoint = `${process.env.IRUKARA_API_ENDPOINT}save-messages/${userId}`;
     console.log('エンドポイント', endpoint);
     const response = await fetch(endpoint, {
@@ -47,7 +47,7 @@ export async function fetchMessageDetail(id: string): Promise<SaveMessageData> {
   console.time('detailTest');
   let data;
   try {
-    const token = (await getCookie('irukara')) ?? '';
+    const token = (await getCookie('irukaraAT')) ?? '';
     const endpoint = `${process.env.IRUKARA_API_ENDPOINT}save-message-detail/${id}`;
     const res = await fetch(endpoint, {
       // method: 'GET',

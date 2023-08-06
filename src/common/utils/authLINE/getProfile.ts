@@ -4,6 +4,7 @@ import createUserIdHash from '@/common/libs/createHash';
 import { setCookie } from '@/common/utils/authLINE/manageCookies';
 import type { UserProfile } from '@/common/types/LineTypes';
 import { cookies } from 'next/headers';
+import logColor from '@/common/config/logColor';
 
 /**
  * cookiesに保存しているトークンからユーザー情報を取得する
@@ -11,7 +12,7 @@ import { cookies } from 'next/headers';
  * @returns UserProfile
  */
 export default async function getProfile(): Promise<UserProfile> {
-  const token = cookies().get('irukara');
+  const token = cookies().get('irukaraAT');
   console.log('irukaraのトークン', token?.value);
   let data;
   try {
@@ -21,11 +22,8 @@ export default async function getProfile(): Promise<UserProfile> {
     });
     if (response.status === 200) {
       const profile = await response.json();
-      console.log('プロフィール', profile);
+      console.log(`${logColor.green}プロフィール${logColor.reset}`, profile);
       const hashUserId = createUserIdHash(profile.userId);
-      console.log('ハッシュ化した', hashUserId);
-      const testHash = createUserIdHash(hashUserId);
-      console.log('2回目のハッシュ', testHash);
       setCookie('irukaraId', hashUserId);
       // 返却オブジェクトからuserIdを削除
       delete profile.userId;
@@ -34,5 +32,6 @@ export default async function getProfile(): Promise<UserProfile> {
   } catch (err) {
     console.error('get profile error...', err);
   }
+  console.log(`${logColor.green}finally profile...${logColor.reset}`, data);
   return data;
 }
