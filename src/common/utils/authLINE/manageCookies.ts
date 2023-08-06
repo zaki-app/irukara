@@ -24,7 +24,7 @@ export async function deleteCookie() {
     path: '/',
   });
   cookies().set({
-    name: 'irukara',
+    name: 'irukaraAT',
     value: '',
     expires: new Date('2016-10-6'),
     path: '/',
@@ -35,12 +35,18 @@ export async function deleteCookie() {
     expires: new Date('2016-10-6'),
     path: '/',
   });
+  cookies().set({
+    name: 'browser',
+    value: '',
+    expires: new Date('2016-10-6'),
+    path: '/',
+  });
   console.timeEnd('cookies2');
 }
 
 /** cookieにアクセストークンとuserIdがあるかの存在確認 */
 export async function isCookie() {
-  const accessToken = cookies().get('irukara');
+  const accessToken = cookies().get('irukaraAT');
   const userId = cookies().get('irukaraId');
   let isCookieValue;
   if (accessToken || !userId) {

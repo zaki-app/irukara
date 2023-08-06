@@ -5,16 +5,13 @@ import liff from '@line/liff';
 import { useEffect, useState } from 'react';
 import type { Liff } from '@line/liff/exports';
 import { useRouter, notFound } from 'next/navigation';
-import {
-  setCookie,
-  isCookie,
-  getCookie,
-} from '@/common/utils/authLINE/manageCookies';
+import { setCookie, getCookie } from '@/common/utils/authLINE/manageCookies';
 import isVerifyToken from '@/common/utils/authLINE/isVerifyToken';
 import getProfile from '@/common/utils/authLINE/getProfile';
 import { Provider } from 'react-redux';
 import { store } from '@/store';
 import { setUserProfile } from '@/store/line-profile/slice';
+import logColor from '@/common/config/logColor';
 
 export default function ProvidersWrapper({
   children,
@@ -47,13 +44,14 @@ export default function ProvidersWrapper({
           setCookie('browser', 'LIFF');
         }
 
+        console.log('ブラウザ判断終了後');
+
         // browser登録後(tokenのcookieがない場合 アクセストークンを取得して有効性を確認)
-        if (!(await getCookie('irukara'))) {
+        if (!(await getCookie('irukaraAT'))) {
           console.log('クライアントクッキーなし not Login');
           const token = liff.getAccessToken();
           console.log('アクセストークン', token);
           const isToken = await isVerifyToken(token ?? '');
-          console.log('有効性', isToken);
           if (token && isToken) {
             setCookie('irukaraAT', token ?? '');
             setIsLoaded(true);
@@ -66,9 +64,13 @@ export default function ProvidersWrapper({
         // アクセストークンがある場合プロフィールを取得する
         try {
           console.log('クライアント クッキーあり Login');
-          const token = await getCookie('irukara');
+          const token = await getCookie('irukaraAT');
           if (token) {
             const profile = await getProfile();
+            console.log(
+              `${logColor.green}finally profile...`,
+              profile + logColor.reset,
+            );
             if (profile) {
               store.dispatch(setUserProfile(profile));
             }
