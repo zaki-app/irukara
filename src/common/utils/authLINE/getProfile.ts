@@ -21,7 +21,11 @@ export default async function getProfile(): Promise<UserProfile> {
     });
     if (response.status === 200) {
       const profile = await response.json();
+      console.log('プロフィール', profile);
       const hashUserId = createUserIdHash(profile.userId);
+      console.log('ハッシュ化した', hashUserId);
+      const testHash = createUserIdHash(hashUserId);
+      console.log('2回目のハッシュ', testHash);
       setCookie('irukaraId', hashUserId);
       // 返却オブジェクトからuserIdを削除
       delete profile.userId;
