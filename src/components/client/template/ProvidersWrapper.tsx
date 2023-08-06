@@ -2,7 +2,7 @@
 
 import { Header, Footer } from '@/components/client/organisms';
 import liff from '@line/liff';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import type { Liff } from '@line/liff/exports';
 import { useRouter, notFound } from 'next/navigation';
 import { setCookie, getCookie } from '@/common/utils/authLINE/manageCookies';
@@ -96,15 +96,15 @@ export default function ProvidersWrapper({
   return (
     <html lang='ja'>
       <body>
-        {isLoaded ? (
-          <Provider store={store}>
-            <Header liff={liffObject} />
-            <div className='main-contents'>{children}</div>
-            <Footer />
-          </Provider>
-        ) : (
-          <div>loading...</div>
-        )}
+        {/* {isLoaded ? ( */}
+        <Provider store={store}>
+          <Header liff={liffObject} />
+          <div className='main-contents'>{children}</div>
+          <Footer />
+        </Provider>
+        {/* ) : (
+            <div>loading...</div>
+          )} */}
       </body>
     </html>
   );

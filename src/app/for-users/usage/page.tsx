@@ -1,7 +1,11 @@
+import ContentsWrapper from '@/components/client/template/ContentsWrapper';
+
 export default function Usage() {
   return (
-    <div>
-      <h1>使い方</h1>
-    </div>
+    <ContentsWrapper>
+      <div>
+        <h1>使い方</h1>
+      </div>
+    </ContentsWrapper>
   );
 }

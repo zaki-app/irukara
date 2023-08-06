@@ -21,7 +21,7 @@ body {
 
 /* トップページ以外のコンテンツ */
 .contents-wrapper {
-  @apply px-8 w-11/12 mx-auto bg-gray-300 py-10;
+  @apply px-4 md:px-8 w-full bg-gray-300 py-8 min-h-screen;
 }
 
 /* マークダウン */

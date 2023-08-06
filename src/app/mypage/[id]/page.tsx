@@ -4,6 +4,7 @@ import { fetchMessageDetail } from '@/common/libs/fetchMessage';
 import type { SaveMessageData } from '@/common/types/LineTypes';
 import { StatePlan } from '@/components/client/organisms';
 import SaveMessageDetailCard from '@/components/client/molecules/SaveMessageDetailCard';
+import ContentsWrapper from '@/components/client/template/ContentsWrapper';
 
 interface SearchParamsProps {
   searchParams: {
@@ -21,18 +22,20 @@ export default async function MyPageDetail({
 
   return (
     <Suspense fallback={<div>ローディング中です</div>}>
-      <StatePlan text='マイページ' />
-      <div>
+      <ContentsWrapper>
+        <StatePlan text='マイページ' />
         <div>
-          <SaveMessageDetailCard
-            question={data.question}
-            answer={data.answer}
-            createdAt={data.createdAt}
-            updatedAt={data.updatedAt ? data.updatedAt : null}
-          />
+          <div>
+            <SaveMessageDetailCard
+              question={data.question}
+              answer={data.answer}
+              createdAt={data.createdAt}
+              updatedAt={data.updatedAt ? data.updatedAt : null}
+            />
+          </div>
+          <Link href='/'>トップへ戻る</Link>
         </div>
-        <Link href='/'>トップへ戻る</Link>
-      </div>
+      </ContentsWrapper>
     </Suspense>
   );
 }
