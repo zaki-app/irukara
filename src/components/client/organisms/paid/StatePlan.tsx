@@ -3,6 +3,8 @@
 import { useSelector } from 'react-redux';
 import type { UserProfileSelector, PlanText } from '@/common/types/LineTypes';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import TextTruncate from '@/common/libs/textTruncate';
 
 export default function StatePlan({ text }: PlanText) {
   const userProfile: UserProfileSelector = useSelector(
@@ -18,14 +20,31 @@ export default function StatePlan({ text }: PlanText) {
   }, [userProfile, isUser]);
 
   return (
-    <div>
+    <div className='font-semibold'>
       {isUser ? (
-        <div>
-          <h1>
-            {userProfile.displayName}さんの{text}
-          </h1>
-          <p>現在のプラン: イルカモプラン</p>
-          <p>プランを変更する</p>
+        <div
+          className='
+            flex flex-col justify-center text-center bg-white border border-gray-200
+            rounded-lg shadow mb-4 py-4'
+        >
+          <div className='mb-4 px-4'>
+            <h1 className='text-xl border-b-2 border-blue-400'>
+              {TextTruncate(userProfile.displayName ?? '', 20)}さんの{text}
+            </h1>
+          </div>
+          <div>
+            <p className='mb-2'>
+              現在のプラン: <span>イルカモプラン</span>
+            </p>
+            {text === 'マイページ' && (
+              <Link
+                href='for-users/membership'
+                className='text-blue-500 hover:opacity-80'
+              >
+                プランを変更する
+              </Link>
+            )}
+          </div>
         </div>
       ) : (
         <div>ユーザーローディング</div>
