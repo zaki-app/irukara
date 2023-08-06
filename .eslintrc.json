@@ -35,7 +35,7 @@
     }
   },
   "rules": {
-    "indent": ["error", 2],
+    // "indent": ["error", 2],
     "no-console": "off", // console.log
     "react/react-in-jsx-scope": "off", // tsxの時、必要がなければReactをimportしなくてもよい
     "react/button-has-type": "off", // buttonにtype属性がなくてもよい
