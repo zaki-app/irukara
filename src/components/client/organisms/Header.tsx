@@ -9,7 +9,7 @@ import { deleteCookie } from '@/common/utils/authLINE/manageCookies';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { FaTimes } from 'react-icons/fa';
 import { useState } from 'react';
-import { InButton, KanitFont } from '../atoms';
+import { InButton, KanitFont, LineButton } from '../atoms';
 
 interface LiffProps {
   liff: Liff | null | undefined;
@@ -18,7 +18,6 @@ interface LiffProps {
 function Header({ liff }: LiffProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  console.log('オープン状態', isOpen);
 
   function confirmSignOut() {
     liff?.logout();
@@ -54,7 +53,7 @@ function Header({ liff }: LiffProps) {
         </button>
         <nav>
           <ul
-            className={`md:flex md:items-center md:pb-0 pb-12 pl-9 md:pl-0 absolute md:static md:z-auto z-[-1] left-0 w-full transition-all bg-nav duration-500 ease-in ${
+            className={`md:flex md:items-center pr-8 md:pr-0 md:pb-0 pb-12 pl-9 md:pl-0 absolute md:static md:z-auto z-[-1] left-0 w-full transition-all bg-nav duration-500 ease-in ${
               isOpen ? 'top-20' : 'top-[-490px]'
             }`}
           >
@@ -76,15 +75,17 @@ function Header({ liff }: LiffProps) {
                 サインアウト
               </button>
             ) : (
-              <button
-                onClick={() => liff?.login()}
-                className='font-semibold my-2 md:my-0 md:ml-8'
-              >
-                <InButton
-                  text='LINEログイン'
-                  buttonStyle='py-2 px-4 bg-line rounded text-xl md:text-base'
-                />
-              </button>
+              <div className='mt-6 md:mt-0'>
+                {isOpen && (
+                  <button
+                    onClick={() => liff?.login()}
+                    className='font-semibold md:ml-8 w-full md:w-auto mt-6 md:mt-0 mb-6 md:mb-0'
+                  >
+                    <LineButton type={3} />
+                  </button>
+                )}
+                <LineButton type={0} />
+              </div>
             )}
           </ul>
         </nav>

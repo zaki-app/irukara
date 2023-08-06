@@ -7,7 +7,7 @@ export default function TopLastMessage() {
   return (
     <div>
       <h3>{lastMessage}</h3>
-      <LineButton />
+      <LineButton type={1} />
     </div>
   );
 }
