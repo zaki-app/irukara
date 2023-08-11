@@ -26,6 +26,21 @@ export interface SaveMessageData {
   lineUserId: string;
   updatedAt?: number;
 }
+
+export interface SaveImageData {
+  createdAt: number;
+  good: number;
+  shareStatus: number;
+  imageUrl: string;
+  imageId: string;
+  memberStatus: number;
+  mode: number;
+  userId: string;
+  prompt: string;
+  referenceType: number;
+  updatedAt?: number;
+}
+
 export interface SaveMessage {
   count: number;
   data: SaveMessageData;

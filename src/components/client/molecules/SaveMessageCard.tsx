@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { irukaraLogo } from '@/common/config/site.config';
-import dateFormat from '@/common/libs/dateFromat';
+import { dateFormat } from '@/common/libs/dateFromat';
 import { useEffect, useState } from 'react';
 import { ProfileImage } from '@/components/client/atoms';
 import textTruncate from '@/common/libs/textTruncate';
@@ -20,7 +20,7 @@ export default function SaveMessageCard({
   question,
   answer,
   createdAt,
-}: SaveMessageProps) {
+}: any) {
   const [createdAtTime, setCreatedAtTime] = useState<string>('');
 
   // UNIX時間を変換
