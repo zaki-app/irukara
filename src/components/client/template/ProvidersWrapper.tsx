@@ -50,11 +50,10 @@ export default function ProvidersWrapper({
         if (!(await getCookie('irukaraAT'))) {
           console.log('クライアントクッキーなし not Login');
           const token = liff.getAccessToken();
-          console.log('アクセストークン', token);
           const isToken = await isVerifyToken(token ?? '');
           if (token && isToken) {
             setCookie('irukaraAT', token ?? '');
-            setIsLoaded(true);
+            // setIsLoaded(true);
             router.push('/');
             console.log('Welcome to Irukara👍');
           }
@@ -78,6 +77,7 @@ export default function ProvidersWrapper({
 
           setLiffObject(liff);
           console.log('ローディング', isLoaded);
+          setIsLoaded(true);
         } catch (err) {
           console.error('liffでのエラーなのでエラー画面に飛ばしたい', err);
           // notFound();
@@ -96,15 +96,15 @@ export default function ProvidersWrapper({
   return (
     <html lang='ja'>
       <body>
-        {/* {isLoaded ? ( */}
         <Provider store={store}>
           <Header liff={liffObject} />
-          <div className='main-contents'>{children}</div>
+          {isLoaded ? (
+            <div className='main-contents'>{children}</div>
+          ) : (
+            <div className='main-contents'>色々ローディング中です</div>
+          )}
           <Footer />
         </Provider>
-        {/* ) : (
-            <div>loading...</div>
-          )} */}
       </body>
     </html>
   );
