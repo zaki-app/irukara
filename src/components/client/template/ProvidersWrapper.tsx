@@ -2,10 +2,10 @@
 
 import { Header, Footer } from '@/components/client/organisms';
 import liff from '@line/liff';
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Liff } from '@line/liff/exports';
 import { useRouter, notFound } from 'next/navigation';
-import { setCookie, getCookie } from '@/common/utils/authLINE/manageCookies';
+import { setCookie } from '@/common/utils/authLINE/manageCookies';
 import isVerifyToken from '@/common/utils/authLINE/isVerifyToken';
 import getProfile from '@/common/utils/authLINE/getProfile';
 import { Provider } from 'react-redux';
@@ -20,6 +20,7 @@ export default function ProvidersWrapper({
 }) {
   const [liffObject, setLiffObject] = useState<Liff | null>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
   const router = useRouter();
 
   async function liffInit() {
@@ -46,46 +47,34 @@ export default function ProvidersWrapper({
 
         console.log('ブラウザ判断終了後');
 
-        // browser登録後(tokenのcookieがない場合 アクセストークンを取得して有効性を確認)
-        if (!(await getCookie('irukaraAT'))) {
-          console.log('クライアントクッキーなし not Login');
+        // liffがログイン状態の時
+        if (liff.isLoggedIn()) {
           const token = liff.getAccessToken();
           const isToken = await isVerifyToken(token ?? '');
           if (token && isToken) {
             setCookie('irukaraAT', token ?? '');
-            // setIsLoaded(true);
-            router.push('/');
-            console.log('Welcome to Irukara👍');
-          }
-        }
 
-        // irukaraのcookieあり すでにログイン済みの状態。
-        // アクセストークンがある場合プロフィールを取得する
-        try {
-          console.log('クライアント クッキーあり Login');
-          const token = await getCookie('irukaraAT');
-          if (token) {
+            // プロフィールを取得してreduxへ保存
             const profile = await getProfile();
             console.log(
               `${logColor.green}finally profile...`,
               profile + logColor.reset,
             );
-            if (profile) {
-              store.dispatch(setUserProfile(profile));
-            }
-          }
 
-          setLiffObject(liff);
-          console.log('ローディング', isLoaded);
-          setIsLoaded(true);
-        } catch (err) {
-          console.error('liffでのエラーなのでエラー画面に飛ばしたい', err);
-          // notFound();
+            store.dispatch(setUserProfile(profile));
+
+            router.push('/');
+            console.log('Welcome to Irukara👍');
+          }
         }
       })
       .catch((err) => {
         console.error('liff init error, これもエラー画面に飛ばしたい', err);
         notFound();
+      })
+      .finally(() => {
+        console.log('liff', liff.isLoggedIn());
+        setLiffObject(liff);
       });
   }
 

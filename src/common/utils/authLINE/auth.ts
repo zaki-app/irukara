@@ -13,7 +13,6 @@ export async function isAuth() {
     isAuthState = true;
   } else {
     isAuthState = false;
-    // redirect("/")
   }
 
   return isAuthState;
