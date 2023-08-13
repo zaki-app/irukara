@@ -41,6 +41,9 @@ export default async function MyPage() {
     <>
       {isAuthState ? (
         <ContentsWrapper>
+          <div>
+            <h2>{}</h2>
+          </div>
           <div>ログイン済みなので表示できる</div>
         </ContentsWrapper>
       ) : (

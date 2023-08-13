@@ -44,7 +44,7 @@ export default function TopService() {
       </div>
 
       <div className='flex justify-center'>
-        {isUserId ? (
+        {liff.isLoggedIn() ? (
           <Link href='/mypage'>
             <InButton
               buttonStyle='bg-gradient-to-r from-blue-700 to-sky-500'

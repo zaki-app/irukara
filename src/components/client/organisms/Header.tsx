@@ -4,26 +4,30 @@ import Link from 'next/link';
 import { siteConfig } from '@/common/config/site.config';
 import Image from 'next/image';
 import type { Liff } from '@line/liff/exports';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { deleteCookie } from '@/common/utils/authLINE/manageCookies';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { FaTimes } from 'react-icons/fa';
 import { useState } from 'react';
 import { InButton, KanitFont, LineButton } from '../atoms';
 
-interface LiffProps {
+interface HeaderProps {
   liff: Liff | null | undefined;
 }
 
-function Header({ liff }: LiffProps) {
+function Header({ liff }: HeaderProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  console.log('リフです', liff);
 
   function confirmSignOut() {
     liff?.logout();
+    console.log('サインアウト後', liff?.isLoggedIn());
     // ログアウト後は、ページをリフレッシュしてアクセストークンを削除
+    setIsOpen(false);
     router.refresh();
     deleteCookie();
+    console.log('サインアウト');
   }
 
   return (
