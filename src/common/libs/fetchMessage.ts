@@ -2,8 +2,8 @@ import { getCookie } from '@/common/utils/authLINE/manageCookies';
 import type { SaveMessageData } from '../types/LineTypes';
 
 interface AllSaveMessageProps {
-  count?: number;
-  data: SaveMessageData[] | boolean;
+  count: number;
+  data: SaveMessageData[];
 }
 
 /** メッセージデータ関係 */
@@ -22,7 +22,8 @@ export async function fetchMessage(): Promise<AllSaveMessageProps> {
         Authorization: token,
       },
       // cache: 'no-cache',
-      cache: 'no-store',
+      // cache: 'no-store',
+      cache: 'force-cache',
     });
     if (response.status === 200) {
       data = await response.json();

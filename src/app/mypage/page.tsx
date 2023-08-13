@@ -11,23 +11,21 @@ import TabMenuContents from '@/components/client/template/TabMenuContents';
 import { fetchImages } from '@/common/libs/fetchImage';
 import { isAuth } from '@/common/utils/authLINE/auth';
 import Redirect from '@/components/client/template/Redirect';
+import TextChatContents from '@/components/server/mypage/TextChatContents';
+import { NextResponse } from 'next/server';
 
 interface SaveMessageDataType {
-  data: SaveMessageData[] | boolean;
+  count: number;
+  data: SaveMessageData[];
 }
 
 interface SaveImageDataType {
   imageData: SaveImageData[] | boolean;
 }
 
-interface PageProps {
-  searchParams: string;
-}
-
-export default async function MyPage({}: PageProps): Promise<JSX.Element> {
+export default async function MyPage() {
   // ログインしているユーザーの保存メッセージを取得
-  // const textChat: SaveMessageDataType = await fetchMessage();
-  // console.log('レスポンス', textChat);
+  const textChat: SaveMessageDataType = await fetchMessage();
 
   // イラスト画像データを取得
   // const illust: SaveImageDataType = await fetchImages(1);
@@ -44,7 +42,8 @@ export default async function MyPage({}: PageProps): Promise<JSX.Element> {
     <>
       {isAuthState ? (
         <ContentsWrapper>
-          <TabMenuContents />
+          <TabMenuContents textChat={textChat} />
+          {/* <TextChatContents /> */}
         </ContentsWrapper>
       ) : (
         <Redirect path='/' />
