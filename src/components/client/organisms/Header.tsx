@@ -25,7 +25,7 @@ function Header({ liff }: HeaderProps) {
     console.log('サインアウト後', liff?.isLoggedIn());
     // ログアウト後は、ページをリフレッシュしてアクセストークンを削除
     setIsOpen(false);
-    router.refresh();
+    window.location.href = '/';
     deleteCookie();
     console.log('サインアウト');
   }

@@ -63,7 +63,13 @@ export default function ProvidersWrapper({
 
             store.dispatch(setUserProfile(profile));
 
-            router.push('/');
+            // ログイン後にパラメーターをパスから削除
+            const currentPath = window.location.pathname;
+            if (currentPath === '/') {
+              router.push('/');
+            } else {
+              router.refresh();
+            }
             console.log('Welcome to Irukara👍');
           }
         }

@@ -10,7 +10,6 @@ import textTruncate from '@/common/libs/textTruncate';
 import TabMenuContents from '@/components/client/template/TabMenuContents';
 import { fetchImages } from '@/common/libs/fetchImage';
 import { isAuth } from '@/common/utils/authLINE/auth';
-import { redirect } from 'next/navigation';
 import Redirect from '@/components/client/template/Redirect';
 
 interface SaveMessageDataType {
@@ -21,10 +20,15 @@ interface SaveImageDataType {
   imageData: SaveImageData[] | boolean;
 }
 
-export default async function MyPage() {
+interface PageProps {
+  searchParams: string;
+}
+
+export default async function MyPage({}: PageProps): Promise<JSX.Element> {
   // ログインしているユーザーの保存メッセージを取得
-  const textChat: SaveMessageDataType = await fetchMessage();
-  console.log('レスポンス', textChat);
+  // const textChat: SaveMessageDataType = await fetchMessage();
+  // console.log('レスポンス', textChat);
+
   // イラスト画像データを取得
   // const illust: SaveImageDataType = await fetchImages(1);
   // console.log('イラスト画像', illust);
@@ -32,19 +36,15 @@ export default async function MyPage() {
   // const real: SaveImageDataType = await fetchImages(2);
   // console.log('リアル画像', real);
 
-  const thName = ['質問', '回答', '作成日'];
-
   // ログイン状態ではなかったらリダイレクト
   const isAuthState = await isAuth();
+  console.log('マイページ', isAuthState);
 
   return (
     <>
       {isAuthState ? (
         <ContentsWrapper>
-          <div>
-            <h2>{}</h2>
-          </div>
-          <div>ログイン済みなので表示できる</div>
+          <TabMenuContents />
         </ContentsWrapper>
       ) : (
         <Redirect path='/' />

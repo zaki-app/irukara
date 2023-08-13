@@ -1,29 +1,30 @@
 'use client';
 
+import TextChatContents from '@/components/server/mypage/TextChatContents';
 import { useState } from 'react';
 
-export default function TabMenuContents({ data }: any) {
-  console.log('タブ', data);
+export default function TabMenuContents() {
   const [tab, setTab] = useState<number>(0);
-  const tabName = ['テキスト', 'イラスト', 'リアル'];
+  const tabMenu = ['テキストチャット', 'イラスト', 'リアル'];
+
+  function clickTab(tabNumber: number) {
+    setTab(tabNumber);
+  }
 
   return (
-    <div className='my-4'>
-      <div>
-        {tabName.map((name, index) => (
-          <button
-            // className={`mr-4 ${tab === index ? 'bg-green-500' : ''}`}
-            key={tab}
-            onClick={() => setTab(index)}
-          >
-            {name}
-          </button>
+    <div className='w-full'>
+      <ul className='flex'>
+        {tabMenu.map((item, index) => (
+          <li key={item} onClick={() => clickTab(index)}>
+            {item}
+          </li>
         ))}
-      </div>
-      {/* コンテンツ */}
-      {tab === 0 && <div>テキストちゃっとコンポーネント</div>}
-      {tab === 1 && <div>イラスト一覧表示コンポーネント</div>}
-      {tab === 2 && <div>リアル画像一覧表示コンポーネント</div>}
+      </ul>
+      <ul>
+        {tab === 0 && <div>テキストチャット</div>}
+        {tab === 1 && <div>イラストデータが表示されます</div>}
+        {tab === 2 && <div>リアルデータが表示されます</div>}
+      </ul>
     </div>
   );
 }

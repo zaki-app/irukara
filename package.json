@@ -37,6 +37,7 @@
     "redux": "^4.2.1",
     "sanitize-html": "^2.11.0",
     "sass": "^1.64.2",
+    "swr": "^2.2.1",
     "tailwindcss": "3.3.2"
   },
   "devDependencies": {
