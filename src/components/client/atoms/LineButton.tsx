@@ -2,7 +2,6 @@
 
 import { lineLogo } from '@/common/config/site.config';
 import Image from 'next/image';
-import { useState } from 'react';
 
 interface LineButtonProps {
   type: number;

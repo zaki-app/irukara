@@ -45,6 +45,9 @@
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "import/prefer-default-export": "off", // 1ファイル必ずdefault exportがないとダメのエラーはオフ
-    "react/jsx-no-useless-fragment": "off" // 上位にフラグメントがあってもエラーにしない
+    "react/jsx-no-useless-fragment": "off", // 上位にフラグメントがあってもエラーにしない
+    "no-promise-executor-return": "off", // promise executor関数からの戻り値を禁止しない
+    "no-empty-pattern": "off", // 空の分割代入を禁止しない
+    "@typescript-eslint/no-empty-interface": "off" // 上と同じ
   }
 }

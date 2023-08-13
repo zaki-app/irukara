@@ -8,7 +8,7 @@ import liff from '@line/liff';
 import { getCookie } from '@/common/utils/authLINE/manageCookies';
 import { InButton, KanitFont, LineButton } from '@/components/client/atoms';
 
-export default function TopService() {
+export default function TopService({ irukaraId }: { irukaraId: string }) {
   const [isUserId, setIsUserId] = useState<boolean>(false);
 
   useEffect(() => {

@@ -14,14 +14,15 @@ export async function fetchMessage(): Promise<AllSaveMessageProps> {
     const userId = (await getCookie('irukaraId')) ?? '';
     const token = (await getCookie('irukaraAT')) ?? '';
     const endpoint = `${process.env.IRUKARA_API_ENDPOINT}save-messages/${userId}`;
-    console.log('エンドポイント', endpoint);
+    // console.log('エンドポイント', endpoint);
     const response = await fetch(endpoint, {
       // method: 'GET',
       headers: {
         // 'Content-Type': 'application/json',
         Authorization: token,
       },
-      cache: 'no-cache',
+      // cache: 'no-cache',
+      cache: 'no-store',
     });
     if (response.status === 200) {
       data = await response.json();
@@ -38,7 +39,7 @@ export async function fetchMessage(): Promise<AllSaveMessageProps> {
     data = errorResponse;
   }
 
-  console.log('get all response...', data);
+  console.log('get all response...', data.count);
   return data;
 }
 
