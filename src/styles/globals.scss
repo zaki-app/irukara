@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 body {
-  color: #1c1c1cc1;
+  color: #6b7280;
 }
 
 /* base */
 @layer base {
   html {
     font-family: 'Hiragino Sans', 'sans-serif';
-    background: #e9ebee;
+    background: #fafafa;
   }
 }
 
@@ -21,7 +21,7 @@ body {
 
 /* トップページ以外のコンテンツ */
 .contents-wrapper {
-  @apply px-4 md:px-8 w-full bg-gray-300 py-8 min-h-screen;
+  @apply px-4 md:px-8 w-full bg-mainBg py-8 min-h-screen;
 }
 
 /* マークダウン */

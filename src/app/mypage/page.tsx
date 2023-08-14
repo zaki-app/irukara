@@ -38,7 +38,6 @@ export default async function MyPage() {
             illustImage={illust}
             realImage={real}
           />
-          {/* <TextChatContents /> */}
         </ContentsWrapper>
       ) : (
         <Redirect path='/' />
