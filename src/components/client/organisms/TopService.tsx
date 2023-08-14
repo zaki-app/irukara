@@ -3,12 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { irukaraLogo } from '@/common/config/site.config';
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import liff from '@line/liff';
 import { getCookie } from '@/common/utils/authLINE/manageCookies';
 import { InButton, KanitFont, LineButton } from '@/components/client/atoms';
 
-export default function TopService({ irukaraId }: { irukaraId: string }) {
+export default function TopService() {
   const [isUserId, setIsUserId] = useState<boolean>(false);
 
   useEffect(() => {
@@ -29,7 +29,6 @@ export default function TopService({ irukaraId }: { irukaraId: string }) {
     <div className='flex flex-col pt-14 pb-12 bg-gradient-to-r from-sky-50 to-sky-100'>
       <div className='flex justify-center font-bold text-4xl py-4'>
         <KanitFont
-          tag='h1'
           fontStyle='text-center font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-blue-700 to-sky-400'
           text='Welcome to Irukara!!'
         />

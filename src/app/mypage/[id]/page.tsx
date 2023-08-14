@@ -1,10 +1,11 @@
 import React, { Suspense } from 'react';
 import Link from 'next/link';
 import { fetchMessageDetail } from '@/common/libs/fetchMessage';
-import type { SaveMessageData } from '@/common/types/LineTypes';
 import { StatePlan } from '@/components/client/organisms';
 import SaveMessageDetailCard from '@/components/client/molecules/SaveMessageDetailCard';
 import ContentsWrapper from '@/components/client/template/ContentsWrapper';
+
+import type { SaveMessageData } from '@/common/types/fetchData';
 
 interface SearchParamsProps {
   searchParams: {

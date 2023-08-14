@@ -1,9 +1,9 @@
-import { SaveImageData } from '../types/LineTypes';
+import { SaveImageData } from '../types/fetchData';
 import { getCookie } from '../utils/authLINE/manageCookies';
 
 interface Limit50SaveImageType {
   count: number;
-  imageData: SaveImageData[] | false;
+  data: SaveImageData[] | false;
 }
 
 /* 画像データを50件まで取得 */

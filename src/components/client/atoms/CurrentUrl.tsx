@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState, Suspense } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
 import liff from '@line/liff';
 
 export default function CurrentUrl() {

@@ -10,8 +10,12 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'profile.line-scdn.net',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.stablediffusionapi.com',
+      },
     ],
-    domains: ['scdn.line-apps.com'],
+    domains: ['scdn.line-apps.com', 'cdn.stablediffusionapi.com'],
   },
   // サーバー側で使用する環境変数
   env: {

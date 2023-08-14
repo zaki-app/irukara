@@ -1,6 +1,5 @@
 'use server';
 
-import { redirect } from 'next/navigation';
 import { getCookie } from './manageCookies';
 
 /* ログイン済みか判定する */

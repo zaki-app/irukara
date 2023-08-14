@@ -20,7 +20,7 @@ export default function SaveMessageCard({
   question,
   answer,
   createdAt,
-}: any) {
+}: SaveMessageProps) {
   const [createdAtTime, setCreatedAtTime] = useState<string>('');
 
   // UNIX時間を変換
