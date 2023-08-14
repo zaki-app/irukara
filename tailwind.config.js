@@ -23,7 +23,7 @@ module.exports = {
         current: 'currentColor',
         nav: '#2563eb',
         white: '#ffffff',
-        mainBg: '#e9ebee',
+        mainBg: '#fafafa',
         skyblue: '#06b6d4',
         line: '#06c755',
         pink: '#fca5a5',

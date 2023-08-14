@@ -8,5 +8,9 @@
     "source.fixAll.eslint": true // ファイル保存時に ESLint でフォーマット
   },
   "editor.tabSize": 2,
-  "editor.insertSpaces": true
+  "editor.insertSpaces": true,
+  "editor.quickSuggestions": {
+    // tailwindCSSの補完
+    "strings": true
+  }
 }

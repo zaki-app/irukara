@@ -8,6 +8,7 @@ import {
 } from '@/common/types/fetchData';
 import Image from 'next/image';
 import { Suspense, useEffect, useState } from 'react';
+import ChatSaveList from '../organisms/mypage/ChatSaveList';
 
 interface TabMenuContentsProps {
   textChat: SaveMessageDataType;
@@ -71,28 +72,22 @@ export default function TabMenuContents({
 
   return (
     <div className='w-full'>
-      <ul className='flex mb-4'>
+      <ul className='flex mb-4 border-b-4'>
         {tabMenu.map((item, index) => (
-          <li className='mr-4' key={item} onClick={() => clickTab(index)}>
+          <li
+            className={`mr-4 cursor-pointer p-2 ${
+              tab === index ? 'text-gray-500 font-bold' : 'text-gray-400'
+            }`}
+            key={item}
+            onClick={() => clickTab(index)}
+          >
             {item}
           </li>
         ))}
       </ul>
-      <ul>
+      <div>
         {tab === 0 && (
-          <div>
-            {textChatCount > 0 && Array.isArray(textData) ? (
-              textData.map((item) => (
-                <div key={item.messageId}>
-                  <div>{item.question}</div>
-                  <div>{item.answer}</div>
-                  <div>{item.createdAt}</div>
-                </div>
-              ))
-            ) : (
-              <div>データが見つかりません</div>
-            )}
-          </div>
+          <ChatSaveList textChatCount={textChatCount} textData={textData} />
         )}
         {tab === 1 && (
           <div>
@@ -136,7 +131,7 @@ export default function TabMenuContents({
             )}
           </div>
         )}
-      </ul>
+      </div>
     </div>
   );
 }
