@@ -22,3 +22,19 @@ export function dateFormat(time: number) {
     .tz()
     .format('YYYY年MM月DD日');
 }
+
+/* 今日の日付の場合は時間、昨日より前は月日 */
+export function currentTime(time: number): string {
+  let formatAt: string;
+  const currentUnix = dayjs().startOf('day').unix();
+  if (currentUnix < time) {
+    formatAt = dayjs(time * 1000)
+      .tz()
+      .format('HH:mm');
+  } else {
+    formatAt = dayjs(time * 1000)
+      .tz()
+      .format('MM/DD');
+  }
+  return formatAt;
+}
