@@ -4,19 +4,17 @@ import Link from 'next/link';
 import { siteConfig } from '@/common/config/site.config';
 import Image from 'next/image';
 import type { Liff } from '@line/liff/exports';
-import { redirect, useRouter } from 'next/navigation';
 import { deleteCookie } from '@/common/utils/authLINE/manageCookies';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { FaTimes } from 'react-icons/fa';
 import { useState } from 'react';
-import { InButton, KanitFont, LineButton } from '../atoms';
+import { KanitFont, LineButton } from '../atoms';
 
 interface HeaderProps {
   liff: Liff | null | undefined;
 }
 
 function Header({ liff }: HeaderProps) {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   console.log('リフです', liff);
 
@@ -41,11 +39,7 @@ function Header({ liff }: HeaderProps) {
               width={60}
               height={60}
             />
-            <KanitFont
-              tag='div'
-              fontStyle='text-white text-3xl ml-4'
-              text='Irukara'
-            />
+            <KanitFont fontStyle='text-white text-3xl ml-4' text='Irukara' />
           </a>
         </nav>
         {/* アイコン */}

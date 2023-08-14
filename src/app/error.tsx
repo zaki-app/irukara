@@ -8,7 +8,7 @@ interface ErrorProps {
   reset: () => void;
 }
 
-export default function error({ error, reset }: ErrorProps) {
+export default function error({ reset }: ErrorProps) {
   useEffect(() => {
     console.log('エラーが発生しました', error);
   }, []);
