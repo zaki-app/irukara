@@ -86,7 +86,7 @@ export default function TabMenuContents({
         ))}
       </ul>
       <div>
-        {tab === 0 && (
+        {tab === 0 && Array.isArray(textData) && (
           <ChatSaveList textChatCount={textChatCount} textData={textData} />
         )}
         {tab === 1 && (

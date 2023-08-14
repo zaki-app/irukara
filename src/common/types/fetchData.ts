@@ -1,14 +1,15 @@
 /* データ関係の型定義 */
 export interface SaveMessageData {
-  createdAt?: number;
-  answer: string;
-  question: string;
-  memberStatus: number;
   messageId: string;
+  answer: string;
+  createdAt?: number;
+  memberStatus: number;
+  mode: number;
+  question: string;
   referenceType: number;
-  userId: string;
-  lineUserId: string;
+  shareStatus: number;
   updatedAt?: number;
+  userId: string;
 }
 
 export interface SaveImageData {
