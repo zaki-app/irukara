@@ -37,7 +37,12 @@ export default function ChatSaveList({
               <div className='text-sm text-gray-500 mb-4'>
                 {textTruncate(item.answer, 30)}
               </div>
-              <ShareButton />
+              <div>
+                <ShareButton
+                  messageId={item.messageId}
+                  shareStatus={item.shareStatus}
+                />
+              </div>
             </div>
           </div>
         ))
