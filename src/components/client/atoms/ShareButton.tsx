@@ -18,22 +18,21 @@ export default function ShareButton({
 
   async function shareHandler() {
     setShare(share === 0 ? 1 : 0);
-    console.log('プロップス', shareStatus, '更新値', share);
+    console.log('shareプロップス', shareStatus);
+    // const response = await fetch('/api/message/share', {
+    //   method: 'PUT',
+    //   body: JSON.stringify({
+    //     messageId,
+    //     shareStatus: share,
+    //   }),
+    // });
 
-    const response = await fetch('/api/message/share', {
-      method: 'PUT',
-      body: JSON.stringify({
-        messageId,
-        shareStatus: share,
-      }),
-    });
+    // const resJson = await response.json();
+    // console.log('結果', resJson);
 
-    const resJson = await response.json();
-    console.log('結果', resJson);
-
-    if (resJson.result) {
-      router.refresh();
-    }
+    // if (resJson.result) {
+    //   router.refresh();
+    // }
   }
 
   return (
