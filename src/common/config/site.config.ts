@@ -4,15 +4,15 @@ export const defaultDescription =
   'IrukaraはLINE公式アカウントも運営しており、LINE上で保存したメッセージをIrukaraに保存して見返すことができる画期的なサービスです。すぐにお友達登録して一緒にお話ししましょう！';
 
 export const irukaraLogo = {
-  src: '/images/irukara-logo.webp',
+  src: '/images/Irukara-left.png',
   alt: 'Irukara.netのキャラクターロゴ',
 };
 
 export const siteConfig = {
   siteTitle: 'Irukara',
   topHref: '/',
-  icon: '/tokeru.svg',
-  headerLogo: '/images/irukara-logo.webp',
+  icon: '/logo/irukara-logo.svg',
+  headerLogo: '/logo/irukara-logo.svg',
   logoAlt: 'Irukaraロゴ',
   headerList: [
     {
