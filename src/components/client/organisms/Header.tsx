@@ -36,8 +36,8 @@ function Header({ liff }: HeaderProps) {
             <Image
               src={siteConfig.headerLogo}
               alt={siteConfig.logoAlt}
-              width={60}
-              height={60}
+              width={50}
+              height={50}
             />
             <KanitFont fontStyle='text-white text-3xl ml-4' text='Irukara' />
           </a>
