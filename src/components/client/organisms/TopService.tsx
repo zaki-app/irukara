@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { irukaraLogo } from '@/common/config/site.config';
 import { useEffect, useState } from 'react';
-import liff from '@line/liff';
 import { getCookie } from '@/common/utils/authLINE/manageCookies';
 import { InButton, KanitFont, LineButton } from '@/components/client/atoms';
 
