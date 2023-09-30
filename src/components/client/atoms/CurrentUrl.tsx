@@ -15,7 +15,7 @@ export default function CurrentUrl() {
 
   useEffect(() => {
     setCurrentUrl(window.location.href);
-    setUserOs(liff.getOS() ?? '');
+    // setUserOs(liff.getOS() ?? '');
     setUserAgent(window.navigator.userAgent);
   });
 

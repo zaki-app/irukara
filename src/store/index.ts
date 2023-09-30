@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import AuthUserProfileSlice from '@/store/line-profile/slice';
+import AuthUserProfileSlice from '@/store/auth/slice';
 
 /* 各reducerを読み込む */
 const rootReducers = combineReducers({

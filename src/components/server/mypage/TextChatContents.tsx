@@ -1,7 +1,7 @@
 // 'use client';
 
 import { fetchMessage } from '@/common/libs/fetchMessage';
-import type { SaveMessageData } from '@/common/types/fetchData';
+import type { SaveMessageData } from '@/types/fetchData';
 
 interface SaveMessageDataType {
   data: SaveMessageData[] | boolean;

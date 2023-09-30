@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useEffect, useState, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { userIcon } from '@/common/config/site.config';
-import type { UserProfileSelector } from '@/common/types/LineTypes';
+import type { UserProfileSelector } from '@/types/LineTypes';
 
 export default function ProfileImage() {
   const userProfile: UserProfileSelector = useSelector(

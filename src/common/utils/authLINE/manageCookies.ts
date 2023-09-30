@@ -65,3 +65,21 @@ export async function getCookie(name: string) {
   const cookie = cookies().get(name);
   return cookie?.value;
 }
+
+// cookieを全て削除
+export async function allDeleteCookies() {
+  console.time('cookies2');
+  cookies().set({
+    name: 'provider',
+    value: '',
+    expires: new Date('2016-10-6'),
+    path: '/',
+  });
+  cookies().set({
+    name: 'irukaraAT',
+    value: '',
+    expires: new Date('2016-10-6'),
+    path: '/',
+  });
+  console.timeEnd('cookies2');
+}

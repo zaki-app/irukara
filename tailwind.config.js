@@ -27,6 +27,7 @@ module.exports = {
         skyblue: '#06b6d4',
         line: '#06c755',
         pink: '#fca5a5',
+        base_font: '#4b5563',
       },
       // フォント
       fontFamily: {},

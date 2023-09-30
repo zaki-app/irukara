@@ -5,28 +5,41 @@ import Image from 'next/image';
 
 interface LineButtonProps {
   type: number;
+  className: string;
+  size: number;
+  textClass: string;
 }
 
-export default function LineButton({ type }: LineButtonProps) {
+export default function LineButton({
+  type,
+  className,
+  size,
+  textClass,
+}: LineButtonProps) {
   const LINEME = process.env.NEXT_PUBLIC_LINE_ME ?? '';
   const baseCss =
     'bg-line flex text-white items-center justify-center rounded-lg py-2 px-8 hover:opacity-90';
-  const miniCss =
-    'bg-line text-xl md:text-base flex text-white items-center justify-center rounded-lg hover:opacity-90 font-semibold px-14 md:px-4 py-2 md:py-0';
   const baseText = 'font-bold text-xl pl-4';
 
   return (
-    <div>
-      {/* 友達追加 ミニボタン */}
+    <>
+      {/* 友達追加 */}
       {type === 0 && (
-        <a href={LINEME} target='_blank' rel='noreferrer' className={miniCss}>
+        <a
+          href={LINEME}
+          target='_blank'
+          rel='noreferrer'
+          className={`
+            bg-line flex text-white items-center justify-center 
+            rounded-lg hover:opacity-90 font-bold ${className}`}
+        >
           <Image
             src={lineLogo}
             alt='IrukaraのLINE友だち追加です'
-            width={40}
-            height={40}
+            width={size}
+            height={size}
           />
-          <div>友だち追加</div>
+          <div className={textClass}>友だち追加</div>
         </a>
       )}
       {/* 友達追加 通常ボタン */}
@@ -53,17 +66,6 @@ export default function LineButton({ type }: LineButtonProps) {
           <div className={baseText}>LINEログイン</div>
         </div>
       )}
-      {type === 3 && (
-        <div className={miniCss}>
-          <Image
-            src={lineLogo}
-            alt='IrukaraのLINEログインです'
-            width={40}
-            height={40}
-          />
-          <div>LINEログイン</div>
-        </div>
-      )}
-    </div>
+    </>
   );
 }

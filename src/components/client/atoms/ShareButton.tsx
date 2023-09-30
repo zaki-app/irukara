@@ -1,6 +1,6 @@
 'use client';
 
-import { UpdateMessageData } from '@/common/types/fetchData';
+import { UpdateMessageData } from '@/types/fetchData';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaShare } from 'react-icons/fa6';

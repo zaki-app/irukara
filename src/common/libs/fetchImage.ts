@@ -1,4 +1,4 @@
-import { SaveImageData } from '../types/fetchData';
+import { SaveImageData } from '../../types/fetchData';
 import { getCookie } from '../utils/authLINE/manageCookies';
 
 interface Limit50SaveImageType {

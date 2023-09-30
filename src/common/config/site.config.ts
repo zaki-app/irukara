@@ -81,3 +81,14 @@ export const userIcon = 'ユーザーアイコン画像';
 
 // lineロゴ
 export const lineLogo = '/logo/LINE_Brand_icon.png';
+export const googleLogo = '/logo/google.svg';
+
+// irukara画像パス
+export const irukaraBasic = '/images/Irukara-left.png';
+export const irukaraSmile = '/images/Irukara-smile.png';
+export const irukamoBasic = '/images/Irukamo.png';
+
+// irukara画像ALT
+export const irukaraBasicAlt = 'イルカラのキャラクター画像';
+export const irukaraSmileAlt = 'イルカラのキャラクター画像(笑顔)';
+export const irukamoBasicAlt = 'イルカモのキャラクター画像';

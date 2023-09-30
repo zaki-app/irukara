@@ -1,6 +1,6 @@
 'use client';
 
-import { SaveMessageData, SaveMessageDataType } from '@/common/types/fetchData';
+import { SaveMessageData, SaveMessageDataType } from '@/types/fetchData';
 import { useEffect, useState } from 'react';
 import ChatSaveList from '../organisms/mypage/ChatSaveList';
 import ImageSaveList from '../organisms/mypage/ImageSaveList';
