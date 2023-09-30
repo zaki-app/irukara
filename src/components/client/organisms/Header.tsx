@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { siteConfig } from '@/common/config/site.config';
 import Image from 'next/image';
 import { allDeleteCookies } from '@/common/utils/authLINE/manageCookies';
-import { FaBarsStaggered } from 'react-icons/fa6';
-import { FaTimes } from 'react-icons/fa';
+
 import { useState } from 'react';
 import { signOut, signIn } from 'next-auth/react';
 import { KanitFont } from '../atoms';
@@ -37,32 +36,28 @@ export default function Header() {
         {/* ログインボタン モーダル */}
         <div className='flex items-center'>
           <LoginModal />
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className='text-3xl right-8 top-6 cursor-pointer'
-          >
-            {isOpen ? <FaTimes /> : <FaBarsStaggered />}
-          </button>
-          <nav className={`${isOpen ? 'block' : 'hidden'}`}>
-            <ul
-              className={`flex flex-col items-center pr-8 pb-12 pl-9 z-[-1] absolute left-0 w-full transition-all bg-nav duration-500 ease-in ${
-                isOpen ? 'top-20' : 'top-[-490px]'
-              }`}
-            >
-              {/* 未ログイン時のハンバーガーメニュー */}
-              {siteConfig.headerList.map((list) => (
-                <li key={list.title} className='font-semibold text-xl my-4'>
-                  <Link href={list.href} onClick={() => setIsOpen(!isOpen)}>
-                    {list.title}
-                  </Link>
+          <div>
+            <nav className={`${isOpen ? 'block' : 'hidden'}`}>
+              <ul
+                className={`flex flex-col items-center pr-8 pb-12 pl-9 z-[-1] absolute left-0 w-full transition-all bg-nav duration-500 ease-in ${
+                  isOpen ? 'top-20' : 'top-[-490px]'
+                }`}
+              >
+                {/* 未ログイン時のハンバーガーメニュー */}
+                {siteConfig.headerList.map((list) => (
+                  <li key={list.title} className='font-semibold text-xl my-4'>
+                    <Link href={list.href} onClick={() => setIsOpen(!isOpen)}>
+                      {list.title}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <button>ログイン</button>
                 </li>
-              ))}
-              <li>
-                <button>ログイン</button>
-              </li>
-              {/* ログイン時のハンバーガーメニューをここに書きたい */}
-            </ul>
-          </nav>
+                {/* ログイン時のハンバーガーメニューをここに書きたい */}
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
       <button onClick={() => signIn('line')}>LINEログイン</button>
