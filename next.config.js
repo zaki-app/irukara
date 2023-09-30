@@ -34,6 +34,7 @@ const nextConfig = {
     NEXT_AUTH_AWS_SECRET_KEY: process.env.NEXT_AUTH_AWS_SECRET_KEY,
     NEXT_AUTH_AWS_REGION: process.env.NEXT_AUTH_AWS_REGION,
     CURRENT_STAGE: process.env.CURRENT_STAGE,
+    CLIENT_SITE_URL: process.env.CLIENT_SITE_URL,
   },
 };
 

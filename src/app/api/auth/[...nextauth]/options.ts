@@ -1,7 +1,6 @@
 import type { DefaultSession, NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import LineProvider from 'next-auth/providers/line';
-import Auth0Provider from 'next-auth/providers/auth0';
 import { DynamoDB, DynamoDBClientConfig } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBAdapter } from '@auth/dynamodb-adapter';
@@ -39,7 +38,7 @@ const client = DynamoDBDocument.from(new DynamoDB(config), {
 });
 // テーブルのカスタム
 const adapter = DynamoDBAdapter(client, {
-  tableName: `${process.env.CURRENT_STAGE}-next-auth-table`,
+  tableName: `${process.env.CURRENT_STAGE}-AuthUserManagerTable`,
 });
 
 /**
