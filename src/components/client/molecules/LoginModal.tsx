@@ -4,8 +4,8 @@ import React from 'react';
 import { FaArrowAltCircleDown } from 'react-icons/fa';
 import Link from 'next/link';
 import { LINK_PATH } from '@/common/constants/path';
-import LineButton from './LineButton';
-import LoginButton from './LoginButton';
+import LineButton from '../atoms/LineButton';
+import LoginButton from '../atoms/LoginButton';
 
 /**
  * ログインモーダル

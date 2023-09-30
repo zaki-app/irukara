@@ -9,7 +9,7 @@ import { FaTimes } from 'react-icons/fa';
 import { useState } from 'react';
 import { signOut, signIn } from 'next-auth/react';
 import { KanitFont } from '../atoms';
-import LoginModal from '../atoms/LoginModal';
+import LoginModal from '../molecules/LoginModal';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
