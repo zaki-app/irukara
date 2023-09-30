@@ -2,7 +2,7 @@
 
 import { Suspense, useMemo, useState } from 'react';
 import Image from 'next/image';
-import { SaveImageData } from '@/common/types/fetchData';
+import { SaveImageData } from '@/types/fetchData';
 import textTruncate from '@/common/libs/textTruncate';
 import { useInfiniteQuery } from '@tanstack/react-query';
 

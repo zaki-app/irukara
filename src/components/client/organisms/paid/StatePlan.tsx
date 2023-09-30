@@ -1,7 +1,7 @@
 'use client';
 
 import { useSelector } from 'react-redux';
-import type { UserProfileSelector, PlanText } from '@/common/types/LineTypes';
+import type { UserProfileSelector, PlanText } from '@/types/LineTypes';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import TextTruncate from '@/common/libs/textTruncate';

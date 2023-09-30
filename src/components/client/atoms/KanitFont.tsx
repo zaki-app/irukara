@@ -15,7 +15,5 @@ export default function KanitFont({
   fontStyle: string;
   text: string;
 }) {
-  console.log('カニと', fontStyle, text);
-  // const Tag = tag;
   return <div className={`${kanit.className} ${fontStyle}`}>{text}</div>;
 }

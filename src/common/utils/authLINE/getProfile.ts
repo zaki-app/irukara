@@ -2,7 +2,7 @@
 
 import createUserIdHash from '@/common/libs/createHash';
 import { setCookie } from '@/common/utils/authLINE/manageCookies';
-import type { UserProfile } from '@/common/types/LineTypes';
+import type { UserProfile } from '@/types/LineTypes';
 import { cookies } from 'next/headers';
 import logColor from '@/common/config/logColor';
 

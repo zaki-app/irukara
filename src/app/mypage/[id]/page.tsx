@@ -5,7 +5,7 @@ import { StatePlan } from '@/components/client/organisms';
 import SaveMessageDetailCard from '@/components/client/molecules/SaveMessageDetailCard';
 import ContentsWrapper from '@/components/client/template/ContentsWrapper';
 
-import type { SaveMessageData } from '@/common/types/fetchData';
+import type { SaveMessageData } from '@/types/fetchData';
 
 interface SearchParamsProps {
   searchParams: {

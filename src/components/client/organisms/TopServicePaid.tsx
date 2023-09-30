@@ -16,9 +16,7 @@ export default function TopServicePaid() {
           </div>
         ))}
       </div>
-      <div>
-        <LineButton type={1} />
-      </div>
+      <div>{/* <LineButton type={1} /> */}</div>
     </div>
   );
 }

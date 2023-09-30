@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { UpdateMessageData } from '@/common/types/fetchData';
+import { UpdateMessageData } from '@/types/fetchData';
 import logColor from '@/common/config/logColor';
 
 interface UpdateMessageResponse {

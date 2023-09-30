@@ -1,5 +1,5 @@
 import { getCookie } from '@/common/utils/authLINE/manageCookies';
-import type { SaveMessageData } from '@/common/types/fetchData';
+import type { SaveMessageData } from '@/types/fetchData';
 
 interface AllSaveMessageProps {
   count: number;

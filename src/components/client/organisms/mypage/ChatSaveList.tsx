@@ -1,6 +1,6 @@
 import { currentTime } from '@/common/libs/dateFromat';
 import textTruncate from '@/common/libs/textTruncate';
-import { SaveMessageData } from '@/common/types/fetchData';
+import { SaveMessageData } from '@/types/fetchData';
 import { FaCircleQuestion } from 'react-icons/fa6';
 import ShareButton from '../../atoms/ShareButton';
 

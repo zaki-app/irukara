@@ -4,9 +4,18 @@ import TabMenuContents from '@/components/client/template/TabMenuContents';
 import { isAuth } from '@/common/utils/authLINE/auth';
 import Redirect from '@/components/client/template/Redirect';
 
-import type { SaveMessageDataType } from '@/common/types/fetchData';
+import type { SaveMessageDataType } from '@/types/fetchData';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
+import { signinClientUrl, signinServerUrl } from '@/common/config/auth.config';
+import { useSession } from 'next-auth/react';
 
 export default async function MyPage() {
+  // 未ログインはホームにリダイレクト
+  const session = await getServerSession();
+  console.log('mypage session', session);
+  if (!session) redirect(signinServerUrl);
+
   // ログインしているユーザーの保存メッセージを取得
   const textChat: SaveMessageDataType = await fetchMessage();
   // const textChat = {

@@ -14,16 +14,11 @@ export default function TopService() {
   useEffect(() => {
     (async () => {
       const userId = await getCookie('irukaraId');
-      console.log('ユーザーID', userId);
       if (userId) {
         setIsUserId(true);
       }
     })();
   }, [isUserId]);
-
-  function lineLogin() {
-    liff.login();
-  }
 
   return (
     <div className='flex flex-col pt-14 pb-12 bg-gradient-to-r from-sky-50 to-sky-100'>
@@ -37,28 +32,28 @@ export default function TopService() {
         <Image
           src={irukaraLogo.src}
           alt={irukaraLogo.alt}
-          width={130}
-          height={130}
+          width={160}
+          height={160}
         />
       </div>
 
       <div className='flex justify-center'>
-        {liff.isLoggedIn() ? (
-          <Link href='/mypage'>
-            <InButton
-              buttonStyle='bg-gradient-to-r from-blue-700 to-sky-500'
-              text='マイページへ'
-            />
-          </Link>
-        ) : (
-          <div className='flex flex-col justify-center w-full mx-4 md:mx-36'>
-            <button onClick={lineLogin}>
+        {/* {liff.isLoggedIn() ? ( */}
+        <Link href='/mypage'>
+          <InButton
+            buttonStyle='bg-gradient-to-r from-blue-700 to-sky-500'
+            text='マイページへ'
+          />
+        </Link>
+        {/* ) : ( */}
+        <div className='flex flex-col justify-center w-full mx-4 md:mx-36'>
+          {/* <button onClick={lineLogin}>
               <LineButton type={2} />
-            </button>
-            <p className='text-center py-4'>お友達登録がまだの方は</p>
-            <LineButton type={1} />
-          </div>
-        )}
+            </button> */}
+          <p className='text-center py-4'>お友達登録がまだの方は</p>
+          {/* <LineButton type={1} /> */}
+        </div>
+        {/* )} */}
       </div>
     </div>
   );
