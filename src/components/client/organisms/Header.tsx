@@ -9,7 +9,6 @@ import { useState } from 'react';
 import { signOut, signIn } from 'next-auth/react';
 import { KanitFont } from '../atoms';
 import LoginModal from '../molecules/LoginModal';
-import HamburgerMenu from '../molecules/HamburgerMenu';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -37,7 +36,6 @@ export default function Header() {
         {/* ログインボタン モーダル */}
         <div className='flex items-center'>
           <LoginModal />
-          <HamburgerMenu />
           <div>
             <nav className={`${isOpen ? 'block' : 'hidden'}`}>
               <ul

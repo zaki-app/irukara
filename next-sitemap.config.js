@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.CLIENT_SITE_URL,
+  siteUrl: process.env.NEXTAUTH_URL,
   generateRobotsTxt: true,
   sitemapSize: 1000,
   // オプション
