@@ -28,6 +28,12 @@ export const siteConfig = {
       href: '/for-users/membership',
     },
   ],
+  loginUser: [
+    {
+      title: 'プロフィール',
+      href: '#',
+    },
+  ],
 };
 
 // フッターリスト
