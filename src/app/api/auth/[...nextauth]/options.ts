@@ -38,7 +38,10 @@ const client = DynamoDBDocument.from(new DynamoDB(config), {
 });
 // テーブルのカスタム
 const adapter = DynamoDBAdapter(client, {
-  tableName: `${process.env.CURRENT_STAGE}-AuthUserManagerTable`,
+  tableName:
+    process.env.CURRENT_STAGE === 'local'
+      ? 'local-next-auth-table'
+      : `${process.env.CURRENT_STAGE}-AuthUserManagerTable`,
 });
 
 /**

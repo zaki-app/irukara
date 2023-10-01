@@ -4,14 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 18000",
-    "develop": "next dev ",
+    "dev:dev": "ENVIRONMENT=dev next dev -p 18000",
     "build": "next build",
     "postbuild": "next-sitemap",
     "start": "next start -p 18000",
     "lint": "next lint --fix",
-    "urls": "npx ngrok http 18000",
-    "start-urls": "npx ngrok http 18000",
-    "url": "npx lt --port 18000 --subdomain dev-irukara-liff-frontend-by-yozakura-to-linebot --print-requests",
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "analyze": "ANALYZE=true next build"
   },

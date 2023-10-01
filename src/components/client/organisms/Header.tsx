@@ -9,18 +9,19 @@ import { useState } from 'react';
 import { signOut, signIn } from 'next-auth/react';
 import { KanitFont } from '../atoms';
 import LoginModal from '../molecules/LoginModal';
+import HamburgerMenu from '../molecules/HamburgerMenu';
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
   function clickSignOut() {
     signOut();
     allDeleteCookies();
     window.location.href = '/';
   }
 
+  const [isModal, setModal] = useState(false);
+
   return (
-    <header className='shadow-md w-full fixed top-0 left-0'>
+    <header className='shadow-md w-full fixed top-0 left-0 h-[5rem] z-[10]'>
       <div className='bg-nav text-white p-4 flex items-center justify-between'>
         <nav>
           <a href={siteConfig.topHref} className='flex items-center'>
@@ -35,33 +36,17 @@ export default function Header() {
         </nav>
         {/* ログインボタン モーダル */}
         <div className='flex items-center'>
-          <LoginModal />
-          <div>
-            <nav className={`${isOpen ? 'block' : 'hidden'}`}>
-              <ul
-                className={`flex flex-col items-center pr-8 pb-12 pl-9 z-[-1] absolute left-0 w-full transition-all bg-nav duration-500 ease-in ${
-                  isOpen ? 'top-20' : 'top-[-490px]'
-                }`}
-              >
-                {/* 未ログイン時のハンバーガーメニュー */}
-                {siteConfig.headerList.map((list) => (
-                  <li key={list.title} className='font-semibold text-xl my-4'>
-                    <Link href={list.href} onClick={() => setIsOpen(!isOpen)}>
-                      {list.title}
-                    </Link>
-                  </li>
-                ))}
-                <li>
-                  <button>ログイン</button>
-                </li>
-                {/* ログイン時のハンバーガーメニューをここに書きたい */}
-              </ul>
-            </nav>
-          </div>
+          <button
+            className='bg-line py-2 px-3 mr-4 rounded-lg font-bold shadow-lg hover:bg-green-600'
+            type='button'
+            onClick={() => setModal(true)}
+          >
+            ログイン
+          </button>
+          {isModal && <LoginModal isModal={isModal} closeModal={setModal} />}
+          <HamburgerMenu />
         </div>
       </div>
-      <button onClick={() => signIn('line')}>LINEログイン</button>
-      <button onClick={() => signIn('google')}>googleログイン</button>
       <button onClick={clickSignOut}>テストサインアウト</button>
     </header>
   );
