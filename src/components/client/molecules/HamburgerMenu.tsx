@@ -34,10 +34,8 @@ export default function HamburgerMenu() {
 
   // サインアウト
   async function clickSignOut() {
-    console.log('サインアウトがクリック');
     await signOut({ callbackUrl: logoutUrl });
     allDeleteCookies();
-    // window.location.href = '/';
   }
 
   return (
@@ -52,7 +50,7 @@ export default function HamburgerMenu() {
 
       {/* ハンバーガーメニュー */}
       <>
-        <style>{'body {overflow: hidden}'}</style>
+        {isHamburger && <style>{'body {overflow: hidden}'}</style>}
         <nav
           draggable={false}
           className={`fixed inset-0 h-screen flex flex-col top-0
