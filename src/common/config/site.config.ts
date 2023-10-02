@@ -47,6 +47,10 @@ export const footerList = {
       title: '特定商取引に基づく表示',
       href: '/legal/specified-commercial',
     },
+    {
+      title: 'お問い合わせ',
+      href: '/for-users/contact',
+    },
   ],
 };
 
