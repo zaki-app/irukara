@@ -14,6 +14,7 @@ import { FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
 import { allDeleteCookies } from '@/common/utils/authLINE/manageCookies';
+import { logoutUrl } from '@/common/config/auth.config';
 import LoginButton from '../atoms/LoginButton';
 
 /**
@@ -32,10 +33,11 @@ export default function HamburgerMenu() {
   }
 
   // サインアウト
-  function clickSignOut() {
-    signOut();
+  async function clickSignOut() {
+    console.log('サインアウトがクリック');
+    await signOut({ callbackUrl: logoutUrl });
     allDeleteCookies();
-    window.location.href = '/';
+    // window.location.href = '/';
   }
 
   return (
@@ -96,7 +98,7 @@ export default function HamburgerMenu() {
                 </li>
                 {siteConfig.headerList.map((item) => (
                   <li
-                    key={item.title}
+                    key={item.href}
                     className='hover:text-blue-400 text-lg my-2 hover:font-semibold cursor-pointer'
                   >
                     <Link href={item.href} onClick={() => hamburgerToggle()}>
@@ -110,7 +112,7 @@ export default function HamburgerMenu() {
                     {siteConfig.loginUser.map((item) => (
                       <>
                         <li
-                          key={item.title}
+                          key={item.href}
                           className='hover:text-blue-400 text-lg my-2 hover:font-semibold cursor-pointer'
                         >
                           <Link href={item.href}>{item.title}</Link>
