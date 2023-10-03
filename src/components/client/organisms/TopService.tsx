@@ -6,9 +6,14 @@ import { irukaraLogo } from '@/common/config/site.config';
 import { useEffect, useState } from 'react';
 import { getCookie } from '@/common/utils/authLINE/manageCookies';
 import { InButton, KanitFont, LineButton } from '@/components/client/atoms';
+import { useSession } from 'next-auth/react';
+import LoginModal from '../molecules/LoginModal';
 
 export default function TopService() {
   const [isUserId, setIsUserId] = useState<boolean>(false);
+  const [isModal, setModal] = useState<boolean>(false);
+
+  const { data } = useSession();
 
   useEffect(() => {
     (async () => {
@@ -20,7 +25,7 @@ export default function TopService() {
   }, [isUserId]);
 
   return (
-    <div className='flex flex-col pt-14 pb-12 bg-gradient-to-r from-sky-50 to-sky-100'>
+    <div className='flex flex-col py-14 bg-gradient-to-r from-sky-50 to-sky-100'>
       <div className='flex justify-center font-bold text-4xl py-4'>
         <KanitFont
           fontStyle='text-center font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-blue-700 to-sky-400'
@@ -36,23 +41,33 @@ export default function TopService() {
         />
       </div>
 
-      <div className='flex justify-center'>
-        {/* {liff.isLoggedIn() ? ( */}
-        <Link href='/mypage'>
-          <InButton
-            buttonStyle='bg-gradient-to-r from-blue-700 to-sky-500'
-            text='マイページへ'
-          />
-        </Link>
-        {/* ) : ( */}
-        <div className='flex flex-col justify-center w-full mx-4 md:mx-36'>
-          {/* <button onClick={lineLogin}>
-              <LineButton type={2} />
-            </button> */}
-          <p className='text-center py-4'>お友達登録がまだの方は</p>
-          {/* <LineButton type={1} /> */}
+      <div className='flex justify-center w-[85%] md:w-[70%] m-auto gap-4 md:flex-row flex-col'>
+        <div className='w-full mb-6 md:w-[50%]'>
+          {data ? (
+            <Link href='/mypage'>
+              <InButton
+                buttonStyle='px-2 py-4 bg-gradient-to-r from-blue-600 to-sky-500 text-xl'
+                text='マイページへ'
+              />
+            </Link>
+          ) : (
+            <div onClick={() => setModal(true)}>
+              <InButton
+                buttonStyle='px-2 py-4 bg-gradient-to-r from-blue-600 to-sky-500 text-xl'
+                text='ログイン'
+              />
+            </div>
+          )}
+          {isModal && <LoginModal isModal={isModal} closeModal={setModal} />}
         </div>
-        {/* )} */}
+        <div className='w-full md:w-[50%]'>
+          <LineButton
+            type={0}
+            className=''
+            size={30}
+            textClass='px-2 py-4 text-xl'
+          />
+        </div>
       </div>
     </div>
   );

@@ -129,15 +129,15 @@ export default function HamburgerMenu() {
                 ) : (
                   <>
                     {/* 未ログイン TODO クラスはまとめたい */}
-                    <div className='w-full md:w-9/12 mx-auto scale-100 md:scale-90 mt-4 mb-8 md:mb-6'>
+                    <div className='w-full mx-auto scale-100 mt-4 mb-8 md:mb-6'>
                       <LoginButton
                         type='line'
-                        className='py-2'
+                        className='py-2 w-full'
                         size={30}
                         textClass='ml-2 text-base font-bold'
                       />
                     </div>
-                    <div className='w-full md:w-9/12 mx-auto scale-100 md:scale-90'>
+                    <div className='w-full mx-auto scale-100'>
                       <LoginButton
                         type='google'
                         className='py-2'
