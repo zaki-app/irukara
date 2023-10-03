@@ -17,9 +17,6 @@ export default function LineButton({
   textClass,
 }: LineButtonProps) {
   const LINEME = process.env.NEXT_PUBLIC_LINE_ME ?? '';
-  const baseCss =
-    'bg-line flex text-white items-center justify-center rounded-lg py-2 px-8 hover:opacity-90';
-  const baseText = 'font-bold text-xl pl-4';
 
   return (
     <>
@@ -43,7 +40,7 @@ export default function LineButton({
         </a>
       )}
       {/* 友達追加 通常ボタン */}
-      {type === 1 && (
+      {/* {type === 1 && (
         <a href={LINEME} target='_blank' rel='noreferrer' className={baseCss}>
           <Image
             src={lineLogo}
@@ -53,9 +50,9 @@ export default function LineButton({
           />
           <div className={baseText}>お友だち追加</div>
         </a>
-      )}
+      )} */}
       {/* ログイン */}
-      {type === 2 && (
+      {/* {type === 2 && (
         <div className={baseCss}>
           <Image
             src={lineLogo}
@@ -65,7 +62,7 @@ export default function LineButton({
           />
           <div className={baseText}>LINEログイン</div>
         </div>
-      )}
+      )} */}
     </>
   );
 }

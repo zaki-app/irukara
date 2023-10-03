@@ -7,8 +7,7 @@ import Redirect from '@/components/client/template/Redirect';
 import type { SaveMessageDataType } from '@/types/fetchData';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
-import { signinClientUrl, signinServerUrl } from '@/common/config/auth.config';
-import { useSession } from 'next-auth/react';
+import { signinServerUrl } from '@/common/config/auth.config';
 
 export default async function MyPage() {
   // 未ログインはホームにリダイレクト

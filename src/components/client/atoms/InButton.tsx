@@ -8,7 +8,7 @@ interface ButtonProps {
 export default function InButton({ buttonStyle, text }: ButtonProps) {
   return (
     <div
-      className={`rounded-lg text-xl font-bold text-center shadow-md text-white py-4 px-14 mb-4 ${buttonStyle}`}
+      className={`cursor-pointer rounded-lg font-bold text-center shadow-md text-white hover:opacity-90 ${buttonStyle}`}
     >
       {text}
     </div>
