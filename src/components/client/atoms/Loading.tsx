@@ -1,14 +1,27 @@
 'use client';
 
-export default function Loading() {
+interface LoadingProps {
+  opacity: number;
+}
+
+// ローディングアイコン
+export default function Loading({ opacity }: LoadingProps) {
+  const items = Array.from({ length: 20 }, (_, i) => i + 1);
+
   return (
-    <div
-      className='flex justify-center items-center h-full w-full'
-      aria-label='読み込み中'
-    >
-      <div className='animate-ping h-2 w-2 bg-teal-600 rounded-full' />
-      <div className='animate-ping h-2 w-2 bg-teal-600 rounded-full mx-4' />
-      <div className='animate-ping h-2 w-2 bg-teal-600 rounded-full' />
-    </div>
+    <>
+      <div
+        className='loading-container'
+        style={{
+          opacity,
+        }}
+      >
+        <div className='loading'>
+          {items.map((item) => (
+            <span key={item} style={{ ['--i' as any]: item }} />
+          ))}
+        </div>
+      </div>
+    </>
   );
 }

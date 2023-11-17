@@ -26,13 +26,13 @@ export default function TopService() {
 
   return (
     <div className='flex flex-col py-14 bg-gradient-to-r from-sky-50 to-sky-100'>
-      <div className='flex justify-center font-bold text-4xl py-4'>
+      <div className='flex justify-center font-bold text-4xl py-4 animate-up'>
         <KanitFont
           fontStyle='text-center font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-blue-700 to-sky-400'
           text='Welcome to Irukara!!'
         />
       </div>
-      <div className='flex justify-center pt-4 pb-8'>
+      <div className='flex justify-center pt-4 pb-8 animate-up'>
         <Image
           src={irukaraLogo.src}
           alt={irukaraLogo.alt}
