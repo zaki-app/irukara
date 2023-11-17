@@ -1,0 +1,58 @@
+// 一番最初のローディング
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+  background: #010f1f;
+  position: fixed;
+  z-index: 999;
+  // opacity: 0.7;
+  cursor: wait;
+  .loading {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: rotate(calc(18deg * var(--i)));
+      // background: blue;
+      &::before {
+        opacity: 0;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #00c3ff;
+        animation: loading-animate 2s linear infinite;
+        animation-delay: calc(0.1s * var(--i));
+        // animation-delay: calc();
+      }
+    }
+  }
+}
+
+@keyframes loading-animate {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  80%,
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  // 80%,
+  // 100% {
+  //   transform: scale(0);
+  //   opacity: 0;
+  // }
+}

@@ -7,6 +7,7 @@ import { store } from '@/store';
 import { SessionProvider } from 'next-auth/react';
 import { SessionProps } from '@/types/auth';
 import { setUserProfile } from '@/store/auth/slice';
+import { Loading } from '../atoms';
 
 export default function ProvidersWrapper({
   children,
@@ -36,7 +37,7 @@ export default function ProvidersWrapper({
             {isLoaded ? (
               <div className='main-contents'>{children}</div>
             ) : (
-              <div className='main-contents'>色々ローディング中です</div>
+              <Loading opacity={1} />
             )}
             <div id='login-modal' />
             <div id='hamburger' />
