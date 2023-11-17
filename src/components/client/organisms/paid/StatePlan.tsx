@@ -5,6 +5,7 @@ import type { UserProfileSelector, PlanText } from '@/types/LineTypes';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import TextTruncate from '@/common/libs/textTruncate';
+import { Loading } from '../../atoms';
 
 export default function StatePlan({ text }: PlanText) {
   const userProfile: UserProfileSelector = useSelector(
@@ -55,7 +56,7 @@ export default function StatePlan({ text }: PlanText) {
           </div>
         </div>
       ) : (
-        <div>ユーザーローディング</div>
+        <Loading opacity={0.8} />
       )}
     </div>
   );
