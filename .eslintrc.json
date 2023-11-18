@@ -50,6 +50,7 @@
     "no-promise-executor-return": "off", // promise executor関数からの戻り値を禁止しない
     "no-empty-pattern": "off", // 空の分割代入を禁止しない
     "@typescript-eslint/no-empty-interface": "off", // 上と同じ
-    "react/no-danger": "off" // markdownを使用するためオフ
+    "react/no-danger": "off", // markdownを使用するためオフ
+    "react/require-default-props": "off" // 引数は空でもOK
   }
 }

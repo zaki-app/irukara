@@ -2,7 +2,8 @@ import React from 'react';
 import SectionWrapper from '@/components/client/template/SectionWrapper';
 import Image from 'next/image';
 import { irukamoBasic, irukamoBasicAlt } from '@/common/config/site.config';
-import { InButton } from '../../atoms';
+import { CHAT_TYPE } from '@/common/constants';
+import ChatArea from '../../molecules/openai/ChatArea';
 
 export default function TopPlayGround() {
   return (
@@ -20,16 +21,7 @@ export default function TopPlayGround() {
           </div>
           <p className='text-sm my-4'>※画像生成はログイン後に使用できます</p>
         </div>
-        <textarea
-          className='mt-2 bg-slate-200 p-2 w-full'
-          placeholder='1回だけ無料でお試しできます。'
-        />
-        <div>
-          <InButton
-            buttonStyle='max-w-[120px] mt-4 px-2 py-2 bg-gradient-to-r from-blue-600 to-sky-500 text-base'
-            text='送信'
-          />
-        </div>
+        <ChatArea type={CHAT_TYPE.TOP} />
       </div>
     </SectionWrapper>
   );

@@ -6,3 +6,8 @@ export const LINK_PATH = {
   PRIVACY_TITLE: 'プライバシーポリシー',
   PRIVACY: '/legal/privacy-policy',
 };
+
+// API
+export const API = {
+  CHAT_GPT: '/api/chat',
+};
