@@ -4,7 +4,7 @@ import { irukaraBasic, irukaraBasicAlt } from '@/common/config/site.config';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { InButton } from '@/components/client/atoms';
-import UserIcon from 'public/images/user.svg';
+// import UserIcon from 'public/images/user.svg';
 import { useChat } from 'ai/react';
 import { API } from '@/common/constants/path';
 
@@ -47,9 +47,7 @@ export default function ChatArea({ type }: ChatAreaProps) {
         />
         <p className='ml-2'>質問受付中...</p>
       </div>
-      <div className='mt-4'>
-        <UserIcon width={30} height={30} />
-      </div>
+      <div className='mt-4'>{/* <UserIcon width={30} height={30} /> */}</div>
       <form onSubmit={handleSubmit}>
         <textarea
           className='my-2 bg-slate-200 p-2 w-full'
