@@ -24,7 +24,7 @@ const nextConfig = {
       'cdn.stablediffusionapi.com',
       'cdn2.stablediffusionapi.com',
     ],
-    disableStaticImages: true, // importした画像の型定義設定を無効にする
+    // disableStaticImages: true, // importした画像の型定義設定を無効にする
   },
   // サーバー側で使用する環境変数
   env: {
@@ -42,20 +42,20 @@ const nextConfig = {
     OPEN_AI_API_KEY: process.env.OPEN_AI_API_KEY,
   },
   // SVGR
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: [
-        {
-          loader: '@svgr/webpack',
-          options: {
-            svgo: false, // 圧縮無効
-          },
-        },
-      ],
-    });
-    return config;
-  },
+  // webpack: (config) => {
+  //   config.module.rules.push({
+  //     test: /\.svg$/,
+  //     use: [
+  //       {
+  //         loader: '@svgr/webpack',
+  //         options: {
+  //           svgo: false, // 圧縮無効
+  //         },
+  //       },
+  //     ],
+  //   });
+  //   return config;
+  // },
 };
 
 // バンドルサイズ
