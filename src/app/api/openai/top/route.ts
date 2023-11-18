@@ -3,6 +3,12 @@ import { OpenAIStream, StreamingTextResponse } from 'ai';
 import { setTopChatGpt } from '@/common/utils/openai/config';
 
 export const runtime = 'edge';
+
+/**
+ * TOPページのチャット
+ * @param req
+ * @returns
+ */
 export async function POST(req: Request) {
   const config = new Configuration({
     apiKey: process.env.OPEN_AI_API_KEY,

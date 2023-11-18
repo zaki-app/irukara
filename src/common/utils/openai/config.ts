@@ -3,7 +3,6 @@ import {
   ChatCompletionRequestMessageRoleEnum,
   CreateChatCompletionRequest,
 } from 'openai-edge';
-import { ChatCompletionCreateParamsNonStreaming } from 'openai/resources';
 
 // topページ用
 export function setTopChatGpt(messages: any): CreateChatCompletionRequest {
