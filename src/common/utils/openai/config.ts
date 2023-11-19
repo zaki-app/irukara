@@ -4,8 +4,16 @@ import {
   CreateChatCompletionRequest,
 } from 'openai-edge';
 
+interface MessageType {
+  role: 'user';
+  content: string;
+}
+
 // topページ用
-export function setTopChatGpt(messages: any): CreateChatCompletionRequest {
+export function setTopChatGpt(
+  messages: MessageType[],
+): CreateChatCompletionRequest {
+  console.log('型を調べる', messages);
   const topParams: CreateChatCompletionRequest = {
     model: GPT_MODEL,
     stream: true,

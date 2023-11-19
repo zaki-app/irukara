@@ -7,13 +7,13 @@ import Redirect from '@/components/client/template/Redirect';
 import type { SaveMessageDataType } from '@/types/fetchData';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
-import { signinServerUrl } from '@/common/config/auth.config';
+import { CALLBACK } from '@/common/constants/path';
 
 export default async function MyPage() {
   // 未ログインはホームにリダイレクト
   const session = await getServerSession();
   console.log('mypage session', session);
-  if (!session) redirect(signinServerUrl);
+  if (!session) redirect(CALLBACK.SIGNIN_URL);
 
   // ログインしているユーザーの保存メッセージを取得
   const textChat: SaveMessageDataType = await fetchMessage();

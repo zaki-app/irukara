@@ -1,10 +1,10 @@
 'use client';
 
 import {
-  footerList,
+  FOOTER_LIST,
   irukaraSmile,
   irukaraSmileAlt,
-  siteTitle,
+  SITE_TITLE,
 } from '@/common/config/site.config';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -20,10 +20,10 @@ export default function Footer() {
             width={30}
             height={30}
           />
-          <h3 className='ml-4 font-bold text-xl'>{siteTitle}</h3>
+          <h3 className='ml-4 font-bold text-xl'>{SITE_TITLE}</h3>
         </div>
         <div className='flex flex-col md:flex-row md:justify-center md:items-center gap-3 text-semibold mb-4 '>
-          {footerList.list.map((list) => (
+          {FOOTER_LIST.LIST.map((list) => (
             <ul key={list.title}>
               <Link href={list.href}>
                 <li className=''>{list.title}</li>
@@ -31,7 +31,7 @@ export default function Footer() {
             </ul>
           ))}
         </div>
-        <p>{footerList.title}</p>
+        <p>{FOOTER_LIST.TITLE}</p>
       </div>
     </footer>
   );

@@ -6,15 +6,15 @@ import { signOut, useSession } from 'next-auth/react';
 import {
   irukamoBasic,
   irukamoBasicAlt,
-  siteConfig,
-  siteTitle,
+  SITE_CONFIG,
+  SITE_TITLE,
 } from '@/common/config/site.config';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
 import { allDeleteCookies } from '@/common/utils/authLINE/manageCookies';
-import { logoutUrl } from '@/common/config/auth.config';
+import { CALLBACK } from '@/common/constants/path';
 import LoginButton from '../atoms/LoginButton';
 
 /**
@@ -34,7 +34,7 @@ export default function HamburgerMenu() {
 
   // サインアウト
   async function clickSignOut() {
-    await signOut({ callbackUrl: logoutUrl });
+    await signOut({ callbackUrl: CALLBACK.LOGOUT_URL });
     allDeleteCookies();
   }
 
@@ -87,14 +87,14 @@ export default function HamburgerMenu() {
               <ul className='flex flex-col gap-2 p-8 mt-6'>
                 <li className='text-3xl font-bold mb-2 flex justify-center items-center'>
                   <Image
-                    src={siteConfig.icon}
+                    src={SITE_CONFIG.ICON}
                     width={30}
                     height={30}
-                    alt={siteConfig.logoAlt}
+                    alt={SITE_CONFIG.LOGO_ALT}
                   />
-                  <div className='ml-3'>{siteTitle}</div>
+                  <div className='ml-3'>{SITE_TITLE}</div>
                 </li>
-                {siteConfig.headerList.map((item) => (
+                {SITE_CONFIG.HEADER_LIST.map((item) => (
                   <li
                     key={item.href}
                     className='hover:text-blue-400 text-lg my-2 hover:font-semibold cursor-pointer'
@@ -107,7 +107,7 @@ export default function HamburgerMenu() {
                 {data ? (
                   <>
                     {/* ログインユーザーのみ */}
-                    {siteConfig.loginUser.map((item) => (
+                    {SITE_CONFIG.LOGIN_USER.map((item) => (
                       <>
                         <li
                           key={item.href}

@@ -9,5 +9,11 @@ export const LINK_PATH = {
 
 // API
 export const API = {
-  CHAT_GPT: '/api/chat',
+  TOP_GPT: '/api/openai/top',
+};
+
+// CALLBACK
+export const CALLBACK = {
+  SIGNIN_URL: '/api/auth/signin?callbackUrl=/server',
+  LOGOUT_URL: '/api/auth/signout',
 };

@@ -1,10 +1,13 @@
 'use client';
 
-import { irukaraBasic, irukaraBasicAlt } from '@/common/config/site.config';
+import {
+  DEFAULT_USER_LOGO,
+  irukaraBasic,
+  irukaraBasicAlt,
+} from '@/common/config/site.config';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 import { InButton } from '@/components/client/atoms';
-// import UserIcon from 'public/images/user.svg';
 import { useChat } from 'ai/react';
 import { API } from '@/common/constants/path';
 
@@ -14,40 +17,43 @@ interface ChatAreaProps {
 
 export default function ChatArea({ type }: ChatAreaProps) {
   const { input, handleInputChange, handleSubmit, isLoading, messages } =
-    useChat({ api: '/api/openai/top' });
-
-  console.log('メッセージ', messages);
-
-  // async function sendMessage() {
-  //   if (input) {
-  //     const params = {
-  //       // messages: { role: 'user', content: input as string },
-  //       input,
-  //       type,
-  //     };
-  //     const result = await fetch(API.CHAT_GPT, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(params),
-  //     });
-  //     console.log('レスポンス', await result.json());
-  //   }
-  // }
+    useChat({ api: API.TOP_GPT });
 
   return (
     <>
-      <div className='flex justify-start items-center'>
-        <Image
-          src={irukaraBasic}
-          alt={irukaraBasicAlt}
-          width={30}
-          height={30}
-        />
-        <p className='ml-2'>質問受付中...</p>
+      <div className='mt-4 flex justify-start items-center'>
+        <ul>
+          {messages.map((message) => (
+            <li
+              key={message.id}
+              className='flex justify-start items-center mb-2'
+            >
+              {/* ユーザー画像 */}
+              <div className='mr-4 max-w-[10%]'>
+                {message.role === 'user' ? (
+                  <Image
+                    src={DEFAULT_USER_LOGO}
+                    alt='ユーザーロゴ'
+                    width={30}
+                    height={30}
+                  />
+                ) : (
+                  <Image
+                    src={irukaraBasic}
+                    alt={irukaraBasicAlt}
+                    width={30}
+                    height={30}
+                  />
+                )}
+              </div>
+              {/* 質問と回答 */}
+              <div className='max-w-[90%] max-h-[100px] overflow-auto'>
+                {message.content}
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
-      <div className='mt-4'>{/* <UserIcon width={30} height={30} /> */}</div>
       <form onSubmit={handleSubmit}>
         <textarea
           className='my-2 bg-slate-200 p-2 w-full'
@@ -59,7 +65,6 @@ export default function ChatArea({ type }: ChatAreaProps) {
           <InButton
             buttonStyle='max-w-[120px] px-6 py-2 bg-gradient-to-r from-blue-600 to-sky-500 text-base'
             text='送信'
-            // onClick={() => sendMessage()}
           />
         </button>
       </form>

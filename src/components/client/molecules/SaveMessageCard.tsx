@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { irukaraLogo } from '@/common/config/site.config';
+import { IRUKARA_LOGO } from '@/common/config/site.config';
 import { dateFormat } from '@/common/libs/dateFromat';
 import { useEffect, useState } from 'react';
 import { ProfileImage } from '@/components/client/atoms';
@@ -40,8 +40,8 @@ export default function SaveMessageCard({
         <div>
           <div>
             <Image
-              src={irukaraLogo.src ?? null}
-              alt={irukaraLogo.alt}
+              src={IRUKARA_LOGO.src ?? null}
+              alt={IRUKARA_LOGO.alt}
               width={30}
               height={30}
             />
