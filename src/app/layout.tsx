@@ -1,9 +1,9 @@
 import React from 'react';
 import '@/styles/globals.scss';
 import {
-  defaultDescription,
-  siteConfig,
-  siteTitle,
+  DEFAULT_DESCRIPTION,
+  SITE_CONFIG,
+  SITE_TITLE,
 } from '@/common/config/site.config';
 import ProvidersWrapper from '@/components/client/template/ProvidersWrapper';
 import { getServerSession } from 'next-auth';
@@ -13,12 +13,12 @@ import { options } from './api/auth/[...nextauth]/options';
 // メタデータ
 export const metadata = {
   title: {
-    default: siteTitle,
-    template: `%s | ${siteTitle}`,
+    default: SITE_TITLE,
+    template: `%s | ${SITE_TITLE}`,
   },
-  description: defaultDescription,
+  description: DEFAULT_DESCRIPTION,
   icons: {
-    icon: siteConfig.icon,
+    icon: SITE_CONFIG.ICON,
   },
 };
 

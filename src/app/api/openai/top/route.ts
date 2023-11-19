@@ -7,14 +7,15 @@ export const runtime = 'edge';
 /**
  * TOPページのチャット
  * @param req
- * @returns
+ * @returns {false | StreamingTextResponse}
  */
 export async function POST(req: Request) {
-  const config = new Configuration({
-    apiKey: process.env.OPEN_AI_API_KEY,
-  });
-  const openai = new OpenAIApi(config);
   try {
+    const config = new Configuration({
+      apiKey: process.env.OPEN_AI_API_KEY,
+    });
+    const openai = new OpenAIApi(config);
+
     const { messages } = await req.json();
 
     const topConfig = setTopChatGpt(messages);

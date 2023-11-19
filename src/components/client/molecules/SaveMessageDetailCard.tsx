@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { irukaraLogo } from '@/common/config/site.config';
+import { IRUKARA_LOGO } from '@/common/config/site.config';
 import { dateFormat } from '@/common/libs/dateFromat';
 import { ProfileImage } from '@/components/client/atoms';
 
@@ -53,8 +53,8 @@ export default function SaveMessageDetailCard({
       <div>
         <div>
           <Image
-            src={irukaraLogo.src}
-            alt={irukaraLogo.alt}
+            src={IRUKARA_LOGO.src}
+            alt={IRUKARA_LOGO.alt}
             width={30}
             height={30}
           />

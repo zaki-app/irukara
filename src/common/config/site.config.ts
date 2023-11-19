@@ -1,20 +1,20 @@
-export const siteTitle = 'Irukara.net';
+export const SITE_TITLE = 'Irukara.net';
 
-export const defaultDescription =
+export const DEFAULT_DESCRIPTION =
   'IrukaraはLINE公式アカウントも運営しており、LINE上で保存したメッセージをIrukaraに保存して見返すことができる画期的なサービスです。すぐにお友達登録して一緒にお話ししましょう！';
 
-export const irukaraLogo = {
+export const IRUKARA_LOGO = {
   src: '/images/Irukara-left.png',
   alt: 'Irukara.netのキャラクターロゴ',
 };
 
-export const siteConfig = {
-  siteTitle: 'Irukara',
-  topHref: '/',
-  icon: '/logo/irukara-logo.svg',
-  headerLogo: '/logo/irukara-logo.svg',
-  logoAlt: 'Irukaraロゴ',
-  headerList: [
+export const SITE_CONFIG = {
+  TITLE: 'Irukara',
+  TOP_HREF: '/',
+  ICON: '/logo/irukara-logo.svg',
+  HEADER_LOGO: '/logo/irukara-logo.svg',
+  LOGO_ALT: 'Irukaraロゴ',
+  HEADER_LIST: [
     {
       title: '使い方',
       href: '/for-users/usage',
@@ -28,7 +28,7 @@ export const siteConfig = {
       href: '/for-users/membership',
     },
   ],
-  loginUser: [
+  LOGIN_USER: [
     {
       title: 'プロフィール',
       href: '#',
@@ -37,10 +37,10 @@ export const siteConfig = {
 };
 
 // フッターリスト
-export const footerList = {
-  title: '©︎ 2023 All rights reserved Irukara',
-  icon: '/images/irukara.webp',
-  list: [
+export const FOOTER_LIST = {
+  TITLE: '©︎ 2023 All rights reserved Irukara',
+  ICON: '/images/irukara.webp',
+  LIST: [
     { title: '利用規約', href: '/legal/irukara-terms' },
     { title: 'プライバシーポリシー', href: '/legal/privacy-policy' },
     {
@@ -102,3 +102,6 @@ export const irukamoBasic = '/images/Irukamo.png';
 export const irukaraBasicAlt = 'イルカラのキャラクター画像';
 export const irukaraSmileAlt = 'イルカラのキャラクター画像(笑顔)';
 export const irukamoBasicAlt = 'イルカモのキャラクター画像';
+
+// デフォルトユーザー
+export const DEFAULT_USER_LOGO = '/images/User.svg';

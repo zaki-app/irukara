@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { irukaraLogo } from '@/common/config/site.config';
+import { IRUKARA_LOGO } from '@/common/config/site.config';
 import { useEffect, useState } from 'react';
 import { getCookie } from '@/common/utils/authLINE/manageCookies';
 import { InButton, KanitFont, LineButton } from '@/components/client/atoms';
@@ -35,8 +35,8 @@ export default function TopService() {
         </div>
         <div className='flex justify-center pt-4 pb-8 animate-up'>
           <Image
-            src={irukaraLogo.src}
-            alt={irukaraLogo.alt}
+            src={IRUKARA_LOGO.src}
+            alt={IRUKARA_LOGO.alt}
             width={160}
             height={160}
           />

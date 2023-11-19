@@ -1,6 +1,6 @@
 'use client';
 
-import { siteConfig } from '@/common/config/site.config';
+import { SITE_CONFIG } from '@/common/config/site.config';
 import Image from 'next/image';
 
 import { useState } from 'react';
@@ -20,10 +20,10 @@ export default function Header() {
     <header className='shadow-md w-full fixed top-0 left-0 h-[5rem] z-[10]'>
       <div className='bg-nav text-white p-4 flex items-center justify-between'>
         <nav>
-          <a href={siteConfig.topHref} className='flex items-center'>
+          <a href={SITE_CONFIG.TOP_HREF} className='flex items-center'>
             <Image
-              src={siteConfig.headerLogo}
-              alt={siteConfig.logoAlt}
+              src={SITE_CONFIG.HEADER_LOGO}
+              alt={SITE_CONFIG.LOGO_ALT}
               width={50}
               height={50}
             />
