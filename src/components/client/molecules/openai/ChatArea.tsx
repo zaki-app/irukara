@@ -6,10 +6,11 @@ import {
   irukaraBasicAlt,
 } from '@/common/config/site.config';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import { InButton } from '@/components/client/atoms';
 import { useChat } from 'ai/react';
 import { API } from '@/common/constants/path';
+import { validateChat } from '@/common/utils/varidate/chat';
 
 interface ChatAreaProps {
   type: number;
@@ -18,6 +19,10 @@ interface ChatAreaProps {
 export default function ChatArea({ type }: ChatAreaProps) {
   const { input, handleInputChange, handleSubmit, isLoading, messages } =
     useChat({ api: API.TOP_GPT });
+
+  const [inputMsg, setInputMsg] = useState<string>('');
+  const [isValidate, setValidate] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
 
   return (
     <>
@@ -54,20 +59,40 @@ export default function ChatArea({ type }: ChatAreaProps) {
           ))}
         </ul>
       </div>
-      <form onSubmit={handleSubmit}>
-        <textarea
-          className='my-2 bg-slate-200 p-2 w-full'
-          placeholder='1回だけ無料でお試しできます。'
-          value={input}
-          onChange={handleInputChange}
+      {/* <form onSubmit={handleSubmit}> */}
+      <textarea
+        className='my-4 bg-slate-200 p-2 w-full'
+        placeholder='1回だけ無料でお試しできます。(質問は25文字以下です)'
+        // value={input}
+        // onChange={handleInputChange}
+        value={inputMsg}
+        onChange={(e) => {
+          const validate = validateChat(e.target.value);
+          if (e.target.value.length > 25) {
+            setInputMsg(e.target.value.slice(0, 25));
+          } else {
+            setInputMsg(e.target.value);
+          }
+          setValidate(validate.result);
+          if (validate.text.length > 0) {
+            setErrorMsg(validate.text);
+          }
+        }}
+      />
+      {isValidate && (
+        <p className='text-red-400 font-semibold mb-2'>{errorMsg}</p>
+      )}
+      <button disabled={isValidate}>
+        <InButton
+          buttonStyle={`${
+            !isValidate
+              ? 'max-w-[120px] px-6 py-2 bg-gradient-to-r text-base from-blue-600 to-sky-500'
+              : 'max-w-[120px] px-6 py-2 bg-gradient-to-r text-base bg-slate-400 text-gray-400'
+          }`}
+          text='送信'
         />
-        <button type='submit'>
-          <InButton
-            buttonStyle='max-w-[120px] px-6 py-2 bg-gradient-to-r from-blue-600 to-sky-500 text-base'
-            text='送信'
-          />
-        </button>
-      </form>
+      </button>
+      {/* </form> */}
     </>
   );
 }
