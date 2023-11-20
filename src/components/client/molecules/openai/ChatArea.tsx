@@ -8,63 +8,82 @@ import {
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { InButton } from '@/components/client/atoms';
-import { useChat } from 'ai/react';
 import { API } from '@/common/constants/path';
 import { validateChat } from '@/common/utils/varidate/chat';
+import { processChunks } from '@/common/utils/stream';
 
 interface ChatAreaProps {
   type: number;
 }
 
 export default function ChatArea({ type }: ChatAreaProps) {
-  const { input, handleInputChange, handleSubmit, isLoading, messages } =
-    useChat({ api: API.TOP_GPT });
-
   const [inputMsg, setInputMsg] = useState<string>('');
   const [isValidate, setValidate] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
+  const [chunkAnswer, setChunkAnswer] = useState<string>('');
+
+  async function sendQuestion(message: string) {
+    console.log('メッセージ', message);
+    if (isValidate || errorMsg.length > 1) {
+      setErrorMsg('アクセスが集中しています。時間をおいて再度お試しください');
+    } else {
+      try {
+        const response = await fetch(API.TOP_GPT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message,
+            type: 1,
+          }),
+        });
+
+        if (!response.ok) throw new Error(response.statusText);
+
+        const data = response.body;
+        if (!data) return;
+
+        const chunk = await processChunks(data);
+        setChunkAnswer((prev) => prev + chunk);
+      } catch (err) {
+        console.error('error...', err);
+        setErrorMsg('アクセスが集中しています。時間をおいて再度お試しください');
+      }
+    }
+  }
 
   return (
     <>
-      <div className='mt-4 flex justify-start items-center'>
-        <ul>
-          {messages.map((message) => (
-            <li
-              key={message.id}
-              className='flex justify-start items-center mb-2'
-            >
-              {/* ユーザー画像 */}
-              <div className='mr-4 max-w-[10%]'>
-                {message.role === 'user' ? (
-                  <Image
-                    src={DEFAULT_USER_LOGO}
-                    alt='ユーザーロゴ'
-                    width={30}
-                    height={30}
-                  />
-                ) : (
-                  <Image
-                    src={irukaraBasic}
-                    alt={irukaraBasicAlt}
-                    width={30}
-                    height={30}
-                  />
-                )}
-              </div>
-              {/* 質問と回答 */}
-              <div className='max-w-[90%] max-h-[100px] overflow-auto'>
-                {message.content}
-              </div>
-            </li>
-          ))}
-        </ul>
+      <div className='mt-6 flex justify-start items-center'>
+        <div>
+          <div className='flex justify-start items-center mb-2'>
+            <Image
+              src={DEFAULT_USER_LOGO}
+              alt='ユーザーロゴ'
+              width={30}
+              height={30}
+            />
+            <p className='ml-4'>{inputMsg}</p>
+          </div>
+          <div className='flex justify-start items-center'>
+            <Image
+              src={irukaraBasic}
+              alt={irukaraBasicAlt}
+              width={30}
+              height={30}
+            />
+            <p className='ml-4'>
+              {chunkAnswer.length > 0
+                ? chunkAnswer
+                : 'お試しは1日1回質問できるよ'}
+            </p>
+          </div>
+        </div>
       </div>
-      {/* <form onSubmit={handleSubmit}> */}
       <textarea
         className='my-4 bg-slate-200 p-2 w-full'
         placeholder='1回だけ無料でお試しできます。(質問は25文字以下です)'
-        // value={input}
-        // onChange={handleInputChange}
         value={inputMsg}
         onChange={(e) => {
           const validate = validateChat(e.target.value);
@@ -90,9 +109,9 @@ export default function ChatArea({ type }: ChatAreaProps) {
               : 'max-w-[120px] px-6 py-2 bg-gradient-to-r text-base bg-slate-400 text-gray-400'
           }`}
           text='送信'
+          onClick={() => sendQuestion(inputMsg)}
         />
       </button>
-      {/* </form> */}
     </>
   );
 }

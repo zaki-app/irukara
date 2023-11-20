@@ -17,3 +17,8 @@ export const CALLBACK = {
   SIGNIN_URL: '/api/auth/signin?callbackUrl=/server',
   LOGOUT_URL: '/api/auth/signout',
 };
+
+// external API
+export const EXTERNAL_API = {
+  GPT: 'https://api.openai.com/v1/chat/completions',
+};
