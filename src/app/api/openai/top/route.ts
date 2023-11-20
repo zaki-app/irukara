@@ -14,6 +14,7 @@ import {
  */
 
 export async function POST(req: NextRequest, res: NextResponse) {
+  console.log('openai api...', req);
   try {
     const { message, type } = await req.json();
     const config = setTopChatGpt(message);
@@ -29,6 +30,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
       },
       body: JSON.stringify(config),
     });
+
+    console.log('openai api res...', res);
 
     let counter = 0;
 
@@ -51,6 +54,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             try {
               const json = JSON.parse(data);
               const answer = json.choices[0].delta?.content ?? '';
+              console.log('openai api answer', answer);
 
               if (counter < 2 && (answer.match(/\n/) || []).length) {
                 return;
@@ -74,7 +78,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       },
     });
 
-    console.log('ストリーム', stream);
+    console.log('stream...', stream);
 
     return new NextResponse(stream);
   } catch (err) {
