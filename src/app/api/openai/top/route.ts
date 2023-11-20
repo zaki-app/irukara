@@ -15,7 +15,6 @@ import {
 
 export async function POST(req: NextRequest, res: NextResponse) {
   console.log('openai api...', req);
-  console.log('openai variables...', process.env);
   try {
     const { message, type } = await req.json();
     const config = setTopChatGpt(message);
@@ -74,6 +73,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         for await (const chunk of res.body as any) {
           console.log('res body', res.body);
+          console.log('chunkはどうなってる？', chunk);
           parser.feed(decoder.decode(chunk));
         }
       },
