@@ -11,6 +11,7 @@ import { InButton } from '@/components/client/atoms';
 import { API } from '@/common/constants/path';
 import { validateChat } from '@/common/utils/varidate/chat';
 import { processChunks } from '@/common/utils/stream';
+import { ERROR_MSG } from '@/common/utils/error/message';
 
 interface ChatAreaProps {
   type: number;
@@ -25,7 +26,7 @@ export default function ChatArea({ type }: ChatAreaProps) {
   async function sendQuestion(message: string) {
     console.log('メッセージ', message);
     if (isValidate || errorMsg.length > 1) {
-      setErrorMsg('アクセスが集中しています。時間をおいて再度お試しください');
+      setErrorMsg(ERROR_MSG.EXEC_ACCESS);
     } else {
       try {
         const response = await fetch(API.TOP_GPT, {
@@ -44,11 +45,20 @@ export default function ChatArea({ type }: ChatAreaProps) {
         const data = response.body;
         if (!data) return;
 
-        const chunk = await processChunks(data);
-        setChunkAnswer((prev) => prev + chunk);
+        const reader = data.getReader();
+        const decoder = new TextDecoder();
+        let done = false;
+
+        while (!done) {
+          const { value, done: doneReading } = await reader.read();
+          done = doneReading;
+          const chunkValue = decoder.decode(value);
+          console.log('chunk...', chunkValue);
+          setChunkAnswer((prev) => prev + chunkValue);
+        }
       } catch (err) {
         console.error('error...', err);
-        setErrorMsg('アクセスが集中しています。時間をおいて再度お試しください');
+        setErrorMsg(ERROR_MSG.EXEC_ACCESS);
       }
     }
   }
