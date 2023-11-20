@@ -8,7 +8,7 @@
     "prd": "env-cmd -f .env.prd next dev -p 18000",
     "build": "next build",
     "postbuild": "next-sitemap",
-    "start": "next start -p 18000",
+    "start": "next start -p 18001",
     "lint": "next lint --fix",
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "analyze": "ANALYZE=true next build",

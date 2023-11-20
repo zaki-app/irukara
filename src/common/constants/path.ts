@@ -9,7 +9,9 @@ export const LINK_PATH = {
 
 // API
 export const API = {
-  TOP_GPT: '/api/openai/top',
+  // TOP_GPT: '/api/openai/top',
+  TOP_GPT: '/api/playground/top',
+  RATE_LIMIT_TOP_CHAT: '/api/rate-limit?type=1',
 };
 
 // CALLBACK
