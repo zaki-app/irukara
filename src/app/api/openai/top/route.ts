@@ -15,7 +15,7 @@ import {
 
 export async function POST(req: NextRequest, res: NextResponse) {
   console.log('openai api...', req);
-  console.log('openai variables...', process.env.OPENAI_API_KEY);
+  console.log('openai variables...', process.env);
   try {
     const { message, type } = await req.json();
     const config = setTopChatGpt(message);
