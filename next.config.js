@@ -24,7 +24,6 @@ const nextConfig = {
       'cdn.stablediffusionapi.com',
       'cdn2.stablediffusionapi.com',
     ],
-    // disableStaticImages: true, // importした画像の型定義設定を無効にする
   },
   // サーバー側で使用する環境変数
   env: {
@@ -39,23 +38,10 @@ const nextConfig = {
     NEXT_AUTH_AWS_SECRET_KEY: process.env.NEXT_AUTH_AWS_SECRET_KEY,
     NEXT_AUTH_AWS_REGION: process.env.NEXT_AUTH_AWS_REGION,
     CURRENT_STAGE: process.env.CURRENT_STAGE,
-    OPEN_AI_API_KEY: process.env.OPEN_AI_API_KEY,
+    OPENAI_API_KEY: process.env.OPEN_AI_API_KEY,
+    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
   },
-  // SVGR
-  // webpack: (config) => {
-  //   config.module.rules.push({
-  //     test: /\.svg$/,
-  //     use: [
-  //       {
-  //         loader: '@svgr/webpack',
-  //         options: {
-  //           svgo: false, // 圧縮無効
-  //         },
-  //       },
-  //     ],
-  //   });
-  //   return config;
-  // },
 };
 
 // バンドルサイズ
