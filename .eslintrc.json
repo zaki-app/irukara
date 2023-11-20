@@ -51,9 +51,6 @@
     "no-empty-pattern": "off", // 空の分割代入を禁止しない
     "@typescript-eslint/no-empty-interface": "off", // 上と同じ
     "react/no-danger": "off", // markdownを使用するためオフ
-    "react/require-default-props": "off", // 引数は空でもOK
-    "no-useless-return": "off", // 不要なreturnでも残しておく
-    "no-restricted-syntax": "off", // for ofの使用を許可する
-    "no-await-in-loop": "off" // loop中のawaitを許可する
+    "react/require-default-props": "off" // 引数は空でもOK
   }
 }
