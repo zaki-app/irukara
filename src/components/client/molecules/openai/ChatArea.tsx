@@ -11,6 +11,8 @@ import { InButton } from '@/components/client/atoms';
 import { API } from '@/common/constants/path';
 import { validateChat } from '@/common/utils/varidate/chat';
 import { processChunks } from '@/common/utils/stream';
+import { postAPI } from '@/common/utils/api';
+import { ERROR_MSG } from '@/common/utils/error/message';
 
 interface ChatAreaProps {
   type: number;
@@ -23,32 +25,22 @@ export default function ChatArea({ type }: ChatAreaProps) {
   const [chunkAnswer, setChunkAnswer] = useState<string>('');
 
   async function sendQuestion(message: string) {
-    console.log('メッセージ', message);
     if (isValidate || errorMsg.length > 1) {
-      setErrorMsg('アクセスが集中しています。時間をおいて再度お試しください');
+      setErrorMsg(ERROR_MSG.EXEC_ACCESS);
     } else {
       try {
-        const response = await fetch(API.TOP_GPT, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            message,
-            type: 1,
-          }),
-        });
+        const response = await postAPI(API.TOP_GPT, { message, type: 1 });
 
-        if (!response.ok) throw new Error(response.statusText);
-
-        const data = response.body;
-        if (!data) return;
-
-        const chunk = await processChunks(data);
-        setChunkAnswer((prev) => prev + chunk);
+        if (response.ok) {
+          const data = response.body;
+          const chunk = await processChunks(data);
+          setChunkAnswer((prev) => prev + chunk);
+        } else {
+          setErrorMsg(ERROR_MSG.EXEC_ACCESS);
+        }
       } catch (err) {
         console.error('error...', err);
-        setErrorMsg('アクセスが集中しています。時間をおいて再度お試しください');
+        setErrorMsg(ERROR_MSG.EXEC_ACCESS);
       }
     }
   }
