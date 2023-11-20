@@ -11,7 +11,6 @@ import { InButton } from '@/components/client/atoms';
 import { API } from '@/common/constants/path';
 import { validateChat } from '@/common/utils/varidate/chat';
 import { processChunks } from '@/common/utils/stream';
-import { postAPI } from '@/common/utils/api';
 import { ERROR_MSG } from '@/common/utils/error/message';
 
 interface ChatAreaProps {
@@ -25,18 +24,37 @@ export default function ChatArea({ type }: ChatAreaProps) {
   const [chunkAnswer, setChunkAnswer] = useState<string>('');
 
   async function sendQuestion(message: string) {
+    console.log('メッセージ', message);
     if (isValidate || errorMsg.length > 1) {
       setErrorMsg(ERROR_MSG.EXEC_ACCESS);
     } else {
       try {
-        const response = await postAPI(API.TOP_GPT, { message, type: 1 });
+        const response = await fetch(API.TOP_GPT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message,
+            type: 1,
+          }),
+        });
 
-        if (response.ok) {
-          const data = response.body;
-          const chunk = await processChunks(data);
-          setChunkAnswer((prev) => prev + chunk);
-        } else {
-          setErrorMsg(ERROR_MSG.EXEC_ACCESS);
+        if (!response.ok) throw new Error(response.statusText);
+
+        const data = response.body;
+        if (!data) return;
+
+        const reader = data.getReader();
+        const decoder = new TextDecoder();
+        let done = false;
+
+        while (!done) {
+          const { value, done: doneReading } = await reader.read();
+          done = doneReading;
+          const chunkValue = decoder.decode(value);
+          console.log('chunk...', chunkValue);
+          setChunkAnswer((prev) => prev + chunkValue);
         }
       } catch (err) {
         console.error('error...', err);
