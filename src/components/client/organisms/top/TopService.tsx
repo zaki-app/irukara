@@ -22,6 +22,7 @@ export default function TopService() {
         setIsUserId(true);
       }
     })();
+    console.log('env', process.env.CURRENT_STAGE);
   }, [isUserId]);
 
   return (
