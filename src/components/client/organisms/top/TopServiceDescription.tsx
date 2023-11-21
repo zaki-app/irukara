@@ -15,6 +15,7 @@ export default function TopServiceDescription() {
           <br />
           見返せる優れものです
         </h2>
+        <p>{process.env.CURRENT_STAGE}</p>
       </div>
       <div>
         <h2>
