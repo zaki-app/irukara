@@ -1,20 +1,18 @@
-name: irukara CI
+name: dev.irukara deploy
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
-on: push
+on:
+  push:
+    branches:
+      - develop
 
 jobs:
-  # main以外
-  preview-deploy:
-    if: ${{ github.ref != 'refs/heads/main' }}
+  dev-deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: develop
-      url: ${{ steps.deploy.outputs.url }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull irukara-dev Environment Information
@@ -23,4 +21,3 @@ jobs:
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
-  # prd-deploy:
