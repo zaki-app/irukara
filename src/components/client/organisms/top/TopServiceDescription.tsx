@@ -15,7 +15,8 @@ export default function TopServiceDescription() {
           <br />
           見返せる優れものです
         </h2>
-        <p>{process.env.CURRENT_STAGE}に現在います。</p>
+        <p>{process.env.CURRENT_STAGE}に現在います。他の環境変数は？</p>
+        <p>{process.env.NEXT_PUBLIC_STAGE}は見れるか？</p>
       </div>
       <div>
         <h2>
