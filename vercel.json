@@ -6,5 +6,8 @@
       "main": false
     }
   },
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "github": {
+    "silent": true
+  }
 }
