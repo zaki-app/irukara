@@ -1,23 +1,23 @@
-name: stg.irukara deploy
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+# name: stg.irukara deploy
+# env:
+#   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+#   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
-on:
-  push:
-    branches:
-      - staging
+# on:
+# #   push:
+# #     branches:
+# #       - staging
 
-jobs:
-  stg-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-      - name: Pull irukara-stg Environment
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy to stg
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+# jobs:
+#   stg-deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Install Vercel CLI
+#         run: npm install --global vercel@latest
+#       - name: Pull irukara-stg Environment
+#         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+#       - name: Build Project Artifacts
+#         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+#       - name: Deploy to stg
+#         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
