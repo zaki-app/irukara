@@ -2,6 +2,7 @@
 
 export default function TopServiceDescription() {
   console.log('環境変数API', process.env.IRUKARA_API_ENDPOINT);
+  console.log('basic user', process.env.BASIC_USER);
   return (
     <div className='font-semibold text-2xl bg-gray-300 py-12 px-4'>
       <div className='mb-10'>
