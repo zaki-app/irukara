@@ -17,6 +17,7 @@ export default function TopServiceDescription() {
         </h2>
         <p>{process.env.CURRENT_STAGE}に現在います。他の環境変数は？</p>
         <p>{process.env.NEXT_PUBLIC_STAGE}は見れるか？</p>
+        <p>vercelの自動デプロイは停止した</p>
       </div>
       <div>
         <h2>
