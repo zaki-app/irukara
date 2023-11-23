@@ -1,7 +1,7 @@
 'use client';
 
 export default function TopServiceDescription() {
-  console.log('環境変数', process.env);
+  console.log('環境変数API', process.env.IRUKARA_API_ENDPOINT);
   return (
     <div className='font-semibold text-2xl bg-gray-300 py-12 px-4'>
       <div className='mb-10'>
@@ -17,7 +17,6 @@ export default function TopServiceDescription() {
           見返せる優れものです
         </h2>
         <p>{process.env.CURRENT_STAGE}に現在います。他の環境変数は？</p>
-        <p>{process.env.NEXT_PUBLIC_STAGE}は見れるか？</p>
         <p>vercelの自動デプロイは停止しました</p>
       </div>
       <div>
