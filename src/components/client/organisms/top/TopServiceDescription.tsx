@@ -1,6 +1,7 @@
 'use client';
 
 export default function TopServiceDescription() {
+  console.log('環境変数', process.env.NEXT_PUBLIC_STAGE);
   return (
     <div className='font-semibold text-2xl bg-gray-300 py-12 px-4'>
       <div className='mb-10'>
