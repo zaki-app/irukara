@@ -8,7 +8,7 @@ on: push
 jobs:
   # main以外
   preview-deploy:
-    if: ${{ github.ref !== 'refs/heads/main' }}
+    if: ${{ github.ref != 'refs/heads/main' }}
     runs-on: ubuntu-latest
     environment:
       name: develop
