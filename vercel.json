@@ -1,10 +1,6 @@
 {
   "git": {
-    "deploymentEnabled": {
-      "develop": false,
-      "staging": false,
-      "main": false
-    }
+    "deploymentEnabled": false
   },
   "framework": "nextjs",
   "github": {
