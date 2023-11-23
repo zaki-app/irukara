@@ -1,0 +1,16 @@
+// 下から上に出現するテキスト
+.animate-up {
+  opacity: 0;
+  animation: make-up-animate 0.5s ease-out forwards;
+}
+
+@keyframes make-up-animate {
+  0% {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

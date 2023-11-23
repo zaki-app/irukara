@@ -1,12 +1,56 @@
 {
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
   "extends": [
     "airbnb",
-    "plugin:@typescript-eslint/recommended",
     "airbnb-typescript",
-    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
+  "overrides": [],
+  // 対象外のファイル
+  "ignorePatterns": [
+    "next.config.js",
+    "tailwind.config.js",
+    "postcss.config.js",
+    "next-sitemap.config.js"
+  ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
     "project": "./tsconfig.json"
+  },
+  "plugins": ["react", "@typescript-eslint"],
+  "root": true,
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "."
+      }
+    }
+  },
+  "rules": {
+    // "indent": ["error", 2],
+    "no-console": "off", // console.log
+    "react/react-in-jsx-scope": "off", // tsxの時、必要がなければReactをimportしなくてもよい
+    "react/button-has-type": "off", // buttonにtype属性がなくてもよい
+    "import/no-extraneous-dependencies": "off", // dependenciesのimportでもエラーになる時があるので一時的にオフ
+    "no-shadow": "off", // 上位スコープのエラーをスルー
+    "@typescript-eslint/no-shadow": "warn",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/no-static-element-interactions": "off", // divでもonclickをしたいので
+    "import/prefer-default-export": "off", // 1ファイル必ずdefault exportがないとダメのエラーはオフ
+    "react/jsx-no-useless-fragment": "off", // 上位にフラグメントがあってもエラーにしない
+    "no-promise-executor-return": "off", // promise executor関数からの戻り値を禁止しない
+    "no-empty-pattern": "off", // 空の分割代入を禁止しない
+    "@typescript-eslint/no-empty-interface": "off", // 上と同じ
+    "react/no-danger": "off", // markdownを使用するためオフ
+    "react/require-default-props": "off" // 引数は空でもOK
   }
 }
