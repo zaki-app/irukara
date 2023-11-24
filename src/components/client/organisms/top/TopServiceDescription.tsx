@@ -2,6 +2,12 @@
 
 export default function TopServiceDescription() {
   console.log('basic user', process.env.BASIC_USER);
+  console.log(
+    'upstash',
+    process.env.UPSTASH_REDIS_REST_URL,
+    process.env.UPSTASH_REDIS_REST_TOKEN,
+  );
+
   return (
     <div className='font-semibold text-2xl bg-gray-300 py-12 px-4'>
       <div className='mb-10'>
