@@ -9,6 +9,11 @@ import { Redis } from '@upstash/redis';
  * @returns
  */
 export async function GET(req: NextRequest) {
+  console.log(
+    'redis',
+    process.env.UPSTASH_REDIS_REST_URL,
+    process.env.UPSTASH_REDIS_REST_TOKEN,
+  );
   try {
     // typeを取得する
     const limitType = req.nextUrl.searchParams.get('type');
@@ -18,16 +23,12 @@ export async function GET(req: NextRequest) {
       ',',
     )[0];
 
+    console.log('ipアドレス', ip);
+
     const redis = new Redis({
       url: process.env.UPSTASH_REDIS_REST_URL as string,
       token: process.env.UPSTASH_REDIS_REST_TOKEN as string,
     });
-
-    console.log(
-      'redis',
-      process.env.UPSTASH_REDIS_REST_URL,
-      process.env.UPSTASH_REDIS_REST_TOKEN,
-    );
 
     let limitTime;
     let limitCount;
