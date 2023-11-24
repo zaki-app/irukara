@@ -17,7 +17,7 @@ interface ChatAreaProps {
 }
 
 export default function ChatArea({ type }: ChatAreaProps) {
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
+  const { messages, handleInputChange, handleSubmit } = useChat({
     api: API.TOP_GPT,
   });
 
@@ -25,7 +25,7 @@ export default function ChatArea({ type }: ChatAreaProps) {
   const [isValidate, setValidate] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
-  console.log('メッセージです', messages);
+  // console.log('メッセージです', messages);
 
   return (
     <>

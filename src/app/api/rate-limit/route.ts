@@ -23,11 +23,22 @@ export async function GET(req: NextRequest) {
       token: process.env.UPSTASH_REDIS_REST_TOKEN as string,
     });
 
+    console.log(
+      'redis',
+      process.env.UPSTASH_REDIS_REST_URL,
+      process.env.UPSTASH_REDIS_REST_TOKEN,
+    );
+
     let limitTime;
     let limitCount;
     if (Number(limitType) === 1) {
-      limitCount = 2;
-      limitTime = '86400 s';
+      if (process.env.CURRENT_STAGE === 'dev') {
+        limitCount = 10;
+        limitTime = '10 s';
+      } else {
+        limitCount = 2;
+        limitTime = '86400 s';
+      }
     } else if (limitType) {
       limitCount = 10;
       limitTime = '10 s';
