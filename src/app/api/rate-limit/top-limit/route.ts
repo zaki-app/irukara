@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
   console.log('redisが実行');
   try {
     // typeを取得する
-    const limitType = req.nextUrl.searchParams.get('type');
+    // const limitType = req.nextUrl.searchParams.get('type');
 
     // ipアドレスを取得
     const ip = (req.headers.get('x-forwarded-for') ?? '127.0.0.1').split(
@@ -28,18 +28,18 @@ export async function GET(req: NextRequest) {
 
     let limitTime;
     let limitCount;
-    if (Number(limitType) === 1) {
-      if (process.env.CURRENT_STAGE === 'dev') {
-        limitCount = 10;
-        limitTime = '10 s';
-      } else {
-        limitCount = 2;
-        limitTime = '86400 s';
-      }
-    } else if (limitType) {
+    // if (Number(limitType) === 1) {
+    if (process.env.CURRENT_STAGE === 'dev') {
       limitCount = 10;
       limitTime = '10 s';
+    } else {
+      limitCount = 2;
+      limitTime = '86400 s';
     }
+    // } else if (limitType) {
+    //   limitCount = 10;
+    //   limitTime = '10 s';
+    // }
 
     const ratelimit = new Ratelimit({
       redis,
