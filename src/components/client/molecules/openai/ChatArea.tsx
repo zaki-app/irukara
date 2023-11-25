@@ -66,13 +66,17 @@ export default function ChatArea({ type }: ChatAreaProps) {
       </div>
       <form
         onSubmit={async (e) => {
-          e.preventDefault();
-          const res = await fetch(API.RATE_LIMIT_TOP_CHAT);
-          const rate = await res.json();
-          if (rate.result) {
-            handleSubmit(e);
-          } else {
-            console.log('rate limit error...', rate);
+          try {
+            e.preventDefault();
+            const res = await fetch(API.RATE_LIMIT_TOP_CHAT);
+            const rate = await res.json();
+            if (rate.result) {
+              handleSubmit(e);
+            } else {
+              console.log('rate limit error...', rate);
+            }
+          } catch (err) {
+            console.error('rate limit error2...', err);
           }
         }}
       >
