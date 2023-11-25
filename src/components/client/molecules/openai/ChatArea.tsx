@@ -73,7 +73,7 @@ export default function ChatArea({ type }: ChatAreaProps) {
             if (rate.result) {
               handleSubmit(e);
             } else {
-              console.log('rate limit error...', rate);
+              console.log('rate limit error...1', rate);
             }
           } catch (err) {
             console.error('rate limit error2...', err);
