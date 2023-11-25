@@ -10,6 +10,9 @@ import { getServerSession } from 'next-auth';
 import { SessionProps } from '@/types/auth';
 import { options } from './api/auth/[...nextauth]/options';
 
+// fetch error throw
+export const dynamic = 'force-static';
+
 // メタデータ
 export const metadata = {
   title: {
