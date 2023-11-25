@@ -71,6 +71,8 @@ export default function ChatArea({ type }: ChatAreaProps) {
           const rate = await res.json();
           if (rate.result) {
             handleSubmit(e);
+          } else {
+            console.log('rate limit error...', rate);
           }
         }}
       >

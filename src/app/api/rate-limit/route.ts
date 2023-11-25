@@ -9,11 +9,7 @@ import { Redis } from '@upstash/redis';
  * @returns
  */
 export async function GET(req: NextRequest) {
-  console.log(
-    'redis',
-    process.env.UPSTASH_REDIS_REST_URL,
-    process.env.UPSTASH_REDIS_REST_TOKEN,
-  );
+  console.log('redisが実行');
   try {
     // typeを取得する
     const limitType = req.nextUrl.searchParams.get('type');
