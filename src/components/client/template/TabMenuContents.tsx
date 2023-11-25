@@ -28,7 +28,6 @@ export default function TabMenuContents({ textChat }: TabMenuContentsProps) {
 
     // 急ぐ必要がない
     if (tabNumber === 0) {
-      console.log('テキストチャット', tabNumber);
       textChatTransition();
     }
   }
