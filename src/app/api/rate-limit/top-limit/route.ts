@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * レートリミット
  * @param req
@@ -9,7 +11,7 @@ import { Redis } from '@upstash/redis';
  * @returns
  */
 export async function GET(req: NextRequest) {
-  console.log('redisが実行');
+  console.log('redisが実行', req);
   try {
     // typeを取得する
     // const limitType = req.nextUrl.searchParams.get('type');
