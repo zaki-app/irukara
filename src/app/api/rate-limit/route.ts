@@ -71,6 +71,6 @@ export async function GET(req: NextRequest) {
   } catch (err) {
     console.error('rate limit error...', err);
 
-    return NextResponse.json({ result: false });
+    return NextResponse.json({ result: false, message: err });
   }
 }
