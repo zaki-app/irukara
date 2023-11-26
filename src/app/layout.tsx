@@ -9,8 +9,6 @@ import ProvidersWrapper from '@/components/client/template/ProvidersWrapper';
 import { getServerSession } from 'next-auth';
 import { SessionProps } from '@/types/auth';
 import { options } from './api/auth/[...nextauth]/options';
-// fetch error throw
-// export const dynamic = 'force-dynamic';
 
 // メタデータ
 export const metadata = {

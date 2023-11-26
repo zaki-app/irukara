@@ -18,7 +18,7 @@ export default function ProvidersWrapper({
 }) {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  console.log('クライアントsession', session);
+  console.log('client session...', session);
 
   if (session?.user) {
     store.dispatch(setUserProfile(session.user));

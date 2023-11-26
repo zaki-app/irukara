@@ -9,7 +9,6 @@ export const LINK_PATH = {
 
 // API
 export const API = {
-  // TOP_GPT: '/api/openai/top',
   TOP_GPT: '/api/playground/top',
   RATE_LIMIT_TOP_CHAT: '/api/rate-limit/top-limit',
 };
@@ -22,5 +21,6 @@ export const CALLBACK = {
 
 // external API
 export const EXTERNAL_API = {
-  GPT: 'https://api.openai.com/v1/chat/completions',
+  GOOGLE_AUTH: 'https://accounts.google.com/o/oauth2/v2/auth?',
+  GOOGLE_TOKEN: 'https://oauth2.googleapis.com/token?',
 };

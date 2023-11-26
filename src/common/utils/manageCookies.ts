@@ -3,14 +3,20 @@
 import { cookies } from 'next/headers';
 
 // cookiesに保存する
-export async function setCookie(name: string, value: string) {
+export async function setCookie(name: string, value: string, option?: Date) {
   console.time('cookies');
+  // デフォルトは1日
+  const defaultExpires = Date.now() + 24 * 60 * 60 * 1000;
+
+  const expires = option || defaultExpires;
+
   cookies().set({
     name,
     value,
     httpOnly: true,
     path: '/',
   });
+  cookies().set(name, value, { expires });
   console.timeEnd('cookies');
 }
 
@@ -77,6 +83,12 @@ export async function allDeleteCookies() {
   });
   cookies().set({
     name: 'irukaraAT',
+    value: '',
+    expires: new Date('2016-10-6'),
+    path: '/',
+  });
+  cookies().set({
+    name: 'irukaraID',
     value: '',
     expires: new Date('2016-10-6'),
     path: '/',

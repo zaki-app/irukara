@@ -1,5 +1,5 @@
 import logColor from '@/common/config/logColor';
-import { getCookie } from '@/common/utils/authLINE/manageCookies';
+import { getCookie } from '@/common/utils/manageCookies';
 import { NextRequest, NextResponse } from 'next/server';
 
 interface ImageApiResponse {

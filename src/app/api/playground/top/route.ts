@@ -1,4 +1,4 @@
-import { setTopChatGpt } from '@/common/utils/openai/config';
+import { setTopChatGpt } from '@/common/libs/openai/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { Configuration, OpenAIApi } from 'openai-edge';
 import { OpenAIStream, StreamingTextResponse } from 'ai';

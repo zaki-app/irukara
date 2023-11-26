@@ -16,20 +16,24 @@ export const SITE_CONFIG = {
   LOGO_ALT: 'Irukaraロゴ',
   HEADER_LIST: [
     {
+      id: 1,
       title: '使い方',
       href: '/for-users/usage',
     },
     {
+      id: 2,
       title: 'お問い合わせ',
       href: '/for-users/contact',
     },
     {
+      id: 3,
       title: '料金プラン',
       href: '/for-users/membership',
     },
   ],
   LOGIN_USER: [
     {
+      id: 1,
       title: 'プロフィール',
       href: '#',
     },

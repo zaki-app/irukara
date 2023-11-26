@@ -13,7 +13,7 @@ import { FaBarsStaggered } from 'react-icons/fa6';
 import { FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
-import { allDeleteCookies } from '@/common/utils/authLINE/manageCookies';
+import { allDeleteCookies } from '@/common/utils/manageCookies';
 import { CALLBACK } from '@/common/constants/path';
 import LoginButton from '../atoms/LoginButton';
 
@@ -96,7 +96,7 @@ export default function HamburgerMenu() {
                 </li>
                 {SITE_CONFIG.HEADER_LIST.map((item) => (
                   <li
-                    key={item.href}
+                    key={item.id}
                     className='hover:text-blue-400 text-lg my-2 hover:font-semibold cursor-pointer'
                   >
                     <Link href={item.href} onClick={() => hamburgerToggle()}>
@@ -110,7 +110,7 @@ export default function HamburgerMenu() {
                     {SITE_CONFIG.LOGIN_USER.map((item) => (
                       <>
                         <li
-                          key={item.href}
+                          key={item.id}
                           className='hover:text-blue-400 text-lg my-2 hover:font-semibold cursor-pointer'
                         >
                           <Link href={item.href}>{item.title}</Link>
