@@ -68,6 +68,7 @@ export default function ChatArea({ type }: ChatAreaProps) {
         onSubmit={async (e) => {
           try {
             e.preventDefault();
+            setInputMsg('');
             const res = await fetch(API.RATE_LIMIT_TOP_CHAT);
             const rate = await res.json();
             if (rate.result) {

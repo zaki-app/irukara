@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { IRUKARA_LOGO } from '@/common/config/site.config';
 import { useEffect, useState } from 'react';
-import { getCookie } from '@/common/utils/authLINE/manageCookies';
+import { getCookie } from '@/common/utils/manageCookies';
 import { InButton, KanitFont, LineButton } from '@/components/client/atoms';
 import { useSession } from 'next-auth/react';
 import LoginModal from '@/components/client/molecules/LoginModal';

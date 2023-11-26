@@ -1,4 +1,4 @@
-import { getCookie } from '@/common/utils/authLINE/manageCookies';
+import { getCookie } from '@/common/utils/manageCookies';
 import type { SaveMessageData } from '@/types/fetchData';
 
 interface AllSaveMessageProps {

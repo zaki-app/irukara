@@ -18,6 +18,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn2.stablediffusionapi.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
     ],
     domains: [
       'scdn.line-apps.com',

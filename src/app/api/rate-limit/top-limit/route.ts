@@ -11,7 +11,6 @@ export const dynamic = 'force-dynamic';
  * @returns
  */
 export async function GET(req: NextRequest) {
-  console.log('redisが実行', req);
   try {
     // typeを取得する
     // const limitType = req.nextUrl.searchParams.get('type');
@@ -20,8 +19,6 @@ export async function GET(req: NextRequest) {
     const ip = (req.headers.get('x-forwarded-for') ?? '127.0.0.1').split(
       ',',
     )[0];
-
-    console.log('ipアドレス', ip);
 
     const redis = new Redis({
       url: process.env.UPSTASH_REDIS_REST_URL as string,
