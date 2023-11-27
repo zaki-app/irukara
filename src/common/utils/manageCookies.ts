@@ -11,13 +11,10 @@ export async function getCookie(name: string) {
 
 // cookiesに保存する
 export async function setCookie(name: string, value: string, option?: Date) {
-  console.time('cookies');
   // デフォルトは1日
   const defaultExpires = Date.now() + 24 * 60 * 60 * 1000;
 
   const expires = option || defaultExpires;
-
-  console.log('セットクッキー', expires);
 
   cookies().set({
     name,
@@ -26,13 +23,12 @@ export async function setCookie(name: string, value: string, option?: Date) {
     path: '/',
     expires,
     secure: true,
+    sameSite: 'lax',
   });
-  console.timeEnd('cookies');
 }
 
 // cookieを全て削除
 export async function allDeleteCookies() {
-  console.time('cookies2');
   cookies().set({
     name: COOKIE_NAME.IRUKARA_ID,
     value: '',
@@ -51,7 +47,12 @@ export async function allDeleteCookies() {
     expires: new Date('2016-10-6'),
     path: '/',
   });
-  console.timeEnd('cookies2');
+  cookies().set({
+    name: COOKIE_NAME.IRUKARA_EXPIRES_AT,
+    value: '',
+    expires: new Date('2016-10-6'),
+    path: '/',
+  });
 }
 
 // 特定のcookieを削除

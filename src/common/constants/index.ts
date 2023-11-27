@@ -10,7 +10,8 @@ export const CHAT_TYPE = {
 
 // cookie
 export const COOKIE_NAME = {
-  IRUKARA_ID: 'IRUKARA_ID',
-  IRUKARA_JWT: 'IRUKARA_JWT',
-  IRUKARA_PROVIDER: 'IRUKARA_PROVIDER',
+  IRUKARA_ID: '__auth-irukara-id',
+  IRUKARA_JWT: '__auth-irukara-jwt',
+  IRUKARA_EXPIRES_AT: '__atuh_irukara_expires_at',
+  IRUKARA_PROVIDER: '__auth-irukara-provider',
 };
