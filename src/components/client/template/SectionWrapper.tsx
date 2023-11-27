@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface CommonWrapperProps {
-  colorName: string;
-  styleName: string;
+  colorName?: string;
+  styleName?: string;
   children: React.ReactNode;
 }
 

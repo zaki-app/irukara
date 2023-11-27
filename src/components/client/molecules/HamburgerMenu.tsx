@@ -108,11 +108,8 @@ export default function HamburgerMenu() {
                   <>
                     {/* ログインユーザーのみ */}
                     {SITE_CONFIG.LOGIN_USER.map((item) => (
-                      <>
-                        <li
-                          key={item.id}
-                          className='hover:text-blue-400 text-lg my-2 hover:font-semibold cursor-pointer'
-                        >
+                      <React.Fragment key={item.id}>
+                        <li className='hover:text-blue-400 text-lg my-2 hover:font-semibold cursor-pointer'>
                           <Link href={item.href}>{item.title}</Link>
                         </li>
                         <li>
@@ -123,7 +120,7 @@ export default function HamburgerMenu() {
                             サインアウト
                           </button>
                         </li>
-                      </>
+                      </React.Fragment>
                     ))}
                   </>
                 ) : (
