@@ -47,6 +47,7 @@ const nextConfig = {
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     BASIC_USER: process.env.BASIC_USER,
     BASIC_PASSWORD: process.env.BASIC_PASSWORD,
+    GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
   },
 };
 
