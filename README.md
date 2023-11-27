@@ -7,7 +7,7 @@ npm run dev
 
 ### ユーザーテーブル
 
-{stage}-AuthUserTable
+{stage}-IrukaraUsersTable
 | 保存カラム | 型 | index | コメント |
 | :--- | :--- | :--- | :--- |
 | id | string | PK | uuid |

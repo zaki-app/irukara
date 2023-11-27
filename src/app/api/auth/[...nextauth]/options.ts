@@ -4,17 +4,6 @@ import LineProvider from 'next-auth/providers/line';
 import { setCookie } from '@/common/utils/manageCookies';
 import { COOKIE_NAME } from '@/common/constants';
 import createUserIdHash from '@/common/libs/createHash';
-import { refreshTokenFn } from './refreshTokenFn';
-
-// next-authの型を拡張
-// declare module 'next-auth' {
-//   interface Session {
-//     user: {
-//       id?: string;
-//       accessToken?: string;
-//     } & DefaultSession['user'];
-//   }
-// }
 
 export const options: NextAuthOptions = {
   session: { strategy: 'jwt', maxAge: 24 * 60 * 60 },
@@ -36,36 +25,48 @@ export const options: NextAuthOptions = {
     LineProvider({
       clientId: process.env.LINE_CLIENT_ID as string,
       clientSecret: process.env.LINE_CLIENT_SECRET as string,
+      checks: 'nonce',
     }),
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
+      // console.log('ユーザーサインイン', user, account, profile);
       // ここでユーザーを検索して、なかったら登録する
-      // ユーザーID、provider、refreshした1日だけ有効のaccesstokenを保存
-      const refresh = await refreshTokenFn(account?.refresh_token as string);
+
       // 必要な情報をcookieに保存する
-      setCookie(
-        COOKIE_NAME.IRUKARA_ID,
-        createUserIdHash(profile?.sub as string),
-      );
-      setCookie(COOKIE_NAME.IRUKARA_JWT, refresh.accessToken);
-      setCookie(COOKIE_NAME.IRUKARA_PROVIDER, account?.provider as string);
+      if (account && profile) {
+        // lineの場合は有効期限が長いのでaccessTokenを保存。googleはrefreshTokenを保存
+        const { provider } = account;
+
+        if (provider === 'google') {
+          setCookie(COOKIE_NAME.IRUKARA_JWT, account.refresh_token as string);
+        } else if (provider === 'line') {
+          setCookie(COOKIE_NAME.IRUKARA_JWT, account.access_token as string);
+        }
+
+        setCookie(
+          COOKIE_NAME.IRUKARA_ID,
+          createUserIdHash(profile.sub as string),
+        );
+        setCookie(COOKIE_NAME.IRUKARA_PROVIDER, provider as string);
+        setCookie(
+          COOKIE_NAME.IRUKARA_EXPIRES_AT,
+          account.expires_at?.toString() as string,
+        );
+      }
       return true;
     },
-    // async jwt({ token, account, profile }) {
-    //   // console.log('jwtです account', account);
-    //   console.log('jwtです token', token);
-
-    //   // const updatedToken = { ...props.token };
-
-    //   // return updatedToken;
-    //   return token;
-    // },
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
     async session(props) {
-      // console.log('セッションです', props);
+      console.log('セッションです', props.session);
 
-      const updatedSession = { ...props.session };
-      return updatedSession;
+      const responseSession = {
+        ...props.session,
+      };
+
+      return responseSession;
     },
     // signIn後のリダイレクト先
     async redirect(props) {
