@@ -25,7 +25,7 @@ export const options: NextAuthOptions = {
     LineProvider({
       clientId: process.env.LINE_CLIENT_ID as string,
       clientSecret: process.env.LINE_CLIENT_SECRET as string,
-      checks: 'nonce',
+      // checks: 'nonce',
     }),
   ],
   callbacks: {
