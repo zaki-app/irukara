@@ -19,6 +19,7 @@ export const metadata = {
   description: DEFAULT_DESCRIPTION,
   icons: {
     icon: SITE_CONFIG.ICON,
+    apple: SITE_CONFIG.ICON,
   },
 };
 
