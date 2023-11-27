@@ -6,9 +6,10 @@ import {
   TopServicePaid,
   TopLastMessage,
 } from '@/components/client/organisms';
-import TopPlayGround from '@/components/client/organisms/top/TopPlayGround';
+import TopPlayGround from '@/components/client/organisms/top/nologin/TopPlayGround';
 import { getServerSession } from 'next-auth';
 import { SessionProps } from '@/types/auth';
+import TopMyPage from '@/components/client/organisms/top/login/TopMyPage';
 import { options } from './api/auth/[...nextauth]/options';
 
 export default async function Home() {
@@ -28,7 +29,7 @@ export default async function Home() {
           <TopLastMessage />
         </>
       ) : (
-        <div>ログインしました</div>
+        <TopMyPage session={session} />
       )}
     </div>
   );
