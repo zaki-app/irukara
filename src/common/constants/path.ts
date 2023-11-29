@@ -24,3 +24,9 @@ export const EXTERNAL_API = {
   GOOGLE_AUTH: 'https://accounts.google.com/o/oauth2/v2/auth?',
   GOOGLE_TOKEN: 'https://oauth2.googleapis.com/token?',
 };
+
+// Lambda API
+export const LAMBDA_API = process.env.IRUKARA_API_ENDPOINT;
+export const IRUKARA_API = {
+  GET_USER_ID: `${LAMBDA_API}search-user/{userId}`,
+};

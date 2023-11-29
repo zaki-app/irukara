@@ -29,7 +29,7 @@ export default async function Home() {
           <TopLastMessage />
         </>
       ) : (
-        <TopMyPage session={session} />
+        <TopMyPage />
       )}
     </div>
   );

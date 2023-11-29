@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { FaCaretDown } from 'react-icons/fa';
 import { KanitFont } from '../atoms';
 import LoginModal from '../molecules/LoginModal';
 import HamburgerMenu from '../molecules/HamburgerMenu';
@@ -14,7 +15,7 @@ export default function Header() {
   const [isModal, setModal] = useState(false);
 
   // user session
-  const { data } = useSession();
+  const { data: session } = useSession();
 
   return (
     <header className='shadow-md w-full fixed top-0 left-0 h-[5rem] z-[10]'>
@@ -32,7 +33,7 @@ export default function Header() {
         </nav>
         <div className='flex items-center'>
           {/* ログインボタン モーダル */}
-          {!data ? (
+          {!session ? (
             <button
               className='bg-line py-2 px-3 mr-4 rounded-lg font-bold shadow-lg hover:bg-green-600'
               type='button'
@@ -41,9 +42,21 @@ export default function Header() {
               ログイン
             </button>
           ) : (
-            <button className='bg-line py-2 px-3 mr-4 rounded-lg font-bold shadow-lg hover:bg-green-600'>
-              マイページへ
-            </button>
+            <div className='mr-4 bg-gray-700 p-2 rounded-lg'>
+              <div className='flex justify-center items-center'>
+                <Image
+                  src={session.user.image}
+                  alt='ユーザー画像'
+                  width={30}
+                  height={30}
+                  className='rounded-full mr-2 border-solid border-2'
+                />
+                <FaCaretDown
+                  onClick={() => console.log('クリックされました')}
+                />
+                {/* <div className='ant-dropdown-trigger'>アントデザイン</div> */}
+              </div>
+            </div>
           )}
           {isModal && <LoginModal isModal={isModal} closeModal={setModal} />}
           {/* ハンバーガーメニュー */}
