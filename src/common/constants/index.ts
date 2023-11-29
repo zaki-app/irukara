@@ -15,3 +15,18 @@ export const COOKIE_NAME = {
   IRUKARA_EXPIRES_AT: '__atuh_irukara_expires_at',
   IRUKARA_PROVIDER: '__auth-irukara-provider',
 };
+
+// プラン
+export const PLAN = [
+  '無料プラン',
+  'イルカモプラン', // 350円
+  'イルカラプラン', // 980円
+  '無料プラン', // イルカモから無料
+  '無料プラン', // イルカラから無料
+  'イルカラプラン', // イルカモからイルカラ
+  'イルカモプラン', // イルカラからイルカモ
+  'イルカモVIP', // 無制限
+  'イルカモプラン', // VIPからイルカモ
+  'イルカラプラン', // VIPからイルカラ
+  '無料プラン', // VIPから無料
+];
