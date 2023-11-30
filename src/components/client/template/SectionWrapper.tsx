@@ -13,7 +13,9 @@ export default function SectionWrapper({
 }: CommonWrapperProps) {
   return (
     <section className={colorName}>
-      <div className={styleName}>{children}</div>
+      <div className={`text-gray-500 ${styleName && styleName}`}>
+        {children}
+      </div>
     </section>
   );
 }

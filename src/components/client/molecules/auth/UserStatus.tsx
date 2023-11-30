@@ -3,8 +3,8 @@
 import { GetUserIdRes } from '@/types/auth/api';
 import { useEffect, useState } from 'react';
 import { PLAN } from '@/common/constants';
-import Card from '../atoms/Card';
-import SectionWrapper from '../template/SectionWrapper';
+import Card from '../../atoms/Card';
+import SectionWrapper from '../../template/SectionWrapper';
 
 interface UserStatusProps {
   userData: GetUserIdRes | boolean;

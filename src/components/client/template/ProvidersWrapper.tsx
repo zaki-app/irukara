@@ -9,6 +9,7 @@ import { SessionProps } from '@/types/auth';
 import { setUserProfile } from '@/store/auth/slice';
 import { Loading } from '../atoms';
 import Analytics from '../atoms/gtag/Analytics';
+import StyledComponentsRegistry from '../molecules/auth/libs/AntdRegistry';
 
 export default function ProvidersWrapper({
   children,
@@ -37,7 +38,9 @@ export default function ProvidersWrapper({
           <Provider store={store}>
             <Header />
             {isLoaded ? (
-              <div className='main-contents'>{children}</div>
+              <StyledComponentsRegistry>
+                <div className='main-contents'>{children}</div>
+              </StyledComponentsRegistry>
             ) : (
               <Loading opacity={1} />
             )}
