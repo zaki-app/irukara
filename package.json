@@ -18,7 +18,7 @@
     "ngrok": "ngrok http 18000"
   },
   "dependencies": {
-    "@ant-design/cssinjs": "^1.18.0-alpha.5",
+    "@ant-design/cssinjs": "1.17.5",
     "@auth/dynamodb-adapter": "^1.0.1",
     "@aws-sdk/client-dynamodb": "^3.405.0",
     "@aws-sdk/lib-dynamodb": "^3.405.0",
