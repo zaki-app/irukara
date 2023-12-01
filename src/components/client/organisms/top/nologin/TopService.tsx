@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { getCookie } from '@/common/utils/manageCookies';
 import { InButton, KanitFont, LineButton } from '@/components/client/atoms';
 import { useSession } from 'next-auth/react';
-import LoginModal from '@/components/client/molecules/LoginModal';
+import LoginModal from '@/components/client/molecules/header/LoginModal';
 
 export default function TopService() {
   const [isUserId, setIsUserId] = useState<boolean>(false);
