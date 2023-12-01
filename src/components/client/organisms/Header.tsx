@@ -7,8 +7,9 @@ import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { FaCaretDown } from 'react-icons/fa';
 import { KanitFont } from '../atoms';
-import LoginModal from '../molecules/LoginModal';
-import HamburgerMenu from '../molecules/HamburgerMenu';
+import LoginModal from '../molecules/header/LoginModal';
+import HamburgerMenu from '../molecules/header/HamburgerMenu';
+import LoginUserCard from '../molecules/header/LoginUserCard';
 
 export default function Header() {
   // modal
@@ -42,21 +43,7 @@ export default function Header() {
               ログイン
             </button>
           ) : (
-            <div className='mr-4 bg-gray-700 p-2 rounded-lg'>
-              <div className='flex justify-center items-center'>
-                <Image
-                  src={session.user.image}
-                  alt='ユーザー画像'
-                  width={30}
-                  height={30}
-                  className='rounded-full mr-2 border-solid border-2'
-                />
-                <FaCaretDown
-                  onClick={() => console.log('クリックされました')}
-                />
-                {/* <div className='ant-dropdown-trigger'>アントデザイン</div> */}
-              </div>
-            </div>
+            <LoginUserCard session={session} />
           )}
           {isModal && <LoginModal isModal={isModal} closeModal={setModal} />}
           {/* ハンバーガーメニュー */}

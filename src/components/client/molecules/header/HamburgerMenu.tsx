@@ -15,7 +15,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { allDeleteCookies } from '@/common/utils/manageCookies';
 import { CALLBACK } from '@/common/constants/path';
-import LoginButton from '../atoms/LoginButton';
+import LoginButton from '../../atoms/LoginButton';
 
 /**
  * ハンバーガーメニュー
