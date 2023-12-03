@@ -26,8 +26,8 @@ export function dateFormat(time: number) {
 /* 今日の日付の場合は時間、昨日より前は月日 */
 export function currentTime(time: number): string {
   let formatAt: string;
-  const currentUnix = dayjs().startOf('day').unix();
-  if (currentUnix < time) {
+  const nowUnix = dayjs().startOf('day').unix();
+  if (nowUnix < time) {
     formatAt = dayjs(time * 1000)
       .tz()
       .format('HH:mm');
@@ -37,4 +37,9 @@ export function currentTime(time: number): string {
       .format('MM/DD');
   }
   return formatAt;
+}
+
+/* 現在のunix時間を取得 */
+export function currentUnix() {
+  return dayjs().unix();
 }

@@ -24,5 +24,5 @@ export const dynamoAdapter = DynamoDBAdapter(client, {
   tableName:
     process.env.CURRENT_STAGE === 'local'
       ? 'local-next-auth-table'
-      : `${process.env.CURRENT_STAGE}-AuthUserManagerTable`,
+      : `${process.env.CURRENT_STAGE}-IrukaraAuth`,
 });

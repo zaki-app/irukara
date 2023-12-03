@@ -43,7 +43,7 @@ export default function Header() {
               ログイン
             </button>
           ) : (
-            <LoginUserCard session={session} />
+            <LoginUserCard />
           )}
           {isModal && <LoginModal isModal={isModal} closeModal={setModal} />}
           {/* ハンバーガーメニュー */}

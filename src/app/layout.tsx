@@ -7,7 +7,7 @@ import {
 } from '@/common/config/site.config';
 import ProvidersWrapper from '@/components/client/template/ProvidersWrapper';
 import { getServerSession } from 'next-auth';
-import { SessionProps } from '@/types/auth';
+import { SessionUserInfo } from '@/types/auth';
 import { options } from './api/auth/[...nextauth]/options';
 
 // メタデータ
@@ -28,7 +28,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = (await getServerSession(options)) as SessionProps;
+  const session = (await getServerSession(options)) as SessionUserInfo;
   return (
     <ProvidersWrapper session={session}>
       <div>{children}</div>
