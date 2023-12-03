@@ -1,37 +1,22 @@
 'use client';
 
+import { RootState } from '@/store';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
 
 export default function UserProfile() {
-  const { data: session, update } = useSession();
-
-  async function updateSession() {
-    // if (session) session.user.accessToken = 'dddd';
-
-    await update({
-      ...session,
-      user: {
-        ...session?.user,
-        accessToken: 'newsession',
-      },
-    });
-  }
+  // const { data: session, update } = useSession();
+  const { name, image } = useSelector(
+    (state: RootState) => state.authUserProfileSlice,
+  );
 
   return (
     <div>
-      <p>{session?.user.name}さんがログインしています</p>
-      {session?.user.image && (
-        <Image
-          src={session.user.image as string}
-          alt='ユーザーイメージ'
-          width={50}
-          height={50}
-        />
+      <p>{name}さんがログインしています</p>
+      {image && (
+        <Image src={image} alt='ユーザーイメージ' width={50} height={50} />
       )}
-      <button className='bg-red-300' onClick={updateSession}>
-        update
-      </button>
     </div>
   );
 }

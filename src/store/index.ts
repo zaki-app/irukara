@@ -10,6 +10,6 @@ export type RootState = ReturnType<typeof rootReducers>;
 
 export const store = configureStore({
   reducer: rootReducers,
-  // 本番環境ではRedux拡張機能を無効にする
-  devTools: process.env.NODE_ENV !== 'production',
+  // Redux拡張機能が有効のステージ
+  devTools: process.env.CURRENT_STAGE === 'dev',
 });

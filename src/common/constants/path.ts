@@ -17,6 +17,8 @@ export const API = {
 export const CALLBACK = {
   SIGNIN_URL: '/api/auth/signin?callbackUrl=/server',
   LOGOUT_URL: '/api/auth/signout',
+  SERVER_LOGOUT_URL: '/api/auth/signout?callbackUrl=/api/auth/session',
+  LOGOUT_CSRF: '/api/auth/csrf',
 };
 
 // external API

@@ -1,14 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { UserProfile } from '@/types/LineTypes';
-import { SessionUserInfo } from '@/types/auth';
+
+interface AuthUserProfileType {
+  name: string;
+  email?: string;
+  image: string;
+}
 
 /** ユーザープロフィールを保存 */
-const initialState: SessionUserInfo = {
+const initialState: AuthUserProfileType = {
   name: '',
   email: '',
   image: '',
-  id: '',
 };
 
 const AuthUserProfileSlice = createSlice({
@@ -17,8 +20,8 @@ const AuthUserProfileSlice = createSlice({
   /* 情報をセットする */
   reducers: {
     setUserProfile: (
-      state: SessionUserInfo,
-      action: PayloadAction<SessionUserInfo>,
+      state: AuthUserProfileType,
+      action: PayloadAction<AuthUserProfileType>,
     ) => ({
       ...state,
       name: action.payload.name,

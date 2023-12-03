@@ -35,7 +35,7 @@ export default function HamburgerMenu() {
   // サインアウト
   async function clickSignOut() {
     await signOut({ callbackUrl: CALLBACK.LOGOUT_URL });
-    allDeleteCookies();
+    await allDeleteCookies();
   }
 
   return (
