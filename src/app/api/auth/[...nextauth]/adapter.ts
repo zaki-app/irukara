@@ -1,3 +1,5 @@
+import { COOKIE_NAME } from '@/common/constants';
+import { getCookie } from '@/common/utils/manageCookies';
 import { DynamoDBAdapter } from '@auth/dynamodb-adapter';
 import { DynamoDB, DynamoDBClientConfig } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb';
@@ -26,3 +28,12 @@ export const dynamoAdapter = DynamoDBAdapter(client, {
       ? 'local-next-auth-table'
       : `${process.env.CURRENT_STAGE}-IrukaraAuth`,
 });
+
+// テーブルからセッションを削除(next-authのセッションのみ)
+export async function deleteNextAuthSession() {
+  const sessionToken = await getCookie(COOKIE_NAME.NEXT_AUTH_SESSION);
+  if (dynamoAdapter.deleteSession) {
+    const deleteSession = await dynamoAdapter.deleteSession(sessionToken);
+    console.log('delete session...', await deleteSession);
+  }
+}

@@ -10,12 +10,12 @@ import { GetUserIdRes } from '@/types/auth/api';
  * @returns
  */
 export default async function TopMyPage() {
-  const response = await getUserId();
+  // const response = await getUserId();
 
   return (
     <PageWrapper>
       {/* 上にプラン情報 */}
-      <UserStatus userData={response} />
+      <UserStatus />
       {/* チャット・画像生成エリア */}
       <GenerateArea />
     </PageWrapper>

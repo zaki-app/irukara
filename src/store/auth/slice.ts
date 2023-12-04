@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthUserProfileType {
+  isAuth: boolean;
   name: string;
   email?: string;
   image: string;
@@ -9,6 +10,7 @@ interface AuthUserProfileType {
 
 /** ユーザープロフィールを保存 */
 const initialState: AuthUserProfileType = {
+  isAuth: false,
   name: '',
   email: '',
   image: '',
@@ -24,6 +26,7 @@ const AuthUserProfileSlice = createSlice({
       action: PayloadAction<AuthUserProfileType>,
     ) => ({
       ...state,
+      isAuth: action.payload.isAuth,
       name: action.payload.name,
       email: action.payload.email,
       image: action.payload.image,

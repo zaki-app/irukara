@@ -6,14 +6,17 @@ import { IRUKARA_LOGO } from '@/common/config/site.config';
 import { useEffect, useState } from 'react';
 import { getCookie } from '@/common/utils/manageCookies';
 import { InButton, KanitFont, LineButton } from '@/components/client/atoms';
-import { useSession } from 'next-auth/react';
 import LoginModal from '@/components/client/molecules/header/LoginModal';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 export default function TopService() {
   const [isUserId, setIsUserId] = useState<boolean>(false);
   const [isModal, setModal] = useState<boolean>(false);
 
-  const { data } = useSession();
+  const { isAuth } = useSelector(
+    (state: RootState) => state.authUserProfileSlice,
+  );
 
   useEffect(() => {
     (async () => {
@@ -45,7 +48,7 @@ export default function TopService() {
 
         <div className='flex justify-center w-[85%] md:w-[70%] m-auto gap-4 md:flex-row flex-col'>
           <div className='w-full mb-6 md:w-[50%]'>
-            {data ? (
+            {isAuth ? (
               <Link href='/mypage'>
                 <InButton
                   buttonStyle='px-2 py-4 bg-gradient-to-r from-blue-600 to-sky-500 text-xl'
