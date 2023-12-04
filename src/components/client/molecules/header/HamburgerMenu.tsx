@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import {
   irukamoBasic,
   irukamoBasicAlt,
@@ -15,6 +15,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { allDeleteCookies } from '@/common/utils/manageCookies';
 import { CALLBACK } from '@/common/constants/path';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 import LoginButton from '../../atoms/LoginButton';
 
 /**
@@ -24,7 +26,9 @@ import LoginButton from '../../atoms/LoginButton';
 export default function HamburgerMenu() {
   const [isHamburger, setHamburger] = useState<boolean>(false);
   // ユーザーの状態を取得
-  const { data } = useSession();
+  const { isAuth } = useSelector(
+    (state: RootState) => state.authUserProfileSlice,
+  );
 
   function hamburgerToggle() {
     setTimeout(() => {
@@ -104,7 +108,7 @@ export default function HamburgerMenu() {
                     </Link>
                   </li>
                 ))}
-                {data ? (
+                {isAuth ? (
                   <>
                     {/* ログインユーザーのみ */}
                     {SITE_CONFIG.LOGIN_USER.map((item) => (

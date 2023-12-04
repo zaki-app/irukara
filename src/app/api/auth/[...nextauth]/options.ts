@@ -3,6 +3,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import LineProvider from 'next-auth/providers/line';
 import {
   allDeleteCookies,
+  deleteCookie,
   getCookie,
   setCookie,
 } from '@/common/utils/manageCookies';
@@ -10,9 +11,11 @@ import { COOKIE_NAME } from '@/common/constants';
 import createUserIdHash from '@/common/libs/createHash';
 import { currentUnix } from '@/common/libs/dateFromat';
 import { Adapter } from 'next-auth/adapters';
-import { signOut } from 'next-auth/react';
+import { getCsrfToken, signOut } from 'next-auth/react';
 import { CALLBACK } from '@/common/constants/path';
-import { dynamoAdapter } from './adapter';
+import { DynamoDBAdapter } from '@auth/dynamodb-adapter';
+import { deleteNextAuthSession, dynamoAdapter } from './adapter';
+import searchUser from './searchUser';
 
 export const options: NextAuthOptions = {
   session: { strategy: 'database', maxAge: 24 * 60 * 60 },
@@ -51,21 +54,27 @@ export const options: NextAuthOptions = {
         // lineの場合は有効期限が長いのでaccessTokenを保存。googleはrefreshTokenを保存
         const { provider } = account;
 
+        const userId = createUserIdHash(profile.sub as string);
+
         if (provider === 'google') {
-          setCookie(COOKIE_NAME.IRUKARA_JWT, account.refresh_token as string);
+          setCookie(COOKIE_NAME.IRUKARA_JWT, account.access_token as string);
+          setCookie(
+            COOKIE_NAME.IRUKARA_REFRESH,
+            account.refresh_token as string,
+          );
         } else if (provider === 'line') {
           setCookie(COOKIE_NAME.IRUKARA_JWT, account.access_token as string);
         }
 
-        setCookie(
-          COOKIE_NAME.IRUKARA_ID,
-          createUserIdHash(profile.sub as string),
-        );
+        setCookie(COOKIE_NAME.IRUKARA_ID, userId);
         setCookie(COOKIE_NAME.IRUKARA_PROVIDER, provider as string);
         setCookie(
           COOKIE_NAME.IRUKARA_EXPIRES_AT,
           account.expires_at?.toString() as string,
         );
+        // ユーザー登録or更新処理
+        // const userResult = await searchUser(userId);
+        // console.log('ユーザー登録状況', userResult);
       }
       return true;
     },
@@ -80,18 +89,26 @@ export const options: NextAuthOptions = {
 
         if (expiresCookie === undefined || Number(expiresCookie) < unix) {
           console.log('cookieがないか有効期限切れ', expiresCookie, unix);
+          try {
+            // nextauthのセッションをdynamodbから削除する
+            await deleteNextAuthSession();
+          } catch (err) {
+            console.error('server signout error...', err);
+          }
+
           response = null;
         } else {
-          response = { ...session.user };
+          response = { ...session.user, isAuth: true };
+          console.log('isAuth', response.isAuth);
         }
       }
-
-      console.log('response session...', response);
-
       return response;
     },
     // signIn後のリダイレクト先
-    async redirect({ baseUrl }) {
+    async redirect({ url, baseUrl }) {
+      const csrfToken = await getCsrfToken();
+      console.log('csrf', csrfToken);
+      console.log('リダイレクト', url, baseUrl);
       return baseUrl;
     },
   },

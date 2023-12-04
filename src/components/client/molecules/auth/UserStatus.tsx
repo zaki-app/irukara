@@ -10,20 +10,20 @@ interface UserStatusProps {
   userData: GetUserIdRes | boolean;
 }
 
-export default function UserStatus({ userData }: UserStatusProps) {
-  console.log('userstatus', userData);
+export default function UserStatus() {
+  // console.log('userstatus', userData);
   const [plan, setPlan] = useState<string>('');
   const [weekMsg, setWeekMsg] = useState<number>(0);
   const [weekImage, setWeekImage] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
-    if (typeof userData !== 'boolean') {
-      setPlan(PLAN[userData.status]);
-      setWeekMsg(userData.weekMsg);
-      setWeekImage(userData.weekImg);
-      setTotal(userData.weekMsg + userData.weekImg);
-    }
+    // if (typeof userData !== 'boolean') {
+    //   setPlan(PLAN[userData.status]);
+    //   setWeekMsg(userData.weekMsg);
+    //   setWeekImage(userData.weekImg);
+    //   setTotal(userData.weekMsg + userData.weekImg);
+    // }
   }, []);
 
   return (

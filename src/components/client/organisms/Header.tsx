@@ -4,8 +4,9 @@ import { SITE_CONFIG } from '@/common/config/site.config';
 import Image from 'next/image';
 
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
 import { FaCaretDown } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 import { KanitFont } from '../atoms';
 import LoginModal from '../molecules/header/LoginModal';
 import HamburgerMenu from '../molecules/header/HamburgerMenu';
@@ -14,9 +15,9 @@ import LoginUserCard from '../molecules/header/LoginUserCard';
 export default function Header() {
   // modal
   const [isModal, setModal] = useState(false);
-
-  // user session
-  const { data: session } = useSession();
+  const { isAuth } = useSelector(
+    (state: RootState) => state.authUserProfileSlice,
+  );
 
   return (
     <header className='shadow-md w-full fixed top-0 left-0 h-[5rem] z-[10]'>
@@ -34,7 +35,7 @@ export default function Header() {
         </nav>
         <div className='flex items-center'>
           {/* ログインボタン モーダル */}
-          {!session ? (
+          {!isAuth ? (
             <button
               className='bg-line py-2 px-3 mr-4 rounded-lg font-bold shadow-lg hover:bg-green-600'
               type='button'

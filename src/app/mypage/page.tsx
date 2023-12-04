@@ -4,21 +4,17 @@ import TabMenuContents from '@/components/client/template/TabMenuContents';
 import Redirect from '@/components/client/template/Redirect';
 
 import type { SaveMessageDataType } from '@/types/fetchData';
-import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { CALLBACK } from '@/common/constants/path';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 import UserProfile from '@/components/client/organisms/mypage/UserProfile';
 
 export default async function MyPage() {
-  const session = await getServerSession(options);
-
-  // セッションがない場合はhomeにリダイレクト
-  if (!session) {
-    redirect('/');
-  }
-
-  return <>{session ? <UserProfile /> : <div>ログインしてません</div>}</>;
+  return (
+    <>
+      <div>マイページです</div>
+    </>
+  );
 }
 
 // export default async function MyPage() {

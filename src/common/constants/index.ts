@@ -10,10 +10,13 @@ export const CHAT_TYPE = {
 
 // cookie
 export const COOKIE_NAME = {
-  IRUKARA_ID: '__auth-irukara-id',
-  IRUKARA_JWT: '__auth-irukara-jwt',
-  IRUKARA_EXPIRES_AT: '__atuh_irukara_expires_at',
-  IRUKARA_PROVIDER: '__auth-irukara-provider',
+  IRUKARA_ID: '__auth-user-id',
+  IRUKARA_JWT: '__auth-jwt-token',
+  IRUKARA_EXPIRES_AT: '__atuh-token-expires_at',
+  IRUKARA_PROVIDER: '__auth-provider',
+  IRUKARA_REFRESH: '__auth-jwt-token-refresh',
+  // next-auth
+  NEXT_AUTH_SESSION: 'next-auth.session-token',
 };
 
 // プラン
