@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { IRUKARA_LOGO } from '@/common/config/site.config';
-import { dateFormat } from '@/common/libs/dateFromat';
+import { dateFormat } from '@/common/libs/dateFormat';
 import { useEffect, useState } from 'react';
 import { ProfileImage } from '@/components/client/atoms';
 import textTruncate from '@/common/libs/textTruncate';

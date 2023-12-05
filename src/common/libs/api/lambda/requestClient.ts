@@ -1,7 +1,7 @@
 import { COOKIE_NAME } from '@/common/constants';
 import { getCookie } from '@/common/utils/manageCookies';
 import { refreshTokenFn } from '@/app/api/auth/[...nextauth]/refreshTokenFn';
-import { currentUnix } from '../../dateFromat';
+import { currentUnix } from '../../dateFormat';
 
 interface GetAuthInfoRes {
   token: string;
@@ -37,9 +37,9 @@ async function getAuthInfo(): Promise<GetAuthInfoRes> {
 
 // GET
 export async function getApi(path: string) {
-  const { token, provider } = await getAuthInfo();
   let response;
   try {
+    const { token, provider } = await getAuthInfo();
     const res = await fetch(path, {
       method: 'GET',
       headers: {
@@ -57,7 +57,35 @@ export async function getApi(path: string) {
     response = false;
   }
 
-  console.log('finish response...', response);
+  console.log('get finish response...', response);
+
+  return response;
+}
+
+// POST
+export async function postApi(path: string, body: any) {
+  let response;
+  try {
+    const { token, provider } = await getAuthInfo();
+    const res = await fetch(path, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token ?? '',
+        provider: provider ?? '',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) throw new Error(`post response error... ${res.status}`);
+
+    response = await res.json();
+  } catch (err) {
+    console.error('post request...', err);
+    response = false;
+  }
+
+  console.log('post finish response...', response);
 
   return response;
 }
