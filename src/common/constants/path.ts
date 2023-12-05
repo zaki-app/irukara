@@ -31,4 +31,5 @@ export const EXTERNAL_API = {
 export const LAMBDA_API = process.env.IRUKARA_API_ENDPOINT;
 export const IRUKARA_API = {
   GET_USER_ID: `${LAMBDA_API}search-user/{userId}`,
+  POST_USER: `${LAMBDA_API}register-user`,
 };

@@ -1,21 +1,15 @@
 import type { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import LineProvider from 'next-auth/providers/line';
-import {
-  allDeleteCookies,
-  deleteCookie,
-  getCookie,
-  setCookie,
-} from '@/common/utils/manageCookies';
+import { getCookie, setCookie } from '@/common/utils/manageCookies';
 import { COOKIE_NAME } from '@/common/constants';
 import createUserIdHash from '@/common/libs/createHash';
-import { currentUnix } from '@/common/libs/dateFromat';
+import { currentUnix } from '@/common/libs/dateFormat';
 import { Adapter } from 'next-auth/adapters';
-import { getCsrfToken, signOut } from 'next-auth/react';
-import { CALLBACK } from '@/common/constants/path';
-import { DynamoDBAdapter } from '@auth/dynamodb-adapter';
+import { getCsrfToken } from 'next-auth/react';
+import { getApi, postApi } from '@/common/libs/api/lambda/requestClient';
+import { IRUKARA_API } from '@/common/constants/path';
 import { deleteNextAuthSession, dynamoAdapter } from './adapter';
-import searchUser from './searchUser';
 
 export const options: NextAuthOptions = {
   session: { strategy: 'database', maxAge: 24 * 60 * 60 },
@@ -44,14 +38,10 @@ export const options: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      // console.log('ユーザーサインイン', user, account, profile);
-      // ここでユーザーを検索して、なかったら登録する
-      console.log('signin登録情報', user, profile);
-
       // 必要な情報をcookieに保存する
       if (account && profile) {
         console.log('signin account', account);
-        // lineの場合は有効期限が長いのでaccessTokenを保存。googleはrefreshTokenを保存
+        // lineの場合は有効期限が長いのでaccessTokenを保存。googleはrefreshTokenとaccessTokenを保存
         const { provider } = account;
 
         const userId = createUserIdHash(profile.sub as string);
@@ -72,9 +62,26 @@ export const options: NextAuthOptions = {
           COOKIE_NAME.IRUKARA_EXPIRES_AT,
           account.expires_at?.toString() as string,
         );
-        // ユーザー登録or更新処理
-        // const userResult = await searchUser(userId);
-        // console.log('ユーザー登録状況', userResult);
+        // ユーザーIDから検索し、ない場合はUsersTableに保存する
+        console.log('signin登録情報', user, profile);
+        const getUserEndpoint = IRUKARA_API.GET_USER_ID.replace(
+          '{userId}',
+          userId,
+        );
+        const { result, data } = await getApi(getUserEndpoint);
+        console.log('ユーザーは存在するか', result, data);
+        // ユーザー保存処理
+        if (!data) {
+          const params = {
+            userId,
+            lineId: provider, // GSIは空文字で登録できない
+            registerMethod: 'web',
+            providerType: provider,
+            status: 0,
+          };
+          const res = await postApi(IRUKARA_API.POST_USER, params);
+          console.log('ユーザー登録レスポンス', res);
+        }
       }
       return true;
     },

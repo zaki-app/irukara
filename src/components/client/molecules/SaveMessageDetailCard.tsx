@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { IRUKARA_LOGO } from '@/common/config/site.config';
-import { dateFormat } from '@/common/libs/dateFromat';
+import { dateFormat } from '@/common/libs/dateFormat';
 import { ProfileImage } from '@/components/client/atoms';
 
 interface DetailProps {

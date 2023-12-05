@@ -1,4 +1,4 @@
-import { currentTime } from '@/common/libs/dateFromat';
+import { currentTime } from '@/common/libs/dateFormat';
 import textTruncate from '@/common/libs/textTruncate';
 import { SaveMessageData } from '@/types/fetchData';
 import { FaCircleQuestion } from 'react-icons/fa6';
