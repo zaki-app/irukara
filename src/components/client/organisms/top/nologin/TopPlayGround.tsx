@@ -2,7 +2,6 @@ import React from 'react';
 import SectionWrapper from '@/components/client/template/SectionWrapper';
 import Image from 'next/image';
 import { irukamoBasic, irukamoBasicAlt } from '@/common/config/site.config';
-import { CHAT_TYPE } from '@/common/constants';
 import ChatArea from '@/components/client/molecules/openai/ChatArea';
 
 export default function TopPlayGround() {
@@ -21,7 +20,7 @@ export default function TopPlayGround() {
           </div>
           <p className='text-sm my-4'>※画像生成はログイン後に使用できます</p>
         </div>
-        <ChatArea type={CHAT_TYPE.TOP} />
+        <ChatArea />
       </div>
     </SectionWrapper>
   );

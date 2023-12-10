@@ -5,12 +5,13 @@ export const LINK_PATH = {
   TERMS: '/legal/irukara-terms',
   PRIVACY_TITLE: 'プライバシーポリシー',
   PRIVACY: '/legal/privacy-policy',
+  MEMBER: 'for-users/membership',
 };
 
 // API
 export const API = {
   TOP_GPT: '/api/playground/top',
-  RATE_LIMIT_TOP_CHAT: '/api/rate-limit/top-limit',
+  RATE_LIMIT_TOP_CHAT: '/api/rate-limit/top-limit?type={:type}',
 };
 
 // CALLBACK

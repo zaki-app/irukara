@@ -11,7 +11,7 @@ import { CALLBACK } from '@/common/constants/path';
 import { allDeleteCookies, isAllCookies } from '@/common/utils/manageCookies';
 import { Loading } from '../atoms';
 import Analytics from '../atoms/gtag/Analytics';
-import StyledComponentsRegistry from '../molecules/auth/libs/AntdRegistry';
+import StyledComponentsRegistry from '../molecules/login/libs/AntdRegistry';
 
 export default function ProvidersWrapper({
   children,
@@ -70,7 +70,7 @@ export default function ProvidersWrapper({
             )}
             <div id='login-modal' />
             <div id='hamburger' />
-            <Footer />
+            {/* <Footer /> */}
           </Provider>
         </SessionProvider>
       </body>

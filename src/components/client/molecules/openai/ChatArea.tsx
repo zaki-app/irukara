@@ -9,14 +9,10 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { InButton } from '@/components/client/atoms';
 import { API } from '@/common/constants/path';
-import { validateChat } from '@/common/utils/varidate/chat';
+import { commonValidate } from '@/common/utils/varidate/input';
 import { Message, useChat } from 'ai/react';
 
-interface ChatAreaProps {
-  type: number;
-}
-
-export default function ChatArea({ type }: ChatAreaProps) {
+export default function ChatArea() {
   const { messages, handleInputChange, handleSubmit } = useChat({
     api: API.TOP_GPT,
   });
@@ -24,8 +20,6 @@ export default function ChatArea({ type }: ChatAreaProps) {
   const [inputMsg, setInputMsg] = useState<string>('');
   const [isValidate, setValidate] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
-
-  // console.log('メッセージです', messages);
 
   return (
     <>
@@ -69,7 +63,8 @@ export default function ChatArea({ type }: ChatAreaProps) {
           try {
             e.preventDefault();
             setInputMsg('');
-            const res = await fetch(API.RATE_LIMIT_TOP_CHAT);
+            const path = API.RATE_LIMIT_TOP_CHAT.replace('{:type}', '1');
+            const res = await fetch(path);
             const rate = await res.json();
             if (rate.result) {
               handleSubmit(e);
@@ -86,7 +81,7 @@ export default function ChatArea({ type }: ChatAreaProps) {
           placeholder='1日2回だけ無料でお試しできます。(質問は25文字以下です)'
           value={inputMsg}
           onChange={(e) => {
-            const validate = validateChat(e.target.value);
+            const validate = commonValidate(e.target.value, 25);
             if (e.target.value.length > 25) {
               setInputMsg(e.target.value.slice(0, 25));
             } else {
