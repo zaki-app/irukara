@@ -13,7 +13,7 @@ export function setTopChatGpt(
   const topParams: CreateChatCompletionRequest = {
     model: GPT_MODEL,
     stream: true,
-    max_tokens: 100,
+    max_tokens: 400,
     temperature: 0,
     top_p: 1.0,
     frequency_penalty: 0.0,

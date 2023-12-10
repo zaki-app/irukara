@@ -25,7 +25,7 @@ type RefreshTokenResType = RefreshTokenRes | RefreshTokenResError;
  * @param token
  * @returns
  */
-export async function refreshTokenFn(
+export async function updateToken(
   refresh_token: string,
 ): Promise<RefreshTokenResType> {
   try {

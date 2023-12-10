@@ -1,6 +1,6 @@
 import { COOKIE_NAME } from '@/common/constants';
 import { getCookie } from '@/common/utils/manageCookies';
-import { refreshTokenFn } from '@/app/api/auth/[...nextauth]/refreshTokenFn';
+import { updateToken } from '@/app/api/auth/[...nextauth]/updateToken';
 import { currentUnix } from '../../dateFormat';
 
 interface GetAuthInfoRes {
@@ -21,8 +21,8 @@ async function getAuthInfo(): Promise<GetAuthInfoRes> {
     // 期限が切れていたらrefreshtokenから新しいtokenを取得
     if (Number(expires) < currentUnix()) {
       refresh = await getCookie(COOKIE_NAME.IRUKARA_REFRESH);
-      const refreshRes = await refreshTokenFn(refresh);
-      console.log('リフレッシュトークン', refreshRes);
+      const newToken = await updateToken(refresh);
+      console.log('リフレッシュトークン', newToken);
     }
   } else if (provider === 'line') {
     // lineはアクセストークンが1ヶ月有効なのでそのまま使用する
