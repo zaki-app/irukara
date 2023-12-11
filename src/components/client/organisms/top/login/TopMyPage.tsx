@@ -51,13 +51,13 @@ export default async function TopMyPage() {
   return (
     <>
       {isUser ? (
-        <PageWrapper>
+        <>
           {/* 上にプラン情報 */}
           {/* <UserStatus userData={data} /> */}
-          <Plan />
+          {/* <Plan /> */}
           {/* チャット・画像生成エリア */}
           <GenerateArea />
-        </PageWrapper>
+        </>
       ) : (
         <></>
       )}

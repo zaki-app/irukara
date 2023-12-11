@@ -5,5 +5,5 @@ export default function PageWrapper({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className='w-full h-screen flex flex-col'>{children}</div>;
+  return <div className='w-full h-full flex flex-col'>{children}</div>;
 }
