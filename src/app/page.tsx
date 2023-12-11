@@ -16,7 +16,7 @@ export default async function Home() {
   const session = (await getServerSession(options)) as SessionUserInfo;
 
   return (
-    <div>
+    <>
       {!session ? (
         <>
           <TopService />
@@ -27,8 +27,10 @@ export default async function Home() {
           <TopLastMessage />
         </>
       ) : (
+        // <div className='h-screen bg-red-400'>
         <TopMyPage />
+        // </div>
       )}
-    </div>
+    </>
   );
 }

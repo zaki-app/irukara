@@ -3,6 +3,7 @@
 import { irukaraBasic, irukaraBasicAlt } from '@/common/config/site.config';
 import { API } from '@/common/constants/path';
 import { commonValidate } from '@/common/utils/varidate/input';
+import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import { RootState } from '@/store';
 import { useChat, Message } from 'ai/react';
 import Image from 'next/image';
@@ -28,6 +29,7 @@ export default function ChatGpt() {
     if (inputMsg) {
       setInputMsg('');
       handleSubmit(e);
+      setNext(true);
     }
   }
 
@@ -48,45 +50,52 @@ export default function ChatGpt() {
   }
 
   return (
-    <div className='w-full bg-slate-100 overflow-y-auto'>
-      {messages.map((message: Message) => (
-        <div key={message.id} className=''>
-          {/* ユーザーの質問 */}
-          {message.role === 'user' && (
-            <div
-              key={message.id}
-              className='flex justify-start items-start mb-3'
-            >
-              <Image src={image} alt='ユーザーロゴ' width={30} height={30} />
-              <p className='ml-4'>{message.content}</p>
+    <div className='bg-slate-300 px-8 h-fit overflow-hidden transition-width'>
+      <div className='flex-1 flex flex-col h-full bg-red-200 overflow-y-auto'>
+        {isNext ? (
+          messages.map((message: Message) => (
+            <div key={message.id} className='w-full mb-3 flex-1'>
+              {message.role === 'user' && (
+                <div className='flex justify-start items-start'>
+                  <Image
+                    src={image}
+                    alt='ユーザーロゴ'
+                    width={30}
+                    height={30}
+                  />
+                  <p className='ml-4'>{message.content}</p>
+                </div>
+              )}
+              {message.role === 'assistant' && (
+                <div className='mb-3'>
+                  <div className='flex justify-start items-start'>
+                    <Image
+                      src={irukaraBasic}
+                      alt={irukaraBasicAlt}
+                      width={30}
+                      height={30}
+                    />
+                    <p className='ml-4'>{message.content}</p>
+                  </div>
+                  <div className='flex justify-end'>
+                    <button className='bg-blue-500 text-white py-1 px-2 rounded-md mr-3'>
+                      保存
+                    </button>
+                    <button className='bg-line text-white py-1 px-2 rounded-md'>
+                      共有
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-          {/* GPTからの回答 */}
-          {message.role === 'assistant' && (
-            <div className='mb-3'>
-              <div className='flex justify-start items-start mb-3'>
-                <Image
-                  src={irukaraBasic}
-                  alt={irukaraBasicAlt}
-                  width={30}
-                  height={30}
-                />
-                <p className='ml-4'>{message.content}</p>
-              </div>
-              <div className='flex justify-end'>
-                <button className='bg-blue-500 text-white py-1 px-2 rounded-md mr-3'>
-                  保存
-                </button>
-                <button className='bg-line text-white py-1 px-2 rounded-md'>
-                  共有
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
-      {/* テキストエリア・ボタン */}
-      <div className='fixed bottom-6 left-0 w-full px-8'>
+          ))
+        ) : (
+          <div className='flex-1 flex items-center justify-center bottom-[140px]'>
+            <InputPrompt type={1} />
+          </div>
+        )}
+      </div>
+      <div className='fixed left-0 bottom-0 w-full px-8 py-4 bg-blue-200 h-[140px] overflow-hidden'>
         <form
           onSubmit={async (e) => onSubmitFn(e)}
           className='w-full gap-4 border-solid border-2 border-blue-400 rounded-md'
