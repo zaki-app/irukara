@@ -27,9 +27,7 @@ export default async function Home() {
           <TopLastMessage />
         </>
       ) : (
-        // <div className='h-screen bg-red-400'>
         <TopMyPage />
-        // </div>
       )}
     </>
   );

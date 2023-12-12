@@ -11,17 +11,22 @@ import Image from 'next/image';
 export default function InputPrompt({ type }: { type: number }) {
   console.log('タイプ', type);
   return (
-    <div className='flex-1'>
-      <div>
-        <h1>IrukaraはあなただけのAIアシスタントです</h1>
-        <Image
-          src={SITE_CONFIG.ICON}
-          alt={irukaraSmileAlt}
-          width={100}
-          height={100}
-        />
+    <div className='w-full h-full bg-slate-200 flex justify-center flex-col items-center'>
+      {/* <div className='bg-gray-100'> */}
+      <h2 className='text-xl font-semibold'>
+        IrukaraはあなただけのAIアシスタントです
+      </h2>
+      <Image
+        src={SITE_CONFIG.ICON}
+        alt={irukaraSmileAlt}
+        width={100}
+        height={100}
+        className='my-6'
+      />
+      {/* </div> */}
+      <div className='text-lg font-semibold'>
+        {type === 1 && <p>どんなことをお手伝いできますか？</p>}
       </div>
-      <div>{type === 1 && <p>どんなことをお手伝いできますか？</p>}</div>
     </div>
   );
 }

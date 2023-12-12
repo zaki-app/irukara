@@ -47,9 +47,5 @@ export default async function RootLayout({
   // }
   // }
 
-  return (
-    <ProvidersWrapper session={session}>
-      <div>{children}</div>
-    </ProvidersWrapper>
-  );
+  return <ProvidersWrapper session={session}>{children}</ProvidersWrapper>;
 }
