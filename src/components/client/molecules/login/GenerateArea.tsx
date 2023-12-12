@@ -13,25 +13,40 @@ export default function GenerateArea() {
     console.log('key', key);
   }
 
+  const items: TabsProps['items'] = [
+    {
+      key: '1',
+      label: 'チャットモード(GPT3.5)',
+      children: <ChatGpt />,
+    },
+    {
+      key: '2',
+      label: 'チャットモード(GPT4) Beta',
+      children: <ChatGpt />,
+    },
+    {
+      key: '3',
+      label: 'イラストモード',
+      children: 'イラスト画像生成',
+    },
+    {
+      key: '4',
+      label: 'イラストモード',
+      children: 'リアル画像生成',
+    },
+  ];
+
   return (
     // <SectionWrapper colorName='section-white' styleName='section-top'>
-    <div className='bg-slate-200'>
-      <Plan />
-      <Tabs defaultActiveKey='1' onChange={(e) => tabChange(e)}>
-        <TabPane tab='チャットモード(GPT3.5)' key={1}>
-          <ChatGpt />
-        </TabPane>
-        <TabPane tab='チャットモード(GPT4)Beta' key={2}>
-          <ChatGpt />
-        </TabPane>
-        <TabPane tab='イラストモード' key={3}>
-          <IllustImage />
-        </TabPane>
-        <TabPane tab='リアルモード' key={4}>
-          <RealImage />
-        </TabPane>
-      </Tabs>
+    <div className='bg-orange-200 h-full flex flex-col px-8'>
+      <div className=''>
+        <Plan />
+      </div>
+      <div className='flex-1 bg-line'>
+        <Tabs items={items} className='h-full' />
+      </div>
     </div>
+    // </div>
     // </SectionWrapper>
   );
 }

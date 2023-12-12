@@ -50,8 +50,8 @@ export default function ChatGpt() {
   }
 
   return (
-    <div className='bg-slate-300 px-8 h-fit overflow-hidden transition-width'>
-      <div className='flex-1 flex flex-col h-full bg-red-200 overflow-y-auto'>
+    <div className='bg-red-300 h-[60vh]'>
+      <div className='flex flex-col h-full'>
         {isNext ? (
           messages.map((message: Message) => (
             <div key={message.id} className='w-full mb-3 flex-1'>
@@ -90,12 +90,12 @@ export default function ChatGpt() {
             </div>
           ))
         ) : (
-          <div className='flex-1 flex items-center justify-center bottom-[140px]'>
-            <InputPrompt type={1} />
-          </div>
+          // <div className='flex items-center justify-center h-full'>
+          <InputPrompt type={1} />
+          // </div>
         )}
       </div>
-      <div className='fixed left-0 bottom-0 w-full px-8 py-4 bg-blue-200 h-[140px] overflow-hidden'>
+      <div className='fixed left-0 bottom-0 w-full px-8 py-4 bg-blue-200 h-[19vh]'>
         <form
           onSubmit={async (e) => onSubmitFn(e)}
           className='w-full gap-4 border-solid border-2 border-blue-400 rounded-md'
