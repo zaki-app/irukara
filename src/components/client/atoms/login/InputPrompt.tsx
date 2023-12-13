@@ -11,7 +11,7 @@ import Image from 'next/image';
 export default function InputPrompt({ type }: { type: number }) {
   console.log('タイプ', type);
   return (
-    <div className='w-full h-full bg-slate-200 flex justify-center flex-col items-center'>
+    <div className='flex-1 w-full bg-orange-50 flex justify-center flex-col items-center'>
       {/* <div className='bg-gray-100'> */}
       <h2 className='text-xl font-semibold'>
         IrukaraはあなただけのAIアシスタントです

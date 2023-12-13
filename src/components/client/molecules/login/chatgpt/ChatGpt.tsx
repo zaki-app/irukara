@@ -50,11 +50,11 @@ export default function ChatGpt() {
   }
 
   return (
-    <div className='bg-red-300 h-[60vh]'>
-      <div className='flex flex-col h-full'>
+    <div className='bg-red-300 h-full'>
+      <div className='flex flex-col bg-slate-200 h-[calc(100%-140px)] overflow-y-auto'>
         {isNext ? (
           messages.map((message: Message) => (
-            <div key={message.id} className='w-full mb-3 flex-1'>
+            <div key={message.id} className='mb-3 flex-1 '>
               {message.role === 'user' && (
                 <div className='flex justify-start items-start'>
                   <Image
@@ -62,6 +62,7 @@ export default function ChatGpt() {
                     alt='ユーザーロゴ'
                     width={30}
                     height={30}
+                    className=''
                   />
                   <p className='ml-4'>{message.content}</p>
                 </div>
@@ -95,7 +96,7 @@ export default function ChatGpt() {
           // </div>
         )}
       </div>
-      <div className='fixed left-0 bottom-0 w-full px-8 py-4 bg-blue-200 h-[19vh]'>
+      <div className='fixed left-0 bottom-0 w-full px-8 py-4 bg-blue-200 h-[140px]'>
         <form
           onSubmit={async (e) => onSubmitFn(e)}
           className='w-full gap-4 border-solid border-2 border-blue-400 rounded-md'
