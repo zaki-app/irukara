@@ -11,8 +11,7 @@ import Image from 'next/image';
 export default function InputPrompt({ type }: { type: number }) {
   console.log('タイプ', type);
   return (
-    <div className='flex-1 w-full bg-orange-50 flex justify-center flex-col items-center'>
-      {/* <div className='bg-gray-100'> */}
+    <div className='flex-1 w-full h-full flex justify-center flex-col items-center'>
       <h2 className='text-xl font-semibold'>
         IrukaraはあなただけのAIアシスタントです
       </h2>
@@ -23,7 +22,6 @@ export default function InputPrompt({ type }: { type: number }) {
         height={100}
         className='my-6'
       />
-      {/* </div> */}
       <div className='text-lg font-semibold'>
         {type === 1 && <p>どんなことをお手伝いできますか？</p>}
       </div>

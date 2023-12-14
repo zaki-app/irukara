@@ -50,20 +50,22 @@ export default function ChatGpt() {
   }
 
   return (
-    <div className='bg-red-300 h-full'>
-      <div className='flex flex-col bg-slate-200 h-[calc(100%-140px)] overflow-y-auto'>
+    <div className='h-full'>
+      <div className='flex flex-col h-[calc(100%-140px)] overflow-y-auto'>
         {isNext ? (
           messages.map((message: Message) => (
-            <div key={message.id} className='mb-3 flex-1 '>
+            <div key={message.id} className='mb-3'>
               {message.role === 'user' && (
                 <div className='flex justify-start items-start'>
+                  {/* <div className='rounded-full'> */}
                   <Image
                     src={image}
                     alt='ユーザーロゴ'
                     width={30}
                     height={30}
-                    className=''
+                    className='rounded-full border border-gray-300'
                   />
+                  {/* </div> */}
                   <p className='ml-4'>{message.content}</p>
                 </div>
               )}
@@ -75,6 +77,7 @@ export default function ChatGpt() {
                       alt={irukaraBasicAlt}
                       width={30}
                       height={30}
+                      className='rounded-full border border-gray-300'
                     />
                     <p className='ml-4'>{message.content}</p>
                   </div>
@@ -91,12 +94,10 @@ export default function ChatGpt() {
             </div>
           ))
         ) : (
-          // <div className='flex items-center justify-center h-full'>
           <InputPrompt type={1} />
-          // </div>
         )}
       </div>
-      <div className='fixed left-0 bottom-0 w-full px-8 py-4 bg-blue-200 h-[140px]'>
+      <div className='fixed left-0 bottom-0 w-full px-8 py-4 h-[140px]'>
         <form
           onSubmit={async (e) => onSubmitFn(e)}
           className='w-full gap-4 border-solid border-2 border-blue-400 rounded-md'
@@ -108,7 +109,7 @@ export default function ChatGpt() {
             className='w-full border-none outline-none px-4 py-2 text-base resize-none'
           />
           <div className='flex justify-end mr-2 mb-1 bg-white'>
-            <button className='bg-blue-500 text-white text-xl p-1 rounded-full'>
+            <button className='text-white bg-blue-500 text-xl p-1 rounded-full'>
               <FaAngleDoubleRight className='text-right' />
             </button>
           </div>

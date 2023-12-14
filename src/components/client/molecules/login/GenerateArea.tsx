@@ -1,17 +1,15 @@
 'use client';
 
-import { Tabs, TabsProps } from 'antd';
-import TabPane from 'antd/es/tabs/TabPane';
 import { TAB_LIST } from '@/common/config/site.config';
 import { useState } from 'react';
-import SectionWrapper from '../../template/SectionWrapper';
 import ChatGpt from './chatgpt/ChatGpt';
-import IllustImage from './illust/IllustImage';
-import RealImage from './real/RealImage';
 import Plan from '../../atoms/login/Plan';
+import { UserStatusProps } from './UserStatus';
 
-export default function GenerateArea() {
+export default function GenerateArea({ data }: { data: UserStatusProps }) {
   const [numTab, setTab] = useState<number>(1);
+
+  console.log('ユーザー情報', data);
 
   function selectTab(type: number) {
     console.log('選択タブ', type);
@@ -19,21 +17,15 @@ export default function GenerateArea() {
   }
 
   return (
-    // <SectionWrapper colorName='section-white' styleName='section-top'>
     <div className='h-full flex flex-col px-8'>
-      <div className='bg-slate-300'>
-        <Plan />
-      </div>
-      {/* <div className='flex-1 bg-line'>
-        <Tabs items={items} className='h-full' />
-      </div> */}
-      <div className='flex-1 flex flex-col'>
-        <div className='text-sm font-medium text-center text-gray-600 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700'>
-          <ul className='flex -mb-px cursor-pointer overflow-x-auto'>
+      <Plan userData={data} />
+      <div className='w-full flex-1 flex flex-col'>
+        <div className='text-sm font-medium text-center'>
+          <ul className='flex -mb-px cursor-pointer whitespace-nowrap overflow-x-auto'>
             {TAB_LIST.map((tab) => (
               <li
                 key={tab.key}
-                className={`inline-block p-4 border-b-2 rounded-t-lg mb-4 hover:opacity-80 ${
+                className={`p-4 border-b-2 rounded-t-lg mb-4 hover:opacity-80 ${
                   numTab === tab.key &&
                   'text-blue-600 border-b-3 border-blue-600'
                 }`}
@@ -44,7 +36,7 @@ export default function GenerateArea() {
             ))}
           </ul>
         </div>
-        <div className='bg-red-300 flex-1'>
+        <div className='flex-1'>
           {/* タイプ別にコンポーネントを分岐 */}
           {numTab === 1 && <ChatGpt />}
           {numTab === 2 && <ChatGpt />}
@@ -61,7 +53,5 @@ export default function GenerateArea() {
         </div>
       </div>
     </div>
-    // </div>
-    // </SectionWrapper>
   );
 }
