@@ -1,6 +1,6 @@
 import React from 'react';
 import { servicePaid, servicePriceList } from '@/common/config/site.config';
-import { PriceCard, LineButton } from '@/components/client/atoms';
+import { PriceCard } from '@/components/client/atoms';
 import { StatePlan } from '@/components/client/organisms';
 import ContentsWrapper from '@/components/client/template/ContentsWrapper';
 
@@ -31,9 +31,6 @@ export default function Paid() {
             <div>
               <h2>{servicePaid.line}</h2>
             </div>
-            {/* <div>
-              <LineButton type={1} />
-            </div> */}
           </div>
         </div>
       </div>

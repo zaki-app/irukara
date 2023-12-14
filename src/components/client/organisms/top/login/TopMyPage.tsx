@@ -56,7 +56,7 @@ export default async function TopMyPage() {
           {/* <UserStatus userData={data} /> */}
           {/* <Plan /> */}
           {/* チャット・画像生成エリア */}
-          <GenerateArea />
+          <GenerateArea data={data} />
         </>
       ) : (
         <></>

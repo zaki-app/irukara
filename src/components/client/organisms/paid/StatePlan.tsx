@@ -56,7 +56,8 @@ export default function StatePlan({ text }: PlanText) {
           </div>
         </div>
       ) : (
-        <Loading opacity={0.8} />
+        // <Loading opacity={0.8} />
+        <></>
       )}
     </div>
   );

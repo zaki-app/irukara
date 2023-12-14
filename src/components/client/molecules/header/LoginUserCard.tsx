@@ -15,6 +15,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import UserDropdownMenu from '../../atoms/UserDropdownMenu';
 
+/**
+ * ログインユーザーの画像ボックス、ドロップダウン
+ * @returns
+ */
 export default function LoginUserCard() {
   const { image } = useSelector(
     (state: RootState) => state.authUserProfileSlice,
@@ -65,27 +69,29 @@ export default function LoginUserCard() {
     <div className='mr-4 bg-gray-700 p-2 rounded-lg'>
       <div className='flex justify-center items-center cursor-pointer'>
         {isDropdown ? (
-          <Dropdown
-            trigger={['click']}
-            // dropdownRender={() => <UserDropdownMenu />}
-          >
-            <Space>
-              <Image
-                src={image}
-                alt='ユーザー画像'
-                width={30}
-                height={30}
-                className='rounded-full mr-2 border-solid border-2'
-              />
-              <FaCaretDown
-                onClick={async (e) => {
-                  // e.preventDefault();
-                  console.log('クリックされました', e);
-                }}
-              />
-            </Space>
-          </Dropdown>
+          // <Dropdown
+          //   trigger={['click']}
+          //   // dropdownRender={() => <UserDropdownMenu />}
+          // >
+          //   <Space>
+          <>
+            <Image
+              src={image}
+              alt='ユーザー画像'
+              width={30}
+              height={30}
+              className='rounded-full mr-2 border-solid border-2'
+            />
+            <FaCaretDown
+              onClick={async (e) => {
+                // e.preventDefault();
+                console.log('クリックされました', e);
+              }}
+            />
+          </>
         ) : (
+          //   </Space>
+          // </Dropdown>
           <></>
         )}
       </div>
