@@ -4,7 +4,7 @@ import { PriceCard } from '@/components/client/atoms';
 import { StatePlan } from '@/components/client/organisms';
 import ContentsWrapper from '@/components/client/template/ContentsWrapper';
 
-export default function Paid() {
+export default async function Paid() {
   return (
     <ContentsWrapper>
       <div>

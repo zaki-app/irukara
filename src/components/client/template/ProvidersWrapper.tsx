@@ -40,15 +40,15 @@ export default function ProvidersWrapper({
   useMemo(() => {
     setIsLoaded(true);
     // cookieの有効期限切れ時は削除する
-    (async () => {
-      const isCookie = await isAllCookies();
-      if (!session && isCookie) {
-        if (isCookie) {
-          await signOutHandler();
-        }
-        console.log('処理されている');
-      }
-    })();
+    // (async () => {
+    //   const isCookie = await isAllCookies();
+    //   if (!session && isCookie) {
+    //     if (isCookie) {
+    //       await signOutHandler();
+    //     }
+    //     console.log('処理されている');
+    //   }
+    // })();
     // }
   }, []);
 
