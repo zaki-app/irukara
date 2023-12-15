@@ -1,7 +1,7 @@
 'use client';
 
 import { Header, Footer } from '@/components/client/organisms';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '@/store';
 import { SessionProvider, signOut } from 'next-auth/react';
@@ -37,14 +37,14 @@ export default function ProvidersWrapper({
     await allDeleteCookies();
   }
 
-  useEffect(() => {
+  useMemo(() => {
     setIsLoaded(true);
     // cookieの有効期限切れ時は削除する
     (async () => {
       const isCookie = await isAllCookies();
       if (!session && isCookie) {
         if (isCookie) {
-          const result = await signOutHandler();
+          await signOutHandler();
         }
         console.log('処理されている');
       }
@@ -54,7 +54,7 @@ export default function ProvidersWrapper({
 
   return (
     <html lang='ja'>
-      <body>
+      <body className='text-basic'>
         <Suspense>
           <Analytics />
         </Suspense>

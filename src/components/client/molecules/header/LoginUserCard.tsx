@@ -1,100 +1,92 @@
 'use client';
 
-import { SessionUserInfo } from '@/types/auth';
 import Image from 'next/image';
 import { FaCaretDown } from 'react-icons/fa';
-import { DownOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Dropdown, Space } from 'antd';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { CALLBACK } from '@/common/constants/path';
 import { allDeleteCookies } from '@/common/utils/manageCookies';
-import { useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import UserDropdownMenu from '../../atoms/UserDropdownMenu';
 
 /**
  * ログインユーザーの画像ボックス、ドロップダウン
  * @returns
  */
 export default function LoginUserCard() {
-  const { image } = useSelector(
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const { name, image } = useSelector(
     (state: RootState) => state.authUserProfileSlice,
   );
 
-  // const items: MenuProps['items'] = [
-  //   {
-  //     label: <div>{session.user.name}</div>,
-  //     key: 0,
-  //   },
-  //   {
-  //     label: <div>プロフィール</div>,
-  //     key: 1,
-  //   },
-  //   {
-  //     label: (
-  //       <div
-  //         onClick={async () => {
-  //           await signOut({ callbackUrl: CALLBACK.LOGOUT_URL });
-  //           allDeleteCookies();
-  //         }}
-  //       >
-  //         ログアウト
-  //       </div>
-  //     ),
-  //     key: 2,
-  //   },
-  // ];
-
-  // // dropdownメニュー
-  // function DropDownMenu() {
-  //   return (
-  //     <div>
-  //       <ul>
-  //         <li>{session.name}</li>
-  //       </ul>
-  //     </div>
-  //   );
-  // }
-
   const [isDropdown, setDropDown] = useState<boolean>(false);
 
-  useMemo(() => {
-    setDropDown(true);
+  function toggleDropdown() {
+    setDropDown(!isDropdown);
+  }
+
+  // dropdown以外の部分がクリックされた閉じる
+  function clickOutSide(event: MouseEvent) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setDropDown(false);
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('click', clickOutSide);
+
+    return () => {
+      document.removeEventListener('click', clickOutSide);
+    };
   }, []);
 
   return (
-    <div className='mr-4 bg-gray-700 p-2 rounded-lg'>
-      <div className='flex justify-center items-center cursor-pointer'>
-        {isDropdown ? (
-          // <Dropdown
-          //   trigger={['click']}
-          //   // dropdownRender={() => <UserDropdownMenu />}
-          // >
-          //   <Space>
-          <>
-            <Image
-              src={image}
-              alt='ユーザー画像'
-              width={30}
-              height={30}
-              className='rounded-full mr-2 border-solid border-2'
-            />
-            <FaCaretDown
-              onClick={async (e) => {
-                // e.preventDefault();
-                console.log('クリックされました', e);
-              }}
-            />
-          </>
-        ) : (
-          //   </Space>
-          // </Dropdown>
-          <></>
-        )}
+    <div className='mr-4 bg-gray-700 p-2 rounded-lg relative' ref={dropdownRef}>
+      <div
+        className='flex justify-center items-center cursor-pointer'
+        onClick={toggleDropdown}
+      >
+        <Image
+          src={image}
+          alt='ユーザー画像'
+          width={30}
+          height={30}
+          className='rounded-full mr-2 border-solid border-2'
+        />
+        <FaCaretDown />
       </div>
+      {/* dropdown */}
+      {isDropdown && (
+        <div className='absolute right-0 mt-[0.5rem] w-[12rem] bg-white text-basic rounded-lg shadow-lg py-2 pl-3 pr-1 text-sm'>
+          <div className='w-full p-2 font-semibold border-b-2 border-gray-100 mb-2'>
+            {name}
+          </div>
+          <div className='flex flex-col gap-2'>
+            <div className='hover:bg-neutral-100 p-2 rounded-md cursor-pointer'>
+              <Link href='/'>プロフィール</Link>
+            </div>
+            <div className='hover:bg-neutral-100 p-2 rounded-md cursor-pointer'>
+              <Link href='/'>プラン変更</Link>
+            </div>
+            <div className='hover:bg-neutral-100 p-2 rounded-md'>
+              <div
+                className='cursor-pointer'
+                onClick={async () => {
+                  await signOut({ callbackUrl: CALLBACK.LOGOUT_URL });
+                  await allDeleteCookies();
+                }}
+              >
+                サインアウト
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

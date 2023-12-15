@@ -19,6 +19,7 @@ module.exports = {
       },
       // 基本カラー
       colors: {
+        basic: '#3f3f46',
         transparent: 'transparent',
         current: 'currentColor',
         nav: '#2563eb',
