@@ -2,6 +2,7 @@
 
 import { TAB_LIST } from '@/common/config/site.config';
 import { useState } from 'react';
+import { Tabs, TabsProps } from 'antd';
 import ChatGpt from './chatgpt/ChatGpt';
 import Plan from '../../atoms/login/Plan';
 import { UserStatusProps } from './UserStatus';
@@ -12,20 +13,45 @@ export default function GenerateArea({ data }: { data: UserStatusProps }) {
   console.log('ユーザー情報', data);
 
   function selectTab(type: number) {
-    console.log('選択タブ', type);
     setTab(type);
   }
+
+  const items: TabsProps['items'] = [
+    {
+      key: '1',
+      label: 'チャット(GPT3.5)',
+      children: <ChatGpt />,
+    },
+    {
+      key: '2',
+      label: 'チャット(GPT4)',
+      children: <ChatGpt />,
+    },
+    {
+      key: '3',
+      label: 'イラスト',
+      children: <ChatGpt />,
+    },
+    {
+      key: '4',
+      label: 'リアル',
+      children: <ChatGpt />,
+    },
+  ];
 
   return (
     <div className='h-full flex flex-col px-8'>
       <Plan userData={data} />
-      <div className='w-full flex-1 flex flex-col'>
-        <div className='text-sm font-medium text-center'>
-          <ul className='flex -mb-px cursor-pointer whitespace-nowrap overflow-x-auto'>
+      <div className='w-full'>
+        <Tabs defaultActiveKey='1' items={items} />
+      </div>
+      {/* <div className='w-full flex-1 flex flex-col'>
+        <div className='text-sm font-medium text-center border-b-2'>
+          <ul className='flex -mb-px cursor-pointer whitespace-nowrap'>
             {TAB_LIST.map((tab) => (
               <li
                 key={tab.key}
-                className={`p-4 border-b-2 rounded-t-lg mb-4 hover:opacity-80 ${
+                className={`pt-4 px-3 rounded-t-lg mb-4 hover:opacity-80 ${
                   numTab === tab.key &&
                   'text-blue-600 border-b-3 border-blue-600'
                 }`}
@@ -38,7 +64,7 @@ export default function GenerateArea({ data }: { data: UserStatusProps }) {
         </div>
         <div className='flex-1'>
           {/* タイプ別にコンポーネントを分岐 */}
-          {numTab === 1 && <ChatGpt />}
+      {/* {numTab === 1 && <ChatGpt />}
           {numTab === 2 && <ChatGpt />}
           {numTab === 3 && (
             <>
@@ -50,8 +76,8 @@ export default function GenerateArea({ data }: { data: UserStatusProps }) {
               <p>リアルモードのコンポーネントが入る</p>
             </>
           )}
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </div>
   );
 }

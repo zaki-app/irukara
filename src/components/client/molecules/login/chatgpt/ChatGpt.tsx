@@ -57,7 +57,6 @@ export default function ChatGpt() {
             <div key={message.id} className='mb-3'>
               {message.role === 'user' && (
                 <div className='flex justify-start items-start'>
-                  {/* <div className='rounded-full'> */}
                   <Image
                     src={image}
                     alt='ユーザーロゴ'
@@ -65,7 +64,6 @@ export default function ChatGpt() {
                     height={30}
                     className='rounded-full border border-gray-300'
                   />
-                  {/* </div> */}
                   <p className='ml-4'>{message.content}</p>
                 </div>
               )}
