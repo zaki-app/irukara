@@ -11,13 +11,12 @@ import { useSelector } from 'react-redux';
  * @param {type: number} 1...GPT3.5, 2...GPT4, 3...イラスト生成 4...リアル生成
  */
 export default function InputPrompt({ type }: { type: number }) {
-  console.log('タイプ', type);
   const { name } = useSelector(
     (state: RootState) => state.authUserProfileSlice,
   );
 
   return (
-    <div className='flex-1 w-full h-full flex justify-center flex-col items-center py-12'>
+    <div className='flex-1 w-full h-full flex justify-center flex-col items-center py-12 text-base_font'>
       <h2 className='text-xl font-semibold'>
         Irukaraは{name ? `${name}さん` : 'あなた'}だけの
         <br />

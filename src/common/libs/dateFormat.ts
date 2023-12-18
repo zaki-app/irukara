@@ -43,3 +43,11 @@ export function currentTime(time: number): string {
 export function currentUnix() {
   return dayjs().unix();
 }
+
+/* 指定した日の0:00〜23:59のunix時間を返す */
+export function startEndUnix(daysAgo: number) {
+  const start = dayjs().subtract(daysAgo, 'day').startOf('day').unix();
+  const end = dayjs().subtract(daysAgo, 'day').endOf('day').unix();
+
+  return { start, end };
+}

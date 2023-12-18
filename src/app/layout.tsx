@@ -36,16 +36,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = (await getServerSession(options)) as SessionUserInfo;
-  // let isCookie = false;
-  // if (!session) {
-  // // cookieを削除する
-  // const isAllCookie = await isAllCookies();
-  // console.log('cookieのありなし', isAllCookie);
-  // if (isAllCookie) {
-  //   // await setCookie('test', 'test');
-  //   isCookie = true;
-  // }
-  // }
 
   return <ProvidersWrapper session={session}>{children}</ProvidersWrapper>;
 }
