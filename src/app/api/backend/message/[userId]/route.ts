@@ -3,6 +3,7 @@ import { IRUKARA_API } from '@/common/constants/path';
 import { getApi } from '@/common/libs/api/lambda/requestClient';
 import { startEndUnix } from '@/common/libs/dateFormat';
 import { getCookie } from '@/common/utils/manageCookies';
+import { GetMessagesType } from '@/types/message';
 import { NextRequest, NextResponse } from 'next/server';
 
 /**
@@ -17,7 +18,9 @@ import { NextRequest, NextResponse } from 'next/server';
  * REFEの場合...保存・共有どちらを取得するか
  * @returns
  */
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: NextRequest,
+): Promise<NextResponse<GetMessagesType>> {
   console.log('GET request...', req.nextUrl.searchParams);
   let response;
   let status;
@@ -37,9 +40,12 @@ export async function GET(req: NextRequest) {
         .replace('{startUnix}', start.toString())
         .replace('{endUnix}', end.toString());
       const res = await getApi(path);
-      console.log('messageレスポンス', res.length);
       response = res;
       status = 200;
+    } else if (type === 'REFE') {
+      // 保存・共有
+    } else {
+      // メッセージを最新のものから150件取得
     }
   } catch (err) {
     console.error('get message api error...', err);
