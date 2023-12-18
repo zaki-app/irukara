@@ -2,10 +2,11 @@
 
 import { irukaraBasic, irukaraBasicAlt } from '@/common/config/site.config';
 import { API } from '@/common/constants/path';
-import { startEndUnix } from '@/common/libs/dateFormat';
+import { currentTime, startEndUnix } from '@/common/libs/dateFormat';
 import { commonValidate } from '@/common/utils/varidate/input';
 import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import { RootState } from '@/store';
+import { GetMessagesType, MessageType } from '@/types/message';
 import { useChat, Message } from 'ai/react';
 import Image from 'next/image';
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
@@ -23,6 +24,8 @@ export default function ChatGpt() {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [isNext, setNext] = useState<boolean>(false);
   const [isResStatus, setResStatus] = useState<boolean>(false);
+  const [numToday, setToday] = useState<number>(0);
+  const [todayMessages, setTodayMessages] = useState<MessageType[]>([]);
 
   const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
     api: API.TOP_GPT,
@@ -78,7 +81,7 @@ export default function ChatGpt() {
 
   // 今日の保存データを取得
   // TODO 画面には今日のデータを表示して、追加されたらこれが入っている配列に入れる
-  async function getTodayMssage() {
+  async function getTodayMessage() {
     const path = API.RELAY_GET_MSG.replace('{:type}', 'DATE').replace(
       '{:target}',
       '0',
@@ -86,20 +89,69 @@ export default function ChatGpt() {
     const res = await fetch(path);
     if (res.ok) {
       const todayData = await res.json();
-      console.log('今日のデータ', todayData);
+      console.log('今日のデータ', todayData.count);
+      // 今日のメッセージを格納
+      setTodayMessages(todayData.data);
+      setToday(todayData.count);
     }
   }
 
   useEffect(() => {
     (async () => {
-      await getTodayMssage();
+      console.log('useEffect1');
+      await getTodayMessage();
+      console.log('useEffect2 ここになったらデータが表示される');
     })();
   }, []);
 
   return (
     <div className='h-full'>
       <div className='flex flex-col h-[calc(100%-140px)] overflow-y-auto mb-[150px]'>
-        {isNext ? (
+        {/* 保存済みの今日のやり取り */}
+        {numToday > 0 ? (
+          <>
+            {todayMessages.map((today) => (
+              <div key={today.messageId} className='mb-3 bg'>
+                {/* ユーザー */}
+                <div className='flex justify-start items-center border-2 rounded-lg bg-neutral-50 p-4 mb-4'>
+                  <Image
+                    src={image}
+                    alt='ユーザーロゴ'
+                    width={30}
+                    height={30}
+                    className='rounded-full border border-gray-300'
+                  />
+                  <div className='flex flex-col ml-4 w-full'>
+                    <p>{today.question}</p>
+                    <p className='flex justify-end'>
+                      {currentTime(today.createdAt)}
+                    </p>
+                  </div>
+                </div>
+                {/* Irukara */}
+                <div className='flex justify-start items-start border-2 border-blue-200 rounded-lg bg-blue-50 p-4 mb-6'>
+                  <Image
+                    src={irukaraBasic}
+                    alt={irukaraBasicAlt}
+                    width={30}
+                    height={30}
+                    className='rounded-full border-2 border-blue-500 bg-sky-200 shadow-md'
+                  />
+                  <div className='flex flex-col ml-4 w-full'>
+                    <p>{today.answer}</p>
+                    <p className='flex justify-end'>
+                      {currentTime(today.createdAt)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </>
+        ) : (
+          <InputPrompt type={1} />
+        )}
+        {/* 追加のやり取り */}
+        {isNext &&
           messages.map((message: Message) => (
             <div key={message.id} className='mb-3'>
               {message.role === 'user' && (
@@ -139,15 +191,12 @@ export default function ChatGpt() {
                 </div>
               )}
             </div>
-          ))
-        ) : (
-          <InputPrompt type={1} />
-        )}
+          ))}
       </div>
-      <div className='fixed left-0 bottom-0 w-full px-8 py-4 h-[140px]'>
+      <div className='fixed left-0 bottom-0 w-full px-8 py-4 h-[140px] bg-white'>
         <form
           onSubmit={async (e) => onSubmitFn(e)}
-          className='relative w-full gap-4 border-solid border-2 border-blue-400 rounded-md'
+          className='relative w-full bg-white h-full gap-4 border-solid border-2 border-blue-400 rounded-md'
         >
           <textarea
             value={question}

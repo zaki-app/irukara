@@ -51,7 +51,7 @@ export default function GenerateArea({ data }: { data: UserStatusProps }) {
   return (
     <div className='h-full flex flex-col px-8'>
       <Plan userData={data} />
-      <div className='w-full'>
+      <div className='w-full h-full'>
         <Tabs defaultActiveKey='1' items={items} />
       </div>
     </div>
