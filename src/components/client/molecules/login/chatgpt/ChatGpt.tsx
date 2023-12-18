@@ -2,32 +2,59 @@
 
 import { irukaraBasic, irukaraBasicAlt } from '@/common/config/site.config';
 import { API } from '@/common/constants/path';
+import { startEndUnix } from '@/common/libs/dateFormat';
 import { commonValidate } from '@/common/utils/varidate/input';
 import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import { RootState } from '@/store';
 import { useChat, Message } from 'ai/react';
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
 import { FaAngleDoubleRight } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
 export default function ChatGpt() {
-  const { messages, handleInputChange, handleSubmit } = useChat({
+  // userId, statusを取得
+  const { userId, status } = useSelector(
+    (state: RootState) => state.authUserDataSlice,
+  );
+
+  const [question, setQuestion] = useState<string>('');
+  const [isValidate, setValidate] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
+  const [isNext, setNext] = useState<boolean>(false);
+  const [isResStatus, setResStatus] = useState<boolean>(false);
+
+  const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
     api: API.TOP_GPT,
+    onFinish: async (message: Message) => {
+      const params = {
+        userId,
+        question,
+        answer: message.content,
+        memberStatus: status,
+      };
+
+      const path = API.RELAY_POST_MSG.replace('{:type}', 'POST_MSG');
+      const res = await fetch(path, {
+        method: 'POST',
+        body: JSON.stringify(params),
+      });
+
+      if (res.ok) {
+        // 正常に保存処理が終了した時
+        setResStatus(true);
+      }
+    },
   });
   const { image } = useSelector(
     (state: RootState) => state.authUserProfileSlice,
   );
 
-  const [inputMsg, setInputMsg] = useState<string>('');
-  const [isValidate, setValidate] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>('');
-  const [isNext, setNext] = useState<boolean>(false);
-
+  // 質問を送信
   async function onSubmitFn(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (inputMsg) {
-      setInputMsg('');
+    if (question) {
+      setQuestion('');
       handleSubmit(e);
       setNext(true);
     }
@@ -36,9 +63,9 @@ export default function ChatGpt() {
   function textValidate(e: ChangeEvent<HTMLTextAreaElement>) {
     const validate = commonValidate(e.target.value, 250);
     if (e.target.value.length > 250) {
-      setInputMsg(e.target.value.slice(0, 250));
+      setQuestion(e.target.value.slice(0, 250));
     } else {
-      setInputMsg(e.target.value);
+      setQuestion(e.target.value);
     }
     setValidate(validate.result);
     if (validate.text.length > 0) {
@@ -49,9 +76,29 @@ export default function ChatGpt() {
     }
   }
 
+  // 今日の保存データを取得
+  // TODO 画面には今日のデータを表示して、追加されたらこれが入っている配列に入れる
+  async function getTodayMssage() {
+    const path = API.RELAY_GET_MSG.replace('{:type}', 'DATE').replace(
+      '{:target}',
+      '0',
+    );
+    const res = await fetch(path);
+    if (res.ok) {
+      const todayData = await res.json();
+      console.log('今日のデータ', todayData);
+    }
+  }
+
+  useEffect(() => {
+    (async () => {
+      await getTodayMssage();
+    })();
+  }, []);
+
   return (
     <div className='h-full'>
-      <div className='flex flex-col h-[calc(100%-140px)] overflow-y-auto'>
+      <div className='flex flex-col h-[calc(100%-140px)] overflow-y-auto mb-[150px]'>
         {isNext ? (
           messages.map((message: Message) => (
             <div key={message.id} className='mb-3'>
@@ -79,14 +126,16 @@ export default function ChatGpt() {
                     />
                     <p className='ml-4'>{message.content}</p>
                   </div>
-                  <div className='flex justify-end'>
-                    <button className='bg-blue-500 text-white py-1 px-2 rounded-md mr-3'>
-                      保存
-                    </button>
-                    <button className='bg-line text-white py-1 px-2 rounded-md'>
-                      共有
-                    </button>
-                  </div>
+                  {isResStatus && (
+                    <div className='flex justify-end'>
+                      <button className='bg-blue-500 text-white py-1 px-2 rounded-md mr-3'>
+                        保存
+                      </button>
+                      <button className='bg-line text-white py-1 px-2 rounded-md'>
+                        共有
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -98,15 +147,15 @@ export default function ChatGpt() {
       <div className='fixed left-0 bottom-0 w-full px-8 py-4 h-[140px]'>
         <form
           onSubmit={async (e) => onSubmitFn(e)}
-          className='w-full gap-4 border-solid border-2 border-blue-400 rounded-md'
+          className='relative w-full gap-4 border-solid border-2 border-blue-400 rounded-md'
         >
           <textarea
-            value={inputMsg}
+            value={question}
             onChange={textValidate}
             placeholder='Irukaraへの質問を書いてください'
             className='w-full border-none outline-none px-4 py-2 text-base resize-none'
           />
-          <div className='flex justify-end mr-2 mb-1 bg-white'>
+          <div className='absolute bottom-0 right-0 flex justify-end mr-2 mb-1 bg-white'>
             <button className='text-white bg-blue-500 text-xl p-1 rounded-full'>
               <FaAngleDoubleRight className='text-right' />
             </button>

@@ -64,9 +64,11 @@ export async function getApi(path: string) {
 
 // POST
 export async function postApi(path: string, body: any) {
+  console.log('post message arg...', path, body);
   let response;
   try {
     const { token, provider } = await getAuthInfo();
+    console.log('post message token ....', token, provider);
     const res = await fetch(path, {
       method: 'POST',
       headers: {

@@ -8,23 +8,30 @@ import Card from '../../atoms/Card';
 import SectionWrapper from '../../template/SectionWrapper';
 
 export interface UserStatusProps {
-  totalImgSave: number;
+  isUser: boolean;
+  userId: string;
+  lineId: string;
   providerType: string;
-  totalMsg: number;
   mode: number;
   status: number;
-  createdAt: number;
-  weekMsg: number;
-  lastLogin: number;
-  weekMsgSave: number;
-  weekImg: number;
-  totalMsgSave: number;
-  userId: string;
   registerMethod: string;
-  weekImgSave: number;
+  lastLogin: number;
+  createdAt: number;
+  // gpt3.5
+  weekMsg: number;
+  totalMsg: number;
+  weekMsgSave: number;
+  totalMsgSave: number;
+  // image
+  weekImg: number;
   totalImg: number;
-  lineId: string;
-  isUser: boolean;
+  weekImgSave: number;
+  totalImgSave: number;
+  // 追加gpt4
+  weekMsg4?: number;
+  totalMsg4?: number;
+  weekMsgSave4?: number;
+  totalMsgSave4?: number;
 }
 
 export default function UserStatus({

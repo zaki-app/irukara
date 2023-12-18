@@ -1,4 +1,7 @@
 /* パスをまとめる */
+
+import { IrukaraApiUnion } from '@/types/constants';
+
 // クライアント
 export const LINK_PATH = {
   TERMS_TITLE: '利用規約',
@@ -12,6 +15,9 @@ export const LINK_PATH = {
 export const API = {
   TOP_GPT: '/api/playground/top',
   RATE_LIMIT_TOP_CHAT: '/api/rate-limit/top-limit?type={:type}',
+  // 中間API
+  RELAY_POST_MSG: '/api/backend/message?type={:type}',
+  RELAY_GET_MSG: '/api/backend/message/type?type={:type}&target={:target}',
 };
 
 // CALLBACK
@@ -30,7 +36,16 @@ export const EXTERNAL_API = {
 
 // Lambda API
 export const LAMBDA_API = process.env.IRUKARA_API_ENDPOINT;
-export const IRUKARA_API = {
+
+export const IRUKARA_API: IrukaraApiUnion = {
+  // user
   GET_USER_ID: `${LAMBDA_API}search-user/{userId}`,
   POST_USER: `${LAMBDA_API}register-user`,
+  // message
+  GET_MSG_DATE: `${LAMBDA_API}save-messages/{userId}?type=date&start={startUnix}&end={endUnix}`,
+  GET_MSG_REFE: `${LAMBDA_API}save-messages/{userId}?type=reference&status={num}`,
+  GET_MSG: `${LAMBDA_API}save-messages/{userId}`,
+  POST_MSG: `${LAMBDA_API}save-chat-message`,
+  PUT_MSG: `${LAMBDA_API}save-message-update/{messageId}`,
+  DEL_MSG: `${LAMBDA_API}save-message-delete/{messageId}`,
 };

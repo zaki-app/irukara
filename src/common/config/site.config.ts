@@ -109,23 +109,3 @@ export const irukamoBasicAlt = 'イルカモのキャラクター画像';
 
 // デフォルトユーザー
 export const DEFAULT_USER_LOGO = '/images/User.svg';
-
-// 生成タブ
-export const TAB_LIST = [
-  {
-    key: 1,
-    name: 'チャットモード(GPT3.5)',
-  },
-  {
-    key: 2,
-    name: 'チャットモード(GPT4)',
-  },
-  {
-    key: 3,
-    name: 'イラストモード',
-  },
-  {
-    key: 4,
-    name: 'リアルモード',
-  },
-];

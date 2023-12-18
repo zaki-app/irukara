@@ -6,7 +6,7 @@ import { COOKIE_NAME } from '@/common/constants';
 import createUserIdHash from '@/common/libs/createHash';
 import { currentUnix } from '@/common/libs/dateFormat';
 import { Adapter } from 'next-auth/adapters';
-import { getCsrfToken } from 'next-auth/react';
+// import { getCsrfToken } from 'next-auth/react';
 import { getApi, postApi } from '@/common/libs/api/lambda/requestClient';
 import { IRUKARA_API } from '@/common/constants/path';
 import { deleteNextAuthSession, dynamoAdapter } from './adapter';
@@ -113,9 +113,7 @@ export const options: NextAuthOptions = {
     },
     // signIn後のリダイレクト先
     async redirect({ url, baseUrl }) {
-      const csrfToken = await getCsrfToken();
-      console.log('csrf', csrfToken);
-      console.log('リダイレクト', url, baseUrl);
+      // const csrfToken = await getCsrfToken();
       return baseUrl;
     },
   },

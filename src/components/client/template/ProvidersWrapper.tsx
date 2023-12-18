@@ -16,11 +16,9 @@ import StyledComponentsRegistry from '../molecules/login/libs/AntdRegistry';
 export default function ProvidersWrapper({
   children,
   session,
-}: // isCookie,
-{
+}: {
   children: React.ReactNode;
   session: SessionUserInfo;
-  // isCookie: boolean;
 }) {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
@@ -54,7 +52,7 @@ export default function ProvidersWrapper({
 
   return (
     <html lang='ja'>
-      <body className='text-basic'>
+      <body>
         <Suspense>
           <Analytics />
         </Suspense>
