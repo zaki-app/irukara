@@ -9,7 +9,14 @@ import { RootState } from '@/store';
 import { GetMessagesType, MessageType } from '@/types/message';
 import { useChat, Message } from 'ai/react';
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { FaAngleDoubleRight } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
@@ -19,6 +26,8 @@ export default function ChatGpt() {
     (state: RootState) => state.authUserDataSlice,
   );
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   const [question, setQuestion] = useState<string>('');
   const [isValidate, setValidate] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
@@ -26,6 +35,8 @@ export default function ChatGpt() {
   const [isResStatus, setResStatus] = useState<boolean>(false);
   const [numToday, setToday] = useState<number>(0);
   const [todayMessages, setTodayMessages] = useState<MessageType[]>([]);
+  const [isScroll, setScroll] = useState<boolean>(false);
+  const [isLoaded, setLoaded] = useState<boolean>(false);
 
   const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
     api: API.TOP_GPT,
@@ -53,6 +64,19 @@ export default function ChatGpt() {
     (state: RootState) => state.authUserProfileSlice,
   );
 
+  // スクロールを一番下へ
+  function scrollDown() {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      });
+      console.log('スクロールtrue');
+      setScroll(true);
+    }
+  }
+
   // 質問を送信
   async function onSubmitFn(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -60,6 +84,7 @@ export default function ChatGpt() {
       setQuestion('');
       handleSubmit(e);
       setNext(true);
+      scrollDown();
     }
   }
 
@@ -101,17 +126,24 @@ export default function ChatGpt() {
       console.log('useEffect1');
       await getTodayMessage();
       console.log('useEffect2 ここになったらデータが表示される');
+      setLoaded(true);
     })();
   }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      scrollDown();
+    }
+  }, [isLoaded]);
 
   return (
     <div className='h-full'>
       <div className='flex flex-col h-[calc(100%-140px)] overflow-y-auto mb-[150px]'>
         {/* 保存済みの今日のやり取り */}
-        {numToday > 0 ? (
-          <>
-            {todayMessages.map((today) => (
-              <div key={today.messageId} className='mb-3 bg'>
+        {isLoaded && numToday > 0 ? (
+          <div className='flex flex-col-reverse'>
+            {todayMessages.map((today, index) => (
+              <div key={today.messageId} className='mb-3'>
                 {/* ユーザー */}
                 <div className='flex justify-start items-center border-2 rounded-lg bg-neutral-50 p-4 mb-4'>
                   <Image
@@ -146,7 +178,7 @@ export default function ChatGpt() {
                 </div>
               </div>
             ))}
-          </>
+          </div>
         ) : (
           <InputPrompt type={1} />
         )}
@@ -211,6 +243,7 @@ export default function ChatGpt() {
           </div>
         </form>
       </div>
+      <div ref={scrollRef} />
     </div>
   );
 }
