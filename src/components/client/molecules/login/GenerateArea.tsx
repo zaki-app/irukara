@@ -6,9 +6,8 @@ import { store } from '@/store';
 import { setAuthUserData } from '@/store/auth/user/slice';
 import ChatGpt from './chatgpt/ChatGpt';
 import Plan from '../../atoms/login/Plan';
-import { UserStatusProps } from './UserStatus';
 
-export default function GenerateArea({ data }: { data: UserStatusProps }) {
+export default function GenerateArea({ data }: { data: any }) {
   const [numTab, setTab] = useState<number>(1);
 
   function selectTab(type: number) {

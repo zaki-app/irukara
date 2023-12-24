@@ -1,22 +1,15 @@
 'use client';
 
-import { irukaraBasic, irukaraBasicAlt } from '@/common/config/site.config';
 import { API } from '@/common/constants/path';
-import { currentTime, startEndUnix } from '@/common/libs/dateFormat';
+import { currentUnix } from '@/common/libs/dateFormat';
 import { commonValidate } from '@/common/utils/varidate/input';
 import InputPrompt from '@/components/client/atoms/login/InputPrompt';
+import AiCard from '@/components/client/atoms/login/chat/AiCard';
+import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import { RootState } from '@/store';
-import { GetMessagesType, MessageType } from '@/types/message';
+import { MessageType } from '@/types/message';
 import { useChat, Message } from 'ai/react';
-import Image from 'next/image';
-import {
-  ChangeEvent,
-  FormEvent,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { FaAngleDoubleRight } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
@@ -35,12 +28,32 @@ export default function ChatGpt() {
   const [isResStatus, setResStatus] = useState<boolean>(false);
   const [numToday, setToday] = useState<number>(0);
   const [todayMessages, setTodayMessages] = useState<MessageType[]>([]);
-  const [isScroll, setScroll] = useState<boolean>(false);
   const [isLoaded, setLoaded] = useState<boolean>(false);
+  const [isAnswer, setAnswer] = useState<boolean>(false);
+  const [isInput, setInput] = useState<boolean>(true);
+  const [questionHolder, setQuestionHolder] = useState<string>(
+    'Irukaraへの質問を書いてください',
+  );
+
+  // スクロールを一番下へ
+  function scrollDown() {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      });
+      console.log('スクロールtrue');
+    }
+  }
 
   const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
     api: API.TOP_GPT,
     onFinish: async (message: Message) => {
+      scrollDown();
+      setQuestionHolder('Irukaraへの質問を書いてください');
+      setAnswer(false);
+      setInput(true);
       const params = {
         userId,
         question,
@@ -60,35 +73,26 @@ export default function ChatGpt() {
       }
     },
   });
-  const { image } = useSelector(
-    (state: RootState) => state.authUserProfileSlice,
-  );
-
-  // スクロールを一番下へ
-  function scrollDown() {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-        inline: 'nearest',
-      });
-      console.log('スクロールtrue');
-      setScroll(true);
-    }
-  }
 
   // 質問を送信
   async function onSubmitFn(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setQuestionHolder('回答を作成中です');
     if (question) {
       setQuestion('');
       handleSubmit(e);
       setNext(true);
       scrollDown();
+      setAnswer(false);
     }
   }
 
   function textValidate(e: ChangeEvent<HTMLTextAreaElement>) {
+    if (e.target.value.length > 0) {
+      setInput(false);
+    } else {
+      setInput(true);
+    }
     const validate = commonValidate(e.target.value, 250);
     if (e.target.value.length > 250) {
       setQuestion(e.target.value.slice(0, 250));
@@ -142,40 +146,15 @@ export default function ChatGpt() {
         {/* 保存済みの今日のやり取り */}
         {isLoaded && numToday > 0 ? (
           <div className='flex flex-col-reverse'>
-            {todayMessages.map((today, index) => (
+            {todayMessages.map((today) => (
               <div key={today.messageId} className='mb-3'>
                 {/* ユーザー */}
-                <div className='flex justify-start items-center border-2 rounded-lg bg-neutral-50 p-4 mb-4'>
-                  <Image
-                    src={image}
-                    alt='ユーザーロゴ'
-                    width={30}
-                    height={30}
-                    className='rounded-full border border-gray-300'
-                  />
-                  <div className='flex flex-col ml-4 w-full'>
-                    <p>{today.question}</p>
-                    <p className='flex justify-end'>
-                      {currentTime(today.createdAt)}
-                    </p>
-                  </div>
-                </div>
+                <UserCard
+                  question={today.question}
+                  createdAt={today.createdAt}
+                />
                 {/* Irukara */}
-                <div className='flex justify-start items-start border-2 border-blue-200 rounded-lg bg-blue-50 p-4 mb-6'>
-                  <Image
-                    src={irukaraBasic}
-                    alt={irukaraBasicAlt}
-                    width={30}
-                    height={30}
-                    className='rounded-full border-2 border-blue-500 bg-sky-200 shadow-md'
-                  />
-                  <div className='flex flex-col ml-4 w-full'>
-                    <p>{today.answer}</p>
-                    <p className='flex justify-end'>
-                      {currentTime(today.createdAt)}
-                    </p>
-                  </div>
-                </div>
+                <AiCard answer={today.answer} createdAt={today.createdAt} />
               </div>
             ))}
           </div>
@@ -187,39 +166,14 @@ export default function ChatGpt() {
           messages.map((message: Message) => (
             <div key={message.id} className='mb-3'>
               {message.role === 'user' && (
-                <div className='flex justify-start items-start'>
-                  <Image
-                    src={image}
-                    alt='ユーザーロゴ'
-                    width={30}
-                    height={30}
-                    className='rounded-full border border-gray-300'
-                  />
-                  <p className='ml-4'>{message.content}</p>
-                </div>
+                <UserCard
+                  question={message.content}
+                  createdAt={currentUnix()}
+                />
               )}
               {message.role === 'assistant' && (
                 <div className='mb-3'>
-                  <div className='flex justify-start items-start'>
-                    <Image
-                      src={irukaraBasic}
-                      alt={irukaraBasicAlt}
-                      width={30}
-                      height={30}
-                      className='rounded-full border border-gray-300'
-                    />
-                    <p className='ml-4'>{message.content}</p>
-                  </div>
-                  {isResStatus && (
-                    <div className='flex justify-end'>
-                      <button className='bg-blue-500 text-white py-1 px-2 rounded-md mr-3'>
-                        保存
-                      </button>
-                      <button className='bg-line text-white py-1 px-2 rounded-md'>
-                        共有
-                      </button>
-                    </div>
-                  )}
+                  <AiCard answer={message.content} createdAt={currentUnix()} />
                 </div>
               )}
             </div>
@@ -232,12 +186,18 @@ export default function ChatGpt() {
         >
           <textarea
             value={question}
+            readOnly={isAnswer}
             onChange={textValidate}
-            placeholder='Irukaraへの質問を書いてください'
+            placeholder={questionHolder}
             className='w-full border-none outline-none px-4 py-2 text-base resize-none'
           />
           <div className='absolute bottom-0 right-0 flex justify-end mr-2 mb-1 bg-white'>
-            <button className='text-white bg-blue-500 text-xl p-1 rounded-full'>
+            <button
+              className={`text-white text-xl p-1 rounded-full bg-blue-500 ${
+                isInput ? 'opacity-70' : ''
+              }`}
+              disabled={isInput}
+            >
               <FaAngleDoubleRight className='text-right' />
             </button>
           </div>

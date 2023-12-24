@@ -2,14 +2,13 @@ import { useMemo, useState } from 'react';
 import { PLAN } from '@/common/constants';
 import Link from 'next/link';
 import { LINK_PATH } from '@/common/constants/path';
-import { UserStatusProps } from '../../molecules/login/UserStatus';
 
 /**
  * ユーザーのステータス情報を表示する
  * @param {ユーザー情報}
  * @returns
  */
-export default function Plan({ userData }: { userData: UserStatusProps }) {
+export default function Plan({ userData }: { userData: any }) {
   const [planColor, setPlanColor] = useState<string>('');
 
   useMemo(() => {
