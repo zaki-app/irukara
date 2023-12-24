@@ -5,12 +5,7 @@ export interface MessageType {
   createdAt: number;
   memberStatus: string;
   messageId: string;
-  mode: number;
   question: string;
-  referenceType: string;
-  requestType: string;
-  shareStatus: string;
-  userId: string;
 }
 
 export interface GetMessagesType {

@@ -3,10 +3,7 @@ import { COOKIE_NAME } from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
 import { getApi } from '@/common/libs/api/lambda/requestClient';
 import { getCookie } from '@/common/utils/manageCookies';
-import Plan from '@/components/client/atoms/login/Plan';
 import GenerateArea from '@/components/client/molecules/login/GenerateArea';
-import UserStatus from '@/components/client/molecules/login/UserStatus';
-import PageWrapper from '@/components/client/template/PageWrapper';
 
 interface UserStatusProps {
   totalImgSave: number;
@@ -52,9 +49,6 @@ export default async function TopMyPage() {
     <>
       {isUser ? (
         <>
-          {/* 上にプラン情報 */}
-          {/* <UserStatus userData={data} /> */}
-          {/* <Plan /> */}
           {/* チャット・画像生成エリア */}
           <GenerateArea data={data} />
         </>
