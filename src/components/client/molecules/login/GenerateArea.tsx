@@ -1,19 +1,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Tabs, TabsProps } from 'antd';
 import { store } from '@/store';
 import { setAuthUserData } from '@/store/auth/user/slice';
+import useTabs from '@/hooks/useTabs';
+import { GetUserIdRes } from '@/types/auth/api';
 import ChatGpt from './chatgpt/ChatGpt';
 import Plan from '../../atoms/login/Plan';
+import CSSTabs from '../../atoms/tab/CSSTabs';
 
-export default function GenerateArea({ data }: { data: any }) {
-  const [numTab, setTab] = useState<number>(1);
+type Tab = { key: number; label: string; id: number };
 
-  function selectTab(type: number) {
-    setTab(type);
-  }
-
+/**
+ * 各生成切り替えのタブ
+ */
+export default function GenerateArea({ data }: { data: GetUserIdRes }) {
   useEffect(() => {
     // userIdとstatusをreduxへ
     store.dispatch(
@@ -24,34 +25,55 @@ export default function GenerateArea({ data }: { data: any }) {
     );
   }, []);
 
-  const items: TabsProps['items'] = [
-    {
-      key: '1',
-      label: 'チャット(GPT3.5)',
-      children: <ChatGpt />,
-    },
-    {
-      key: '2',
-      label: 'チャット(GPT4)',
-      children: <ChatGpt />,
-    },
-    {
-      key: '3',
-      label: 'イラスト',
-      children: <ChatGpt />,
-    },
-    {
-      key: '4',
-      label: 'リアル',
-      children: <ChatGpt />,
-    },
-  ];
+  const [hookProps] = useState({
+    tabs: [
+      {
+        id: 0,
+        key: 1,
+        label: 'チャット(GPT3.5)',
+        children: <ChatGpt />,
+      },
+      {
+        id: 1,
+        key: 2,
+        label: 'チャット(GPT4)',
+        children: 'tab2',
+      },
+      {
+        id: 2,
+        key: 3,
+        label: 'イラスト',
+        children: 'tab3',
+      },
+      {
+        id: 3,
+        key: 4,
+        label: 'リアル',
+        children: 'tab4',
+      },
+    ],
+    initialTabKey: 1,
+  });
+
+  const { tabProps, selectedTab } = useTabs(hookProps);
 
   return (
-    <div className='h-full flex flex-col px-8'>
+    <div className='h-full flex flex-col px-8 flex-1'>
       <Plan userData={data} />
-      <div className='w-full h-full'>
-        <Tabs defaultActiveKey='1' items={items} />
+      {/* タブ */}
+      <div className='w-full mt-4'>
+        {/* tab header */}
+        <div>
+          <CSSTabs
+            tabs={tabProps.tabs}
+            selectedTabIndex={tabProps.selectedTabIndex}
+            setSelectedTab={tabProps.setSelectedTab}
+          />
+        </div>
+        {/* tab body */}
+        <div className='bg-orange-100 overflow-hidden'>
+          {selectedTab.children}
+        </div>
       </div>
     </div>
   );

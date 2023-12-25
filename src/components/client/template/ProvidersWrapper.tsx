@@ -61,7 +61,7 @@ export default function ProvidersWrapper({
             <Header />
             {isLoaded ? (
               <StyledComponentsRegistry>
-                <div className='main-contents'>{children}</div>
+                <main className='main-contents'>{children}</main>
               </StyledComponentsRegistry>
             ) : (
               <Loading opacity={1} />
