@@ -141,48 +141,54 @@ export default function ChatGpt() {
   }, [isLoaded]);
 
   return (
-    <div className='h-full'>
-      <div className='flex flex-col h-[calc(100%-140px)] overflow-y-auto mb-[150px]'>
-        {/* 保存済みの今日のやり取り */}
-        {isLoaded && numToday > 0 ? (
-          <div className='flex flex-col-reverse'>
-            {todayMessages.map((today) => (
-              <div key={today.messageId} className='mb-3'>
-                {/* ユーザー */}
-                <UserCard
-                  question={today.question}
-                  createdAt={today.createdAt}
-                />
-                {/* Irukara */}
-                <AiCard answer={today.answer} createdAt={today.createdAt} />
+    <>
+      {/* やり取り */}
+      <div className='flex-1 overflow-hidden'>
+        <div className='relative h-full overflow-y-auto'>
+          {isLoaded && numToday > 0 ? (
+            <div className='flex flex-col-reverse bg-red-200'>
+              {todayMessages.map((today) => (
+                <div key={today.messageId} className='mb-3'>
+                  {/* ユーザー */}
+                  <UserCard
+                    question={today.question}
+                    createdAt={today.createdAt}
+                  />
+                  {/* Irukara */}
+                  <AiCard answer={today.answer} createdAt={today.createdAt} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <InputPrompt type={1} />
+          )}
+          {/* 追加のやり取り */}
+          {isNext &&
+            messages.map((message: Message) => (
+              <div key={message.id} className='mb-3'>
+                {message.role === 'user' && (
+                  <UserCard
+                    question={message.content}
+                    createdAt={currentUnix()}
+                  />
+                )}
+                {message.role === 'assistant' && (
+                  <div className='mb-3'>
+                    <AiCard
+                      answer={message.content}
+                      createdAt={currentUnix()}
+                    />
+                  </div>
+                )}
               </div>
             ))}
-          </div>
-        ) : (
-          <InputPrompt type={1} />
-        )}
-        {/* 追加のやり取り */}
-        {isNext &&
-          messages.map((message: Message) => (
-            <div key={message.id} className='mb-3'>
-              {message.role === 'user' && (
-                <UserCard
-                  question={message.content}
-                  createdAt={currentUnix()}
-                />
-              )}
-              {message.role === 'assistant' && (
-                <div className='mb-3'>
-                  <AiCard answer={message.content} createdAt={currentUnix()} />
-                </div>
-              )}
-            </div>
-          ))}
+        </div>
       </div>
-      <div className='fixed left-0 bottom-0 w-full px-8 py-4 h-[140px] bg-white'>
+      {/* 入力 */}
+      <div className='w-full pt-2 md:pt-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:w-[calc(100%-.5rem)]'>
         <form
           onSubmit={async (e) => onSubmitFn(e)}
-          className='relative w-full bg-white h-full gap-4 border-solid border-2 border-blue-400 rounded-md'
+          className='stretch w-full bg-white h-full gap-4 border-solid border-2 border-blue-400 rounded-md'
         >
           <textarea
             value={question}
@@ -204,6 +210,6 @@ export default function ChatGpt() {
         </form>
       </div>
       <div ref={scrollRef} />
-    </div>
+    </>
   );
 }

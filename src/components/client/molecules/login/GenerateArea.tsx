@@ -5,6 +5,9 @@ import { store } from '@/store';
 import { setAuthUserData } from '@/store/auth/user/slice';
 import useTabs from '@/hooks/useTabs';
 import { GetUserIdRes } from '@/types/auth/api';
+import { PLAN } from '@/common/constants';
+import { LINK_PATH } from '@/common/constants/path';
+import Link from 'next/link';
 import ChatGpt from './chatgpt/ChatGpt';
 import Plan from '../../atoms/login/Plan';
 import CSSTabs from '../../atoms/tab/CSSTabs';
@@ -58,23 +61,32 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
   const { tabProps, selectedTab } = useTabs(hookProps);
 
   return (
-    <div className='h-full flex flex-col px-8 flex-1'>
-      <Plan userData={data} />
-      {/* タブ */}
-      <div className='w-full mt-4'>
-        {/* tab header */}
-        <div>
-          <CSSTabs
-            tabs={tabProps.tabs}
-            selectedTabIndex={tabProps.selectedTabIndex}
-            setSelectedTab={tabProps.setSelectedTab}
-          />
+    <main className='relative h-full w-full flex-1 overflow-auto transition-width'>
+      <div className='flex flex-col h-full'>
+        <div className='kotei'>
+          {/* プラン(固定) */}
+          <div className='flex bg-red-200 justify-between items-center py-4'>
+            <button>{PLAN[data.status]}</button>
+            <button>
+              <Link href={LINK_PATH.MEMBER}>プラン変更</Link>
+            </button>
+          </div>
+          {/* <Plan userData={data} /> */}
+          {/* タブ */}
+          {/* tab header(固定) */}
+          <div>
+            <CSSTabs
+              tabs={tabProps.tabs}
+              selectedTabIndex={tabProps.selectedTabIndex}
+              setSelectedTab={tabProps.setSelectedTab}
+            />
+          </div>
         </div>
-        {/* tab body */}
-        <div className='bg-orange-100 overflow-hidden'>
+        {/* tab body(scroll) */}
+        <div className='bg-orange-100 h-full flex flex-col overflow-y-auto'>
           {selectedTab.children}
         </div>
       </div>
-    </div>
+    </main>
   );
 }

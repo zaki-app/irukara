@@ -20,17 +20,17 @@ export default function Header() {
   );
 
   return (
-    <header className='shadow-md w-full fixed top-0 left-0 h-[5rem] z-[10]'>
-      <div className='bg-nav text-white p-4 flex items-center justify-between'>
+    <header className='shadow-md w-full fixed top-0 left-0 h-[4rem] z-[10]'>
+      <div className='w-full h-full bg-nav text-white p-4 flex items-center justify-between'>
         <nav>
           <a href={SITE_CONFIG.TOP_HREF} className='flex items-center'>
             <Image
               src={SITE_CONFIG.HEADER_LOGO}
               alt={SITE_CONFIG.LOGO_ALT}
-              width={50}
-              height={50}
+              width={40}
+              height={40}
             />
-            <KanitFont fontStyle='text-white text-3xl ml-4' text='Irukara' />
+            <KanitFont fontStyle='text-white text-2xl ml-4' text='Irukara' />
           </a>
         </nav>
         <div className='flex items-center'>

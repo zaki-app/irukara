@@ -56,17 +56,14 @@ export default async function TopMyPage() {
       {isUser ? (
         <>
           {/* チャット・画像生成エリア */}
-          <div className='flex w-full h-full'>
+          <div className='relative z-0 flex h-full w-full overflow-hidden'>
             {/* サイドバー */}
-            <div className='w-[25%] h-full bg-gray-300 overflow-hidden'>
+            <div className='w-[250px] flex-shrink-0 overflow-x-hidden bg-slate-400'>
               サイドバー
             </div>
             {/* 生成エリア */}
-            <div className='flex flex-1 flex-col overflow-hidden'>
+            <div className='relative flex h-full max-w-full flex-1 flex-col overflow-hidden'>
               <GenerateArea data={data} />
-              <div className='w-full bg-orange-200 py-4'>
-                <textarea className='w-full' />
-              </div>
             </div>
           </div>
         </>
