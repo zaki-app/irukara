@@ -5,7 +5,8 @@ import Image from 'next/image';
 
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import { RootState, store } from '@/store';
+import { setSidebar } from '@/store/ui/sidebar/slice';
 import { KanitFont } from '../atoms';
 import LoginModal from '../molecules/header/LoginModal';
 import HamburgerMenu from '../molecules/header/HamburgerMenu';
@@ -20,8 +21,8 @@ export default function Header() {
 
   return (
     <header className='shadow-md w-full fixed top-0 left-0 h-[4rem] z-[10]'>
-      <div className='w-full h-full bg-nav text-white p-4 flex items-center justify-between'>
-        <nav>
+      <nav className='w-full h-full bg-nav text-white p-4 flex items-center justify-center'>
+        <div>
           <a href={SITE_CONFIG.TOP_HREF} className='flex items-center'>
             <Image
               src={SITE_CONFIG.HEADER_LOGO}
@@ -31,10 +32,10 @@ export default function Header() {
             />
             <KanitFont fontStyle='text-white text-2xl ml-4' text='Irukara' />
           </a>
-        </nav>
-        <div className='flex items-center'>
-          {/* ログインボタン モーダル */}
-          {!isAuth ? (
+        </div>
+        {!isAuth ? (
+          <div className='flex items-center'>
+            {/* ログインボタン モーダル */}
             <button
               className='bg-line py-2 px-3 mr-4 rounded-lg font-bold shadow-lg hover:bg-green-600'
               type='button'
@@ -42,14 +43,16 @@ export default function Header() {
             >
               ログイン
             </button>
-          ) : (
+            {isModal && <LoginModal isModal={isModal} closeModal={setModal} />}
+            {/* ハンバーガーメニュー */}
+            <HamburgerMenu />
+          </div>
+        ) : (
+          <div className='ml-auto'>
             <LoginUserCard />
-          )}
-          {isModal && <LoginModal isModal={isModal} closeModal={setModal} />}
-          {/* ハンバーガーメニュー */}
-          <HamburgerMenu />
-        </div>
-      </div>
+          </div>
+        )}
+      </nav>
     </header>
   );
 }
