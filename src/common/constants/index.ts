@@ -33,3 +33,12 @@ export const PLAN = [
   'イルカラプラン', // VIPからイルカラ
   '無料プラン', // VIPから無料
 ];
+
+// レスポンシブ
+export const RESPONSIVE = {
+  SM: 640,
+  MD: 768,
+  LG: 1024,
+  XL: 1280,
+  '2XL': 1536,
+};

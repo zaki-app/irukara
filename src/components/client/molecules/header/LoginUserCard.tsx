@@ -46,7 +46,7 @@ export default function LoginUserCard() {
   }, []);
 
   return (
-    <div className='mr-4 bg-gray-700 p-2 rounded-lg relative' ref={dropdownRef}>
+    <div className='bg-gray-700 p-2 rounded-lg relative' ref={dropdownRef}>
       <div
         className='flex justify-center items-center cursor-pointer'
         onClick={toggleDropdown}
