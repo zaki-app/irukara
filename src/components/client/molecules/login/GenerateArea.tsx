@@ -5,14 +5,9 @@ import { store } from '@/store';
 import { setAuthUserData } from '@/store/auth/user/slice';
 import useTabs from '@/hooks/useTabs';
 import { GetUserIdRes } from '@/types/auth/api';
-import { PLAN } from '@/common/constants';
-import { LINK_PATH } from '@/common/constants/path';
-import Link from 'next/link';
 import ChatGpt from './chatgpt/ChatGpt';
 import Plan from '../../atoms/login/Plan';
 import CSSTabs from '../../atoms/tab/CSSTabs';
-
-type Tab = { key: number; label: string; id: number };
 
 /**
  * 各生成切り替えのタブ
@@ -65,14 +60,8 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
       <div className='flex flex-col h-full'>
         <div className='kotei'>
           {/* プラン(固定) */}
-          <div className='flex bg-red-200 justify-between items-center py-4'>
-            <button>{PLAN[data.status]}</button>
-            <button>
-              <Link href={LINK_PATH.MEMBER}>プラン変更</Link>
-            </button>
-          </div>
-          {/* <Plan userData={data} /> */}
-          {/* タブ */}
+          <Plan userData={data} />
+
           {/* tab header(固定) */}
           <div>
             <CSSTabs
@@ -83,7 +72,7 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
           </div>
         </div>
         {/* tab body(scroll) */}
-        <div className='bg-orange-100 h-full flex flex-col overflow-y-auto'>
+        <div className='h-full flex flex-col overflow-y-auto'>
           {selectedTab.children}
         </div>
       </div>

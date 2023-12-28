@@ -7,6 +7,8 @@ import {
   useState,
 } from 'react';
 import classNames from 'classnames';
+import { store } from '@/store';
+import { setTabsKey } from '@/store/ui/tab/slice';
 
 type Tab = { label: string; key: number; id: number };
 
@@ -68,6 +70,8 @@ export default function CSSTabs({
 
   const onSelectTab = (i: number) => {
     setSelectedTab(i);
+    // sidebar用にreduxへキーを保存
+    store.dispatch(setTabsKey({ key: i }));
   };
 
   const hoverStyles: CSSProperties = { opacity: 0 };
@@ -100,7 +104,7 @@ export default function CSSTabs({
   return (
     <nav
       ref={navRef}
-      className='flex flex-shrink-0 justify-start items-center relative z-0 py-2 mb-4 overflow-x-visible h-[2rem]'
+      className='flex flex-shrink-0 justify-start items-center relative z-0 py-2 my-4 overflow-x-visible h-[2rem]'
       onPointerLeave={onLeaveTabs}
     >
       {tabs.map((item) => (
