@@ -25,6 +25,12 @@ interface UserStatusProps {
   isUser: boolean;
 }
 
+interface Tabs {
+  key: number;
+  label: string;
+  component?: any;
+}
+
 /**
  * 他のユーザーの投稿を見れる
  * @param session
@@ -50,7 +56,16 @@ export default async function TopMyPage() {
       {isUser ? (
         <>
           {/* チャット・画像生成エリア */}
-          <GenerateArea data={data} />
+          <div className='relative z-0 flex h-full w-full overflow-hidden'>
+            {/* サイドバー */}
+            <div className='w-[250px] flex-shrink-0 overflow-x-hidden bg-slate-400'>
+              サイドバー
+            </div>
+            {/* 生成エリア */}
+            <div className='relative flex h-full max-w-full flex-1 flex-col overflow-hidden'>
+              <GenerateArea data={data} />
+            </div>
+          </div>
         </>
       ) : (
         <></>

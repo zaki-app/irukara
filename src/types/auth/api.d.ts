@@ -10,7 +10,7 @@ export interface GetUserIdRes {
   weekMsgSave: number;
   weekImg: number;
   totalMsgSave: number;
-  updatedAt: number;
+  updatedAt?: number;
   userId: string;
   weekImgSave: number;
   totalImg: number;
