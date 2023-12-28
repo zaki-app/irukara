@@ -12,7 +12,7 @@ interface AiCardProps {
  */
 export default function AiCard({ answer, createdAt }: AiCardProps) {
   return (
-    <div className='flex justify-start items-start border-2 border-blue-200 rounded-lg bg-blue-50 p-4 mb-6'>
+    <div className='flex justify-start items-start border-2 border-blue-200 rounded-lg bg-blue-50 p-4 mb-2'>
       <Image
         src={irukaraBasic}
         alt={irukaraBasicAlt}

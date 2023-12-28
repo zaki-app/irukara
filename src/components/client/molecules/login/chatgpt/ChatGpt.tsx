@@ -144,11 +144,11 @@ export default function ChatGpt() {
     <>
       {/* やり取り */}
       <div className='flex-1 overflow-hidden'>
-        <div className='relative h-full overflow-y-auto'>
+        <div className='relative h-full overflow-y-auto px-2'>
           {isLoaded && numToday > 0 ? (
-            <div className='flex flex-col-reverse bg-red-200'>
+            <div className='flex flex-col-reverse'>
               {todayMessages.map((today) => (
-                <div key={today.messageId} className='mb-3'>
+                <div key={today.messageId}>
                   {/* ユーザー */}
                   <UserCard
                     question={today.question}
@@ -165,7 +165,7 @@ export default function ChatGpt() {
           {/* 追加のやり取り */}
           {isNext &&
             messages.map((message: Message) => (
-              <div key={message.id} className='mb-3'>
+              <div key={message.id}>
                 {message.role === 'user' && (
                   <UserCard
                     question={message.content}
@@ -173,7 +173,7 @@ export default function ChatGpt() {
                   />
                 )}
                 {message.role === 'assistant' && (
-                  <div className='mb-3'>
+                  <div>
                     <AiCard
                       answer={message.content}
                       createdAt={currentUnix()}
@@ -185,7 +185,7 @@ export default function ChatGpt() {
         </div>
       </div>
       {/* 入力 */}
-      <div className='w-full pt-2 md:pt-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:w-[calc(100%-.5rem)]'>
+      <div className='w-full py-2 pl-2 pr-3 dark:border-white/20 md:border-transparent md:dark:border-transparent'>
         <form
           onSubmit={async (e) => onSubmitFn(e)}
           className='stretch w-full bg-white h-full gap-4 border-solid border-2 border-blue-400 rounded-md'
@@ -197,7 +197,7 @@ export default function ChatGpt() {
             placeholder={questionHolder}
             className='w-full border-none outline-none px-4 py-2 text-base resize-none'
           />
-          <div className='absolute bottom-0 right-0 flex justify-end mr-2 mb-1 bg-white'>
+          <div className='absolute bottom-3 right-3 flex justify-end mr-2 mb-1 bg-white'>
             <button
               className={`text-white text-xl p-1 rounded-full bg-blue-500 ${
                 isInput ? 'opacity-70' : ''

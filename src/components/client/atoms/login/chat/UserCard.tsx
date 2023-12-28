@@ -20,7 +20,7 @@ export default function UserCard({ question, createdAt }: UserCardProps) {
   );
 
   return (
-    <div className='flex justify-start items-center border-2 rounded-lg bg-neutral-50 p-4 mb-4'>
+    <div className='flex justify-start items-center border-2 rounded-lg bg-neutral-50 p-4 mb-2'>
       <Image
         src={image}
         alt='ユーザーロゴ'

@@ -4,7 +4,6 @@ import { SITE_CONFIG } from '@/common/config/site.config';
 import Image from 'next/image';
 
 import { useState } from 'react';
-import { FaCaretDown } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { KanitFont } from '../atoms';

@@ -1,11 +1,13 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import AuthUserProfileSlice from '@/store/auth/slice';
-import AuthUserDataSlice from './auth/user/slice';
+import AuthUserDataSlice from '@/store/auth/user/slice';
+import TabsKeySlice from '@/store/ui/tab/slice';
 
 /* 各reducerを読み込む */
 const rootReducers = combineReducers({
   authUserProfileSlice: AuthUserProfileSlice.reducer,
   authUserDataSlice: AuthUserDataSlice.reducer,
+  tabsKeySlice: TabsKeySlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducers>;
