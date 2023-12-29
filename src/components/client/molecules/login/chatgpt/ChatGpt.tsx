@@ -185,7 +185,7 @@ export default function ChatGpt() {
         </div>
       </div>
       {/* 入力 */}
-      <div className='w-full py-2 pl-2 pr-3 dark:border-white/20 md:border-transparent md:dark:border-transparent'>
+      <div className='w-full py-2 pl-2 pr-3 mb-8 dark:border-white/20 md:border-transparent md:dark:border-transparent'>
         <form
           onSubmit={async (e) => onSubmitFn(e)}
           className='stretch w-full bg-white h-full gap-4 border-solid border-2 border-blue-400 rounded-md'
@@ -197,7 +197,7 @@ export default function ChatGpt() {
             placeholder={questionHolder}
             className='w-full border-none outline-none px-4 py-2 text-base resize-none'
           />
-          <div className='absolute bottom-3 right-3 flex justify-end mr-2 mb-1 bg-white'>
+          <div className='absolute bottom-10 right-3 flex justify-end mr-2 mb-1 bg-white'>
             <button
               className={`text-white text-xl p-1 rounded-full bg-blue-500 ${
                 isInput ? 'opacity-70' : ''
