@@ -10,6 +10,7 @@ export default function Sidebar() {
   const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
   const { key } = useSelector((state: RootState) => state.tabsKeySlice);
 
+  const [isOpen, setOpen] = useState<boolean>(true);
   const [miniSide, setMiniSide] = useState<number>(45);
   const [longSide, setLongSide] = useState<number>(250);
 
@@ -26,18 +27,22 @@ export default function Sidebar() {
   }
 
   return (
-    <aside
-      className={`absolute md:static top-0 left-0 z-[12] bg-red-200 w-[${miniSide.toString()}px] md:w-[${longSide.toString()}px] h-full overflow-hidden duration-200 ease-out`}
-    >
-      <nav className='h-full flex-shrink-0 overflow-x-hidden bg-neutral-100 border-r'>
+    <aside className='relative overflow-hidden w-[45px] h-full duration-200 ease-in-out'>
+      <nav className='fixed h-full flex-shrink-0 bg-neutral-100 border-r'>
         {/* icon */}
-        <div className='cursor-pointer'>
+        <div className='cursor-pointer fixed '>
           {isSidebar ? (
-            // 開いている
-            <FaAngleDoubleLeft onClick={() => toggleSidebar(1)} />
+            // open
+            <>
+              <FaAngleDoubleLeft onClick={() => toggleSidebar(1)} />
+              <p>閉じている</p>
+            </>
           ) : (
-            // 閉じている
-            <FaAngleDoubleRight onClick={() => toggleSidebar(2)} />
+            // close
+            <>
+              <FaAngleDoubleRight onClick={() => toggleSidebar(2)} />
+              <p>開いている</p>
+            </>
           )}
         </div>
       </nav>
