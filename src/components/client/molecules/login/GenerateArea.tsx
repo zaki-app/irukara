@@ -56,9 +56,9 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
   const { tabProps, selectedTab } = useTabs(hookProps);
 
   return (
-    <main className='relative h-full w-full flex-1 transition-width'>
+    <main className='relative h-full w-full flex-1 transition-width overflow-hidden'>
       <div className='flex flex-col h-full'>
-        <div className='kotei'>
+        <div className=''>
           {/* プラン(固定) */}
           <Plan userData={data} />
 
