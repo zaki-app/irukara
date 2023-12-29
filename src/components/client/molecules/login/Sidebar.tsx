@@ -5,43 +5,69 @@ import { setSidebar } from '@/store/ui/sidebar/slice';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FaAngleDoubleRight, FaAngleDoubleLeft } from 'react-icons/fa';
+import { RESPONSIVE } from '@/common/constants';
 
 export default function Sidebar() {
   const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
   const { key } = useSelector((state: RootState) => state.tabsKeySlice);
 
   const [isOpen, setOpen] = useState<boolean>(true);
-  const [miniSide, setMiniSide] = useState<number>(45);
-  const [longSide, setLongSide] = useState<number>(250);
+  const [screenWidth, setScreenWidth] = useState<number>(0);
+  const [screenHeight, setScreenHeight] = useState<number>(0);
+  const [widthSize, setWidthSize] = useState<number>(250);
+  const [heigthSize, setHeightSize] = useState<number>(0);
 
-  function toggleSidebar(type: number) {
+  function toggleSidebar() {
     store.dispatch(setSidebar({ isSidebar: !isSidebar }));
 
-    if (type === 1) {
-      setMiniSide(250);
-      setLongSide(250);
-    } else if (type === 2) {
-      setMiniSide(45);
-      setLongSide(45);
+    setOpen(!isOpen);
+  }
+
+  function setScreenDimensions() {
+    setScreenWidth(window.innerWidth);
+    setScreenHeight(window.innerHeight);
+
+    if (screenWidth < RESPONSIVE.MD) {
+      setWidthSize(45);
     }
   }
 
+  useEffect(() => {
+    console.log(setScreenDimensions());
+    // resize
+    window.addEventListener('resize', setScreenDimensions);
+
+    return () => {
+      window.removeEventListener('resize', setScreenDimensions);
+    };
+  }, []);
+
   return (
-    <aside className='relative overflow-hidden w-[45px] h-full duration-200 ease-in-out'>
-      <nav className='fixed h-full flex-shrink-0 bg-neutral-100 border-r'>
+    <aside
+      className={`relative overflow-hidden h-full border-r-blue-500 duration-200 ease-in-out ${
+        isOpen ? 'w-[250px]' : 'w-[42px]'
+      }`}
+    >
+      <nav className='absolute md:static h-full flex-shrink-0 bg-neutral-100'>
         {/* icon */}
-        <div className='cursor-pointer fixed '>
+        <div className='fixed cursor-pointer'>
           {isSidebar ? (
             // open
             <>
-              <FaAngleDoubleLeft onClick={() => toggleSidebar(1)} />
+              <FaAngleDoubleLeft onClick={() => toggleSidebar()} />
               <p>閉じている</p>
+              <p>
+                {screenWidth} {screenHeight}
+              </p>
             </>
           ) : (
             // close
             <>
-              <FaAngleDoubleRight onClick={() => toggleSidebar(2)} />
+              <FaAngleDoubleRight onClick={() => toggleSidebar()} />
               <p>開いている</p>
+              <p>
+                {screenWidth} {screenHeight}
+              </p>
             </>
           )}
         </div>
