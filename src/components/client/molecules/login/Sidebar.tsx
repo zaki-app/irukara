@@ -1,75 +1,29 @@
 'use client';
 
-import { RootState, store } from '@/store';
-import { setSidebar } from '@/store/ui/sidebar/slice';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { FaAngleDoubleRight, FaAngleDoubleLeft } from 'react-icons/fa';
-import { RESPONSIVE } from '@/common/constants';
+import { useState } from 'react';
 
 export default function Sidebar() {
-  const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
-  const { key } = useSelector((state: RootState) => state.tabsKeySlice);
-
   const [isOpen, setOpen] = useState<boolean>(true);
-  const [screenWidth, setScreenWidth] = useState<number>(0);
-  const [screenHeight, setScreenHeight] = useState<number>(0);
-  const [widthSize, setWidthSize] = useState<number>(250);
-  const [heigthSize, setHeightSize] = useState<number>(0);
 
   function toggleSidebar() {
-    store.dispatch(setSidebar({ isSidebar: !isSidebar }));
-
     setOpen(!isOpen);
   }
 
-  function setScreenDimensions() {
-    setScreenWidth(window.innerWidth);
-    setScreenHeight(window.innerHeight);
-
-    if (screenWidth < RESPONSIVE.MD) {
-      setWidthSize(45);
-    }
-  }
-
-  useEffect(() => {
-    console.log(setScreenDimensions());
-    // resize
-    window.addEventListener('resize', setScreenDimensions);
-
-    return () => {
-      window.removeEventListener('resize', setScreenDimensions);
-    };
-  }, []);
-
   return (
-    <aside
-      className={`relative overflow-hidden h-full border-r-blue-500 duration-200 ease-in-out ${
-        isOpen ? 'w-[250px]' : 'w-[42px]'
-      }`}
-    >
-      <nav className='absolute md:static h-full flex-shrink-0 bg-neutral-100'>
-        {/* icon */}
-        <div className='fixed cursor-pointer'>
-          {isSidebar ? (
-            // open
-            <>
-              <FaAngleDoubleLeft onClick={() => toggleSidebar()} />
-              <p>閉じている</p>
-              <p>
-                {screenWidth} {screenHeight}
-              </p>
-            </>
-          ) : (
-            // close
-            <>
-              <FaAngleDoubleRight onClick={() => toggleSidebar()} />
-              <p>開いている</p>
-              <p>
-                {screenWidth} {screenHeight}
-              </p>
-            </>
-          )}
+    <aside className='h-full'>
+      <nav
+        className={`absolute z-[12] left-0 top-0 bg-blue-200 h-full duration-300 ease-out ${
+          isOpen ? 'w-[48px] md:w-[240px]' : 'w-[240px] md:w-[48px]'
+        }`}
+      >
+        <div className='cursor-pointer' onClick={() => toggleSidebar()}>
+          閉じる
+        </div>
+        <div>
+          <ul>
+            <li>12/30</li>
+            <li>12/29</li>
+          </ul>
         </div>
       </nav>
     </aside>

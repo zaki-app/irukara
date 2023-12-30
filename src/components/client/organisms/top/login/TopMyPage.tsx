@@ -33,7 +33,7 @@ export default async function TopMyPage() {
         <div className='flex flex-col h-full overflow-hidden'>
           {/* チャット・画像生成エリア */}
           <div className='relative z-0 flex h-full w-full overflow-hidden'>
-            {/* サイドバー */}
+            {/* サイドバー spは45px pcは250px */}
             <Sidebar />
             {/* 生成エリア */}
             <div className='relative flex h-full max-w-full flex-1 flex-col overflow-hidden'>
