@@ -36,7 +36,7 @@ export default async function TopMyPage() {
             {/* サイドバー spは45px pcは250px */}
             <Sidebar />
             {/* 生成エリア */}
-            <div className='relative flex h-full max-w-full flex-1 flex-col overflow-hidden'>
+            <div className='relative flex h-full w-full flex-1 flex-col overflow-hidden'>
               <GenerateArea data={data} />
             </div>
             {/* 注意文 */}

@@ -184,8 +184,9 @@ export default function ChatGpt() {
             ))}
         </div>
       </div>
+      <div ref={scrollRef} />
       {/* 入力 */}
-      <div className='w-full py-2 pl-2 pr-3 mb-8 dark:border-white/20 md:border-transparent md:dark:border-transparent'>
+      <div className='w-full py-2 px-2 mb-8 dark:border-white/20 md:border-transparent md:dark:border-transparent'>
         <form
           onSubmit={async (e) => onSubmitFn(e)}
           className='stretch w-full bg-white h-full gap-4 border-solid border-2 border-blue-400 rounded-md'
@@ -209,7 +210,6 @@ export default function ChatGpt() {
           </div>
         </form>
       </div>
-      <div ref={scrollRef} />
     </>
   );
 }
