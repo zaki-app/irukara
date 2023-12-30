@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface SidebarType {
   isSidebar: boolean;
+  isHeaderAction?: boolean;
 }
 
 /**
@@ -10,6 +11,7 @@ interface SidebarType {
  */
 const initialState: SidebarType = {
   isSidebar: true,
+  isHeaderAction: false,
 };
 
 const SidebarSlice = createSlice({
@@ -19,6 +21,7 @@ const SidebarSlice = createSlice({
     setSidebar: (state: SidebarType, action: PayloadAction<SidebarType>) => ({
       ...state,
       isSidebar: action.payload.isSidebar,
+      isHeaderAction: action.payload.isHeaderAction,
     }),
     clearSidebar: () => initialState,
   },

@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState, store } from '@/store';
 import { setSidebar } from '@/store/ui/sidebar/slice';
+import { FaBarsStaggered } from 'react-icons/fa6';
+import { FaTimes } from 'react-icons/fa';
 import { KanitFont } from '../atoms';
 import LoginModal from '../molecules/header/LoginModal';
 import HamburgerMenu from '../molecules/header/HamburgerMenu';
@@ -18,10 +20,30 @@ export default function Header() {
   const { isAuth } = useSelector(
     (state: RootState) => state.authUserProfileSlice,
   );
+  const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
 
   return (
     <header className='shadow-md w-full fixed top-0 left-0 h-[4rem] z-[10]'>
       <nav className='w-full h-full bg-nav text-white p-4 flex items-center justify-center'>
+        <div className='block md:hidden text-2xl mr-4 cursor-pointer'>
+          {isSidebar ? (
+            <FaBarsStaggered
+              onClick={() => {
+                store.dispatch(
+                  setSidebar({ isSidebar: !isSidebar, isHeaderAction: true }),
+                );
+              }}
+            />
+          ) : (
+            <FaTimes
+              onClick={() => {
+                store.dispatch(
+                  setSidebar({ isSidebar: !isSidebar, isHeaderAction: false }),
+                );
+              }}
+            />
+          )}
+        </div>
         <div>
           <a href={SITE_CONFIG.TOP_HREF} className='flex items-center'>
             <Image
