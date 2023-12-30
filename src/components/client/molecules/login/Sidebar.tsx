@@ -2,10 +2,13 @@
 
 import { RootState, store } from '@/store';
 import { setSidebar } from '@/store/ui/sidebar/slice';
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FaAngleDoubleRight } from 'react-icons/fa';
 
+/**
+ * マイページのサイドバー
+ * @returns
+ */
 export default function Sidebar() {
   const { isSidebar, isHeaderAction } = useSelector(
     (state: RootState) => state.sidebarSlice,
@@ -17,14 +20,16 @@ export default function Sidebar() {
 
   return (
     <>
-      <div className={`md:visible ${isHeaderAction ? '' : 'invisible w-0'}`}>
+      <div
+        className={`md:visible ${isHeaderAction ? 'visible' : 'invisible w-0'}`}
+      >
         <aside
           className={`h-full relative w-[48px] md:w-[240px] ${
             !isSidebar ? 'w-[240px] md:w-[48px]' : ''
           }`}
         >
           <nav
-            className={`absolute z-[12] left-0 top-0 bg-blue-200 border-r-2 h-full duration-200 ease-out ${
+            className={`absolute z-[12] left-0 top-0 bg-blue-200 border-r-2 h-full duration-200 ease-linear ${
               isSidebar ? 'w-[48px] md:w-[240px]' : 'w-[240px] md:w-[48px]'
             }`}
           >

@@ -19,6 +19,8 @@ export default function ChatGpt() {
     (state: RootState) => state.authUserDataSlice,
   );
 
+  const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const [question, setQuestion] = useState<string>('');
@@ -32,7 +34,7 @@ export default function ChatGpt() {
   const [isAnswer, setAnswer] = useState<boolean>(false);
   const [isInput, setInput] = useState<boolean>(true);
   const [questionHolder, setQuestionHolder] = useState<string>(
-    'Irukaraへの質問を書いてください',
+    'Irukaraへの\n質問を書いてください',
   );
 
   // スクロールを一番下へ
@@ -143,7 +145,7 @@ export default function ChatGpt() {
   return (
     <>
       {/* やり取り */}
-      <div className='flex-1 overflow-hidden'>
+      <div className='flex-1 overflow-hidden h-[calc(100%-100px)]'>
         <div className='relative h-full overflow-y-auto px-2'>
           {isLoaded && numToday > 0 ? (
             <div className='flex flex-col-reverse'>
@@ -186,29 +188,37 @@ export default function ChatGpt() {
       </div>
       <div ref={scrollRef} />
       {/* 入力 */}
-      <div className='w-full py-2 px-2 mb-8 dark:border-white/20 md:border-transparent md:dark:border-transparent'>
-        <form
-          onSubmit={async (e) => onSubmitFn(e)}
-          className='stretch w-full bg-white h-full gap-4 border-solid border-2 border-blue-400 rounded-md'
+      <div className='w-full h-[100px] py-2 px-2 mb-8 dark:border-white/20 md:border-transparent md:dark:border-transparent'>
+        <div
+          className={`fixed bottom-[2.8rem] right-2 overflow-hidden ${
+            isSidebar
+              ? 'w-[calc(100%-16px)] md:w-[calc(100%-256px)]' // +12px
+              : 'w-[calc(100%-16px)] md:w-[calc(100%-64px)]'
+          }`}
         >
-          <textarea
-            value={question}
-            readOnly={isAnswer}
-            onChange={textValidate}
-            placeholder={questionHolder}
-            className='w-full border-none outline-none px-4 py-2 text-base resize-none'
-          />
-          <div className='absolute bottom-10 right-3 flex justify-end mr-2 mb-1 bg-white'>
-            <button
-              className={`text-white text-xl p-1 rounded-full bg-blue-500 ${
-                isInput ? 'opacity-70' : ''
-              }`}
-              disabled={isInput}
-            >
-              <FaAngleDoubleRight className='text-right' />
-            </button>
-          </div>
-        </form>
+          <form
+            onSubmit={async (e) => onSubmitFn(e)}
+            className='w-full bg-white h-full gap-4 border-solid border-2 border-blue-400 rounded-md'
+          >
+            <textarea
+              value={question}
+              readOnly={isAnswer}
+              onChange={textValidate}
+              placeholder={questionHolder}
+              className='border-none outline-none px-4 py-2 text-base resize-none'
+            />
+            <div className='absolute bottom-2 right-1 flex justify-end mr-2 mb-1 bg-white'>
+              <button
+                className={`text-white text-xl p-1 rounded-full bg-blue-500 ${
+                  isInput ? 'opacity-70' : ''
+                }`}
+                disabled={isInput}
+              >
+                <FaAngleDoubleRight className='text-right' />
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );
