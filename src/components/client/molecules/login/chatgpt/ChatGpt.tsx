@@ -7,12 +7,14 @@ import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import AiCard from '@/components/client/atoms/login/chat/AiCard';
 import ChatTextArea from '@/components/client/atoms/login/chat/ChatTextArea';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
-import { RootState } from '@/store';
+import { RootState, store } from '@/store';
 import { MessageType } from '@/types/message';
 import { useChat, Message } from 'ai/react';
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { FaAngleDoubleRight } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import { TbTriangleFilled, TbTriangleInvertedFilled } from 'react-icons/tb';
+import { setMenuArea } from '@/store/ui/menu/slice';
 
 export default function ChatGpt() {
   // userId, statusを取得
@@ -20,6 +22,7 @@ export default function ChatGpt() {
     (state: RootState) => state.authUserDataSlice,
   );
   const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
+  const { isMenu } = useSelector((state: RootState) => state.menuSlice);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -136,17 +139,17 @@ export default function ChatGpt() {
     })();
   }, []);
 
-  useEffect(() => {
-    if (isLoaded) {
-      scrollDown();
-    }
-  }, [isLoaded]);
+  // useEffect(() => {
+  //   if (isLoaded) {
+  //     scrollDown();
+  //   }
+  // }, [isLoaded]);
 
   return (
     <>
       {/* やり取り */}
       <div className='flex-1 overflow-hidden h-[calc(100%-130px)]'>
-        <div className='relative h-full overflow-y-auto px-2'>
+        <div className='relative h-full overflow-y-auto px-2 md:px-6 pt-4 pb-[3rem]'>
           {isLoaded && numToday > 0 ? (
             <div className='flex flex-col-reverse'>
               {todayMessages.map((today) => (
@@ -190,22 +193,32 @@ export default function ChatGpt() {
       {/* 入力 */}
       <div className='w-full h-[120px] bg-white py-2 px-2 dark:border-white/20 overflow-hidden md:border-transparent md:dark:border-transparent'>
         <div
-          className={`fixed right-2 bottom-[2.2rem] z-[10] ${
+          className={`fixed right-2 bottom-[2.2rem] md:bottom-[2.5rem] z-[10] flex items-center ${
             isSidebar
               ? 'w-[calc(100%-16px)] md:w-[calc(100%-256px)]' // +12px
               : 'w-[calc(100%-16px)] md:w-[calc(100%-64px)]'
           }`}
         >
+          {/* メニュー表示・非表示 */}
+          <div
+            className='mr-4 ml-2 text-2xl text-blue-500 cursor-pointer'
+            onClick={() => {
+              console.log('メニューの状態', isMenu);
+              store.dispatch(setMenuArea({ isMenu: !isMenu }));
+            }}
+          >
+            {isMenu ? <TbTriangleFilled /> : <TbTriangleInvertedFilled />}
+          </div>
           <form
             onSubmit={async (e) => onSubmitFn(e)}
-            className='w-full h-full bg-white gap-4 border-solid border-2 border-blue-400 rounded-md'
+            className='w-full h-full flex-1 bg-white gap-4 border-solid border-2 border-blue-400 rounded-md'
           >
             <textarea
               value={question}
               readOnly={isAnswer}
               onChange={textValidate}
               placeholder={questionHolder}
-              className='border-none outline-none px-4 py-2 w-full text-base resize-none'
+              className='border-none outline-none pl-4 py-2 pr-12 w-full text-base resize-none'
             />
             <div className='absolute bottom-2 right-1 flex justify-end mr-2 mb-1 bg-white'>
               <button

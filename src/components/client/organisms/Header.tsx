@@ -24,26 +24,31 @@ export default function Header() {
 
   return (
     <header className='shadow-md w-full fixed top-0 left-0 h-[4rem] z-[10]'>
-      <nav className='w-full h-full bg-nav text-white p-4 flex items-center justify-center'>
-        <div className='block md:hidden text-2xl mr-4 cursor-pointer'>
-          {isAuth && isSidebar ? (
-            <FaBarsStaggered
-              onClick={() => {
-                store.dispatch(
-                  setSidebar({ isSidebar: !isSidebar, isHeaderAction: true }),
-                );
-              }}
-            />
-          ) : (
-            <FaTimes
-              onClick={() => {
-                store.dispatch(
-                  setSidebar({ isSidebar: !isSidebar, isHeaderAction: false }),
-                );
-              }}
-            />
-          )}
-        </div>
+      <nav className='w-full h-full bg-nav text-white p-4 flex items-center justify-between'>
+        {isAuth && (
+          <div className='block md:hidden text-2xl mr-4 cursor-pointer'>
+            {isSidebar ? (
+              <FaBarsStaggered
+                onClick={() => {
+                  store.dispatch(
+                    setSidebar({ isSidebar: !isSidebar, isHeaderAction: true }),
+                  );
+                }}
+              />
+            ) : (
+              <FaTimes
+                onClick={() => {
+                  store.dispatch(
+                    setSidebar({
+                      isSidebar: !isSidebar,
+                      isHeaderAction: false,
+                    }),
+                  );
+                }}
+              />
+            )}
+          </div>
+        )}
         <div>
           <a href={SITE_CONFIG.TOP_HREF} className='flex items-center'>
             <Image
