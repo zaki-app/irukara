@@ -72,7 +72,7 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
 
   return (
     <main className='relative h-full w-full flex-1 flex flex-col transition-width overflow-hidden'>
-      <div className='absolute z-[2] top-[0] left-0 bg-orange-200 w-full flex flex-col h-[33px]'>
+      <div className='fixed z-[2] top-[0] left-0 bg-orange-200 w-full flex flex-col h-[33px]'>
         <div>
           <h2>現在は、チャットモードです。</h2>
         </div>
@@ -83,7 +83,7 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
       </div>
       {/* bottom tab */}
       {isMenu && (
-        <div className='absolute z-[2] w-full bottom-[50px] left-0 h-[60px]'>
+        <div className='fixed z-[2] w-full bottom-[50px] left-0 h-[60px]'>
           <MenuTab
             tabs={tabProps.tabs}
             selectedTabIndex={tabProps.selectedTabIndex}
@@ -92,7 +92,7 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
         </div>
       )}
       {/* 生成textarea */}
-      <div className='absolute z-[2] w-full h-[60px] bottom-[30px] left-0 flex bg-red-300'>
+      <div className='fixed z-[2] w-full h-[60px] bottom-[30px] left-0 flex bg-red-300'>
         <div
           className='mr-4 ml-2 text-2xl text-blue-500 cursor-pointer'
           onClick={() => {
