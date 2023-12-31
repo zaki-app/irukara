@@ -7,6 +7,8 @@ import useTabs from '@/hooks/useTabs';
 import { GetUserIdRes } from '@/types/auth/api';
 import { BsFillChatDotsFill, BsWechat } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
+import { TbTriangleFilled, TbTriangleInvertedFilled } from 'react-icons/tb';
+import { setMenuArea } from '@/store/ui/menu/slice';
 import ChatGpt from './chatgpt/ChatGpt';
 import Plan from '../../atoms/login/Plan';
 import CSSTabs from '../../atoms/tab/CSSTabs';
@@ -69,36 +71,19 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
   console.log(tabProps, selectedTab);
 
   return (
-    <main className='relative h-full w-full flex-1 transition-width overflow-hidden'>
-      {/* <div className='flex flex-col h-full w-full'> */}
-      {/* <div className=''>
-          {/* プラン(固定) */}
-      {/* <Plan userData={data} /> */}
-
-      {/* tab header(固定) */}
-      {/* <div>
-            <CSSTabs
-              tabs={tabProps.tabs}
-              selectedTabIndex={tabProps.selectedTabIndex}
-              setSelectedTab={tabProps.setSelectedTab}
-            />
-          </div> */}
-      {/* </div> */}
-      {/* tab body(scroll) */}
-      <div className='w-full h-full overflow-y-auto flex flex-col'>
-        {/* {selectedTab.children} */}
-        <ChatGpt />
-      </div>
-      {/* 現在のモード */}
-      <div className='absolute top-0 left-0 bg-orange-200 w-full flex flex-col'>
-        <Plan userData={data} />
+    <main className='relative h-full w-full flex-1 flex flex-col transition-width overflow-hidden'>
+      <div className='absolute z-[2] top-[0] left-0 bg-orange-200 w-full flex flex-col h-[33px]'>
         <div>
           <h2>現在は、チャットモードです。</h2>
         </div>
       </div>
+      <div className='w-full h-full flex-1 overflow-y-auto z-[1] pt-[40px] mb-[120px]'>
+        {/* {selectedTab.children} */}
+        <ChatGpt />
+      </div>
       {/* bottom tab */}
       {isMenu && (
-        <div className='absolute w-full bottom-[7rem] left-0'>
+        <div className='absolute z-[2] w-full bottom-[50px] left-0 h-[60px]'>
           <MenuTab
             tabs={tabProps.tabs}
             selectedTabIndex={tabProps.selectedTabIndex}
@@ -106,14 +91,26 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
           />
         </div>
       )}
-      <div className='fixed overflow-hidden bottom-0 right-0 w-full z-[12]'>
+      {/* 生成textarea */}
+      <div className='absolute z-[2] w-full h-[60px] bottom-[30px] left-0 flex bg-red-300'>
+        <div
+          className='mr-4 ml-2 text-2xl text-blue-500 cursor-pointer'
+          onClick={() => {
+            console.log('メニューの状態', isMenu);
+            store.dispatch(setMenuArea({ isMenu: !isMenu }));
+          }}
+        >
+          {isMenu ? <TbTriangleInvertedFilled /> : <TbTriangleFilled />}
+        </div>
+        <textarea className='w-full flex-1' />
+      </div>
+      <div className='fixed overflow-hidden bottom-0 right-0 w-full z-[12] h-[30px]'>
         <div className='bg-blue-500 text-white text-[0.5rem] md:text-[0.8rem] flex justify-center py-2 px-4 font-semibold tracking-[.1rem]'>
           <span>
             Irukaraはまだまだ勉強中です。重要な情報に関してはご注意ください。
           </span>
         </div>
       </div>
-      {/* </div> */}
     </main>
   );
 }

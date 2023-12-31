@@ -148,66 +148,63 @@ export default function ChatGpt() {
   return (
     <>
       {/* やり取り */}
-      <div className='flex-1 overflow-hidden h-[calc(100%-130px)]'>
-        <div className='relative h-full overflow-y-auto px-2 md:px-6 pt-4 pb-[3rem]'>
-          {isLoaded && numToday > 0 ? (
-            <div className='flex flex-col-reverse'>
-              {todayMessages.map((today) => (
-                <div key={today.messageId}>
-                  {/* ユーザー */}
-                  <UserCard
-                    question={today.question}
-                    createdAt={today.createdAt}
-                  />
-                  {/* Irukara */}
-                  <AiCard answer={today.answer} createdAt={today.createdAt} />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <InputPrompt type={1} />
-          )}
-          {/* 追加のやり取り */}
-          {isNext &&
-            messages.map((message: Message) => (
-              <div key={message.id}>
-                {message.role === 'user' && (
-                  <UserCard
-                    question={message.content}
-                    createdAt={currentUnix()}
-                  />
-                )}
-                {message.role === 'assistant' && (
-                  <div>
-                    <AiCard
-                      answer={message.content}
-                      createdAt={currentUnix()}
-                    />
-                  </div>
-                )}
+      {/* <div className='flex-1 h-[calc(100%-130px)]'> */}
+      <div className='relative h-full px-2 md:px-6 pt-4 pb-[3rem]'>
+        {isLoaded && numToday > 0 ? (
+          <div className='flex flex-col-reverse'>
+            {todayMessages.map((today) => (
+              <div key={today.messageId}>
+                {/* ユーザー */}
+                <UserCard
+                  question={today.question}
+                  createdAt={today.createdAt}
+                />
+                {/* Irukara */}
+                <AiCard answer={today.answer} createdAt={today.createdAt} />
               </div>
             ))}
-        </div>
+          </div>
+        ) : (
+          <InputPrompt type={1} />
+        )}
+        {/* 追加のやり取り */}
+        {isNext &&
+          messages.map((message: Message) => (
+            <div key={message.id}>
+              {message.role === 'user' && (
+                <UserCard
+                  question={message.content}
+                  createdAt={currentUnix()}
+                />
+              )}
+              {message.role === 'assistant' && (
+                <div>
+                  <AiCard answer={message.content} createdAt={currentUnix()} />
+                </div>
+              )}
+            </div>
+          ))}
       </div>
+      {/* </div> */}
       <div ref={scrollRef} />
       {/* 入力 */}
-      <div className='w-full h-[120px] bg-white py-2 px-2 dark:border-white/20 overflow-hidden md:border-transparent md:dark:border-transparent'>
+      {/* <div className='w-full h-[120px] bg-white py-2 px-2 dark:border-white/20 overflow-hidden md:border-transparent md:dark:border-transparent'>
         <div
           className={`fixed right-2 bottom-[2.2rem] md:bottom-[2.5rem] z-[10] flex items-center ${
             isSidebar
               ? 'w-[calc(100%-16px)] md:w-[calc(100%-256px)]' // +12px
               : 'w-[calc(100%-16px)] md:w-[calc(100%-64px)]'
           }`}
-        >
-          {/* メニュー表示・非表示 */}
-          <div
+        > */}
+      {/* メニュー表示・非表示 */}
+      {/* <div
             className='mr-4 ml-2 text-2xl text-blue-500 cursor-pointer'
             onClick={() => {
               console.log('メニューの状態', isMenu);
               store.dispatch(setMenuArea({ isMenu: !isMenu }));
             }}
           >
-            {isMenu ? <TbTriangleFilled /> : <TbTriangleInvertedFilled />}
+            {isMenu ? <TbTriangleInvertedFilled /> : <TbTriangleFilled />}
           </div>
           <form
             onSubmit={async (e) => onSubmitFn(e)}
@@ -232,7 +229,7 @@ export default function ChatGpt() {
             </div>
           </form>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
