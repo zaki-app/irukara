@@ -190,7 +190,7 @@ export default function ChatGpt() {
       {/* 入力 */}
       <div className='w-full h-[120px] bg-white py-2 px-2 dark:border-white/20 overflow-hidden md:border-transparent md:dark:border-transparent'>
         <div
-          className={`fixed right-2 bottom-[2.2rem] z-[10] ${
+          className={`fixed right-2 bottom-[2.2rem] md:bottom-[2.5rem] z-[10] ${
             isSidebar
               ? 'w-[calc(100%-16px)] md:w-[calc(100%-256px)]' // +12px
               : 'w-[calc(100%-16px)] md:w-[calc(100%-64px)]'
@@ -205,7 +205,7 @@ export default function ChatGpt() {
               readOnly={isAnswer}
               onChange={textValidate}
               placeholder={questionHolder}
-              className='border-none outline-none px-4 py-2 w-full text-base resize-none'
+              className='border-none outline-none pl-4 py-2 pr-12 w-full text-base resize-none'
             />
             <div className='absolute bottom-2 right-1 flex justify-end mr-2 mb-1 bg-white'>
               <button

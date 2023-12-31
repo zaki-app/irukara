@@ -62,7 +62,7 @@ export default function LoginUserCard() {
       </div>
       {/* dropdown */}
       {isDropdown && (
-        <div className='absolute right-0 mt-[0.5rem] w-[12rem] bg-white text-basic rounded-lg shadow-lg py-2 pl-3 pr-1 text-sm'>
+        <div className='absolute overflow-auto right-0 mt-[0.5rem] w-[12rem] bg-white text-basic rounded-lg shadow-lg py-2 pl-3 pr-1 text-sm'>
           <div className='w-full p-2 font-semibold border-b-2 border-gray-100 mb-2'>
             {name}
           </div>
