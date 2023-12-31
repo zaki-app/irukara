@@ -31,7 +31,7 @@ export default function Sidebar() {
           }`}
         >
           <nav
-            className={`absolute z-[12] left-0 top-0 bg-blue-200 border-r-2 h-full duration-200 ease-linear ${
+            className={`fixed z-[12] left-0 top-[4rem] bg-blue-200 border-r-2 h-full duration-200 ease-linear ${
               isSidebar ? 'w-[48px] md:w-[240px]' : 'w-[240px] md:w-[48px]'
             }`}
           >
