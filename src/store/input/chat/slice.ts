@@ -21,7 +21,7 @@ const ChatValueSlice = createSlice({
       action: PayloadAction<TextareaType>,
     ) => ({
       ...state,
-      inputValue: action.payload.chatValue,
+      chatValue: action.payload.chatValue,
     }),
     clearChatValue: () => initialState,
   },

@@ -13,7 +13,7 @@ const initialState: MenuType = {
 };
 
 const MenuSlice = createSlice({
-  name: 'tabs-key',
+  name: 'menu',
   initialState,
   reducers: {
     setMenuArea: (state: MenuType, action: PayloadAction<MenuType>) => ({
