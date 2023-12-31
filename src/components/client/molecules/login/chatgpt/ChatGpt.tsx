@@ -11,6 +11,7 @@ import { RootState } from '@/store';
 import { MessageType } from '@/types/message';
 import { useChat, Message } from 'ai/react';
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { FaAngleDoubleRight } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
 export default function ChatGpt() {
@@ -18,9 +19,7 @@ export default function ChatGpt() {
   const { userId, status } = useSelector(
     (state: RootState) => state.authUserDataSlice,
   );
-  const { isSidebar, isHeaderAction } = useSelector(
-    (state: RootState) => state.sidebarSlice,
-  );
+  const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -146,7 +145,7 @@ export default function ChatGpt() {
   return (
     <>
       {/* やり取り */}
-      <div className='flex-1 overflow-hidden h-[calc(100%-90px)]'>
+      <div className='flex-1 overflow-hidden h-[calc(100%-130px)]'>
         <div className='relative h-full overflow-y-auto px-2'>
           {isLoaded && numToday > 0 ? (
             <div className='flex flex-col-reverse'>
@@ -189,34 +188,38 @@ export default function ChatGpt() {
       </div>
       <div ref={scrollRef} />
       {/* 入力 */}
-      <ChatTextArea
-        question={question}
-        isAnswer={isAnswer}
-        textValidate={(e: ChangeEvent<HTMLTextAreaElement>) => textValidate(e)}
-        questionHolder={questionHolder}
-        isInput={isInput}
-        onSubmitFn={(e: FormEvent<HTMLFormElement>) => onSubmitFn(e)}
-      />
-      {/* <div className='w-full h-[90px] bg-red-300 py-2 px-2 mb-8 dark:border-white/20 md:border-transparent md:dark:border-transparent'>
+      <div className='w-full h-[120px] bg-white py-2 px-2 dark:border-white/20 overflow-hidden md:border-transparent md:dark:border-transparent'>
         <div
-          className={`fixed bottom-0 right-2 overflow-hidden ${
+          className={`fixed right-2 bottom-[2.2rem] z-[10] ${
             isSidebar
               ? 'w-[calc(100%-16px)] md:w-[calc(100%-256px)]' // +12px
               : 'w-[calc(100%-16px)] md:w-[calc(100%-64px)]'
           }`}
         >
-          <ChatTextArea
-            question={question}
-            isAnswer={isAnswer}
-            textValidate={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              textValidate(e)
-            }
-            questionHolder={questionHolder}
-            isInput={isInput}
-            onSubmitFn={(e: FormEvent<HTMLFormElement>) => onSubmitFn(e)}
-          />
+          <form
+            onSubmit={async (e) => onSubmitFn(e)}
+            className='w-full h-full bg-white gap-4 border-solid border-2 border-blue-400 rounded-md'
+          >
+            <textarea
+              value={question}
+              readOnly={isAnswer}
+              onChange={textValidate}
+              placeholder={questionHolder}
+              className='border-none outline-none px-4 py-2 w-full text-base resize-none'
+            />
+            <div className='absolute bottom-2 right-1 flex justify-end mr-2 mb-1 bg-white'>
+              <button
+                className={`text-white text-xl p-1 rounded-full bg-blue-500 ${
+                  isInput ? 'opacity-70' : ''
+                }`}
+                disabled={isInput}
+              >
+                <FaAngleDoubleRight className='text-right' />
+              </button>
+            </div>
+          </form>
         </div>
-      </div> */}
+      </div>
     </>
   );
 }
