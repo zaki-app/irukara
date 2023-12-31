@@ -146,7 +146,7 @@ export default function ChatGpt() {
     <>
       {/* やり取り */}
       <div className='flex-1 overflow-hidden h-[calc(100%-130px)]'>
-        <div className='relative h-full overflow-y-auto px-2'>
+        <div className='relative h-full overflow-y-auto px-2 pt-4 pb-[6]'>
           {isLoaded && numToday > 0 ? (
             <div className='flex flex-col-reverse'>
               {todayMessages.map((today) => (
