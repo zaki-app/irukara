@@ -18,6 +18,9 @@ export default function ChatGpt() {
   const { userId, status } = useSelector(
     (state: RootState) => state.authUserDataSlice,
   );
+  const { isSidebar, isHeaderAction } = useSelector(
+    (state: RootState) => state.sidebarSlice,
+  );
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -194,6 +197,26 @@ export default function ChatGpt() {
         isInput={isInput}
         onSubmitFn={(e: FormEvent<HTMLFormElement>) => onSubmitFn(e)}
       />
+      {/* <div className='w-full h-[90px] bg-red-300 py-2 px-2 mb-8 dark:border-white/20 md:border-transparent md:dark:border-transparent'>
+        <div
+          className={`fixed bottom-0 right-2 overflow-hidden ${
+            isSidebar
+              ? 'w-[calc(100%-16px)] md:w-[calc(100%-256px)]' // +12px
+              : 'w-[calc(100%-16px)] md:w-[calc(100%-64px)]'
+          }`}
+        >
+          <ChatTextArea
+            question={question}
+            isAnswer={isAnswer}
+            textValidate={(e: ChangeEvent<HTMLTextAreaElement>) =>
+              textValidate(e)
+            }
+            questionHolder={questionHolder}
+            isInput={isInput}
+            onSubmitFn={(e: FormEvent<HTMLFormElement>) => onSubmitFn(e)}
+          />
+        </div>
+      </div> */}
     </>
   );
 }
