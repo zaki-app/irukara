@@ -3,6 +3,7 @@ import AuthUserProfileSlice from '@/store/auth/slice';
 import AuthUserDataSlice from '@/store/auth/user/slice';
 import TabsKeySlice from '@/store/ui/tab/slice';
 import SidebarSlice from './ui/sidebar/slice';
+import MenuSlice from './ui/menu/slice';
 
 /* 各reducerを読み込む */
 const rootReducers = combineReducers({
@@ -10,6 +11,7 @@ const rootReducers = combineReducers({
   authUserDataSlice: AuthUserDataSlice.reducer,
   tabsKeySlice: TabsKeySlice.reducer,
   sidebarSlice: SidebarSlice.reducer,
+  menuSlice: MenuSlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducers>;
