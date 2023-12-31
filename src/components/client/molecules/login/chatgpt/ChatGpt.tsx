@@ -23,6 +23,8 @@ export default function ChatGpt() {
   );
   const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
   const { isMenu } = useSelector((state: RootState) => state.menuSlice);
+  const { chatValue } = useSelector((state: RootState) => state.chatValueSlice);
+  console.log('何が呼ばれてる？', chatValue, isSidebar, isMenu);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -131,6 +133,7 @@ export default function ChatGpt() {
   }
 
   useEffect(() => {
+    scrollDown();
     (async () => {
       console.log('useEffect1');
       await getTodayMessage();

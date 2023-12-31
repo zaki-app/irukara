@@ -80,6 +80,13 @@ export default function Header() {
           </div>
         )}
       </nav>
+      {isAuth && (
+        <div className='bg-orange-200 w-full flex flex-col'>
+          <div>
+            <h2>現在は、チャットモードです。</h2>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
