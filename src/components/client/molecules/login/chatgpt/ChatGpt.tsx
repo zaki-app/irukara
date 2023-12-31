@@ -5,12 +5,12 @@ import { currentUnix } from '@/common/libs/dateFormat';
 import { commonValidate } from '@/common/utils/varidate/input';
 import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import AiCard from '@/components/client/atoms/login/chat/AiCard';
+import ChatTextArea from '@/components/client/atoms/login/chat/ChatTextArea';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import { RootState } from '@/store';
 import { MessageType } from '@/types/message';
 import { useChat, Message } from 'ai/react';
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
-import { FaAngleDoubleRight } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
 export default function ChatGpt() {
@@ -18,8 +18,6 @@ export default function ChatGpt() {
   const { userId, status } = useSelector(
     (state: RootState) => state.authUserDataSlice,
   );
-
-  const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -145,7 +143,7 @@ export default function ChatGpt() {
   return (
     <>
       {/* やり取り */}
-      <div className='flex-1 overflow-hidden h-[calc(100%-100px)]'>
+      <div className='flex-1 overflow-hidden h-[calc(100%-90px)]'>
         <div className='relative h-full overflow-y-auto px-2'>
           {isLoaded && numToday > 0 ? (
             <div className='flex flex-col-reverse'>
@@ -188,38 +186,14 @@ export default function ChatGpt() {
       </div>
       <div ref={scrollRef} />
       {/* 入力 */}
-      <div className='w-full h-[100px] py-2 px-2 mb-8 dark:border-white/20 md:border-transparent md:dark:border-transparent'>
-        <div
-          className={`fixed bottom-[2.8rem] right-2 overflow-hidden ${
-            isSidebar
-              ? 'w-[calc(100%-16px)] md:w-[calc(100%-256px)]' // +12px
-              : 'w-[calc(100%-16px)] md:w-[calc(100%-64px)]'
-          }`}
-        >
-          <form
-            onSubmit={async (e) => onSubmitFn(e)}
-            className='w-full bg-white h-full gap-4 border-solid border-2 border-blue-400 rounded-md'
-          >
-            <textarea
-              value={question}
-              readOnly={isAnswer}
-              onChange={textValidate}
-              placeholder={questionHolder}
-              className='border-none outline-none px-4 py-2 text-base resize-none'
-            />
-            <div className='absolute bottom-2 right-1 flex justify-end mr-2 mb-1 bg-white'>
-              <button
-                className={`text-white text-xl p-1 rounded-full bg-blue-500 ${
-                  isInput ? 'opacity-70' : ''
-                }`}
-                disabled={isInput}
-              >
-                <FaAngleDoubleRight className='text-right' />
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <ChatTextArea
+        question={question}
+        isAnswer={isAnswer}
+        textValidate={(e: ChangeEvent<HTMLTextAreaElement>) => textValidate(e)}
+        questionHolder={questionHolder}
+        isInput={isInput}
+        onSubmitFn={(e: FormEvent<HTMLFormElement>) => onSubmitFn(e)}
+      />
     </>
   );
 }

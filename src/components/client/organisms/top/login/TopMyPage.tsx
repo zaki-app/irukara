@@ -41,11 +41,6 @@ export default async function TopMyPage() {
             </div>
             {/* 注意文 */}
           </div>
-          <div className='fixed overflow-hidden bottom-0 w-full left-0 bg-blue-500 text-white text-[0.5rem] md:text-[0.8rem] flex justify-center py-2 px-4 font-semibold tracking-[.1rem]'>
-            <span>
-              Irukaraはまだまだ勉強中です。重要な情報に関してはご注意ください。
-            </span>
-          </div>
         </div>
       ) : (
         <></>
