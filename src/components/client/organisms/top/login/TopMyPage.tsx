@@ -29,21 +29,15 @@ export default async function TopMyPage() {
 
   return (
     <>
-      {isUser ? (
-        <div className='flex flex-col h-full overflow-hidden'>
-          {/* チャット・画像生成エリア */}
-          <div className='relative z-0 flex h-full w-full overflow-hidden'>
-            {/* サイドバー spは45px pcは250px */}
-            <Sidebar />
-            {/* 生成エリア */}
-            <div className='relative flex h-full w-full flex-1 flex-col overflow-hidden'>
-              <GenerateArea data={data} />
-            </div>
-            {/* 注意文 */}
+      {isUser && (
+        <div className='relative z-0 flex h-full w-full overflow-hidden'>
+          {/* 生成エリア */}
+          {/* サイドバー spは45px pcは250px */}
+          <Sidebar />
+          <div className='relative flex flex-1 h-full w-full flex-col overflow-hidden'>
+            <GenerateArea data={data} />
           </div>
         </div>
-      ) : (
-        <></>
       )}
     </>
   );

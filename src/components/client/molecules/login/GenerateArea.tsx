@@ -11,9 +11,10 @@ import ChatGpt from './chatgpt/ChatGpt';
 import Plan from '../../atoms/login/Plan';
 import CSSTabs from '../../atoms/tab/CSSTabs';
 import BottomTab from '../../atoms/tab/BottomTab';
+import ChatTextArea from '../../atoms/login/chat/ChatTextArea';
 
 /**
- * 各生成切り替えのタブ
+ * 各生成エリア
  */
 export default function GenerateArea({ data }: { data: GetUserIdRes }) {
   const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
@@ -67,45 +68,39 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
 
   return (
     <main className='relative h-full w-full flex-1 transition-width overflow-hidden'>
-      <div className='flex flex-col h-full'>
-        <div className=''>
+      {/* <div className='flex flex-col h-full w-full'> */}
+      {/* <div className=''>
           {/* プラン(固定) */}
-          <Plan userData={data} />
+      {/* <Plan userData={data} /> */}
 
-          {/* tab header(固定) */}
-          {/* <div>
+      {/* tab header(固定) */}
+      {/* <div>
             <CSSTabs
               tabs={tabProps.tabs}
               selectedTabIndex={tabProps.selectedTabIndex}
               setSelectedTab={tabProps.setSelectedTab}
             />
           </div> */}
-        </div>
-        {/* tab body(scroll) */}
-        <div className='h-full flex flex-col overflow-y-auto'>
-          {selectedTab.children}
-        </div>
-        {/* bottom tab */}
-        <div className='fixed overflow-hidden bottom-0 right-0 w-full'>
-          {/* <BottomTab
+      {/* </div> */}
+      {/* tab body(scroll) */}
+      <div className='w-full h-full overflow-y-auto flex flex-col'>
+        {/* {selectedTab.children} */}
+        <ChatGpt />
+      </div>
+      {/* bottom tab */}
+      <div className='fixed overflow-hidden bottom-0 right-0 w-full z-[12]'>
+        {/* <BottomTab
             tabs={tabProps.tabs}
             selectedTabIndex={tabProps.selectedTabIndex}
             setSelectedTab={tabProps.setSelectedTab}
           /> */}
-          <div className='bg-blue-500 text-white text-[0.5rem] md:text-[0.8rem] flex justify-center py-2 px-4 font-semibold tracking-[.1rem]'>
-            <span>
-              Irukaraはまだまだ勉強中です。重要な情報に関してはご注意ください。
-            </span>
-          </div>
+        <div className='bg-blue-500 text-white text-[0.5rem] md:text-[0.8rem] flex justify-center py-2 px-4 font-semibold tracking-[.1rem]'>
+          <span>
+            Irukaraはまだまだ勉強中です。重要な情報に関してはご注意ください。
+          </span>
         </div>
-        {/* <div className='bottom'>
-          <CSSTabs
-            tabs={tabProps.tabs}
-            selectedTabIndex={tabProps.selectedTabIndex}
-            setSelectedTab={tabProps.setSelectedTab}
-          />
-        </div> */}
       </div>
+      {/* </div> */}
     </main>
   );
 }

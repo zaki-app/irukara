@@ -25,9 +25,7 @@ export default function ChatTextArea({
   questionHolder,
   onSubmitFn,
 }: ChatTextAreaProps) {
-  const { isSidebar, isHeaderAction } = useSelector(
-    (state: RootState) => state.sidebarSlice,
-  );
+  const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
 
   return (
     <div className='w-full h-[90px] bg-red-300 py-2 px-2 mb-8 dark:border-white/20 md:border-transparent md:dark:border-transparent'>

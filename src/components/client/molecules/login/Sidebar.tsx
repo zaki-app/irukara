@@ -21,11 +21,13 @@ export default function Sidebar() {
   return (
     <>
       <div
-        className={`md:visible ${isHeaderAction ? 'visible' : 'invisible w-0'}`}
+        className={`md:visible md:w-[240px] w-0 ${
+          isHeaderAction ? 'visible' : 'invisible'
+        } ${isSidebar ? 'md:w-[240px]' : 'md:w-[48px]'}`}
       >
         <aside
           className={`h-full relative w-[48px] md:w-[240px] ${
-            !isSidebar ? 'w-[240px] md:w-[48px]' : ''
+            isSidebar ? '' : 'w-[240px] md:w-[48px]'
           }`}
         >
           <nav
@@ -35,7 +37,7 @@ export default function Sidebar() {
           >
             <div className='py-4 pl-2 overflow-hidden'>
               <button
-                className='bg-neutral-100 rounded-lg py-2 px-4 font-semibold'
+                className='bg-neutral-100 rounded-lg py-2 px-4 font-semibold hidden md:block'
                 onClick={() => toggleSidebar()}
               >
                 {isSidebar ? <FaAngleDoubleRight /> : '縮小する'}
