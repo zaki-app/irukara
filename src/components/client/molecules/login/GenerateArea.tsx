@@ -11,24 +11,32 @@ import { TbTriangleFilled, TbTriangleInvertedFilled } from 'react-icons/tb';
 import { setMenuArea } from '@/store/ui/menu/slice';
 import { commonValidate } from '@/common/utils/varidate/input';
 import { FaAngleDoubleRight } from 'react-icons/fa';
-import { setChatValue } from '@/store/input/chat/slice';
+import { API } from '@/common/constants/path';
+import { useChat, Message } from 'ai/react';
 import ChatGpt from './chatgpt/ChatGpt';
-import Plan from '../../atoms/login/Plan';
-import CSSTabs from '../../atoms/tab/CSSTabs';
-import BottomTab from '../../atoms/tab/BottomTab';
-import ChatTextArea from '../../atoms/login/chat/ChatTextArea';
 import MenuTab from '../../atoms/tab/MenuTab';
 
 /**
  * 各生成エリア
  */
 export default function GenerateArea({ data }: { data: GetUserIdRes }) {
-  const chatgptRef = useRef(null);
-
   const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
   const { isMenu } = useSelector((state: RootState) => state.menuSlice);
+  const { userId, status } = useSelector(
+    (state: RootState) => state.authUserDataSlice,
+  );
+
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      });
+    }
+
     // userIdとstatusをreduxへ
     store.dispatch(
       setAuthUserData({
@@ -38,6 +46,42 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
     );
   }, []);
 
+  const [question, setQuestion] = useState<string>('');
+  const [isAnswer, setAnswer] = useState<boolean>(false);
+  const [isInput, setInput] = useState<boolean>(true);
+  const [isValidate, setValidate] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
+  const [questionHolder, setQuestionHolder] = useState<string>(
+    'Irukaraへの\n質問を書いてください',
+  );
+
+  const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
+    api: API.TOP_GPT,
+    onFinish: async (message: Message) => {
+      setQuestionHolder('Irukaraへの\n質問を書いてください');
+      setAnswer(false);
+      setInput(true);
+      const params = {
+        userId,
+        question,
+        answer: message.content,
+        memberStatus: status,
+      };
+
+      // dynamodbへの保存処理
+      const path = API.RELAY_POST_MSG.replace('{:type}', 'POST_MSG');
+      const res = await fetch(path, {
+        method: 'POST',
+        body: JSON.stringify(params),
+      });
+
+      // if (res.ok) {
+      //   // 正常に保存処理が終了した時
+      //   setResStatus(true);
+      // }
+    },
+  });
+
   const [hookProps] = useState({
     tabs: [
       {
@@ -45,7 +89,7 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
         key: 1,
         label: 'GPT3.5',
         icon: <BsFillChatDotsFill />,
-        children: <ChatGpt />,
+        children: <ChatGpt messages={messages} />,
       },
       {
         id: 1,
@@ -72,22 +116,16 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
     initialTabKey: 1,
   });
 
-  const [question, setQuestion] = useState<string>('');
-  const [isAnswer, setAnswer] = useState<boolean>(false);
-  const [isInput, setInput] = useState<boolean>(true);
-  const [isValidate, setValidate] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>('');
-  const [questionHolder, setQuestionHolder] = useState<string>(
-    'Irukaraへの\n質問を書いてください',
-  );
-
   const { tabProps, selectedTab } = useTabs(hookProps);
 
   return (
     <main className='relative h-full w-full flex-1 flex flex-col transition-width overflow-hidden'>
-      <div className='w-full h-full flex-1 overflow-y-auto z-[1] pt-[40px] mb-[120px]'>
+      <div
+        className='w-full h-full flex-1 overflow-y-auto z-[1] pt-[40px] mb-[170px]'
+        id='scroll'
+      >
         {/* {selectedTab.children} */}
-        <ChatGpt />
+        <ChatGpt messages={messages} />
       </div>
       {/* bottom tab */}
       {isMenu && (
@@ -103,6 +141,9 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
           />
         </div>
       )}
+      <div className='bg-red-300' ref={scrollRef}>
+        スクロール
+      </div>
       {/* 生成textarea */}
       <div
         className={`fixed z-[2] h-[85px] bottom-[30px] right-0 flex bg-white w-full md:w-[100%-240px] ${
@@ -120,13 +161,12 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
         <form
           onSubmit={async (e) => {
             e.preventDefault();
-            setQuestionHolder('回答を作成中です');
             if (question) {
+              setQuestionHolder('回答を作成中です');
               console.log('質問です', question);
-              // reduxへ通知
-              store.dispatch(setChatValue({ chatValue: question }));
               setQuestion('');
               setAnswer(false);
+              handleSubmit(e);
             }
             console.log('on onSubmit', e);
           }}
@@ -152,9 +192,9 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
               if (validate.text.length > 0) {
                 setErrorMsg(validate.text);
               }
-              // if (!validate.result) {
-              //   handleInputChange(e);
-              // }
+              if (!validate.result) {
+                handleInputChange(e);
+              }
               // console.log('バリデーション', validate);
             }}
             placeholder={questionHolder}

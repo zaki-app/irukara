@@ -2,45 +2,24 @@
 
 import { API } from '@/common/constants/path';
 import { currentUnix } from '@/common/libs/dateFormat';
-import { commonValidate } from '@/common/utils/varidate/input';
 import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import AiCard from '@/components/client/atoms/login/chat/AiCard';
-import ChatTextArea from '@/components/client/atoms/login/chat/ChatTextArea';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
-import { RootState, store } from '@/store';
 import { MessageType } from '@/types/message';
-import { useChat, Message } from 'ai/react';
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
-import { FaAngleDoubleRight } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
-import { TbTriangleFilled, TbTriangleInvertedFilled } from 'react-icons/tb';
-import { setMenuArea } from '@/store/ui/menu/slice';
+import { Message } from 'ai/react';
+import { useEffect, useRef, useState } from 'react';
 
-export default function ChatGpt() {
-  // userId, statusを取得
-  const { userId, status } = useSelector(
-    (state: RootState) => state.authUserDataSlice,
-  );
-  const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
-  const { isMenu } = useSelector((state: RootState) => state.menuSlice);
-  const { chatValue } = useSelector((state: RootState) => state.chatValueSlice);
-  console.log('何が呼ばれてる？', chatValue, isSidebar, isMenu);
-
+/**
+ * GenarateAreaで生成されたChatGptのやりとりを表示する
+ * @param  ユーザーとIrukaraのやり取り
+ * @returns
+ */
+export default function ChatGpt({ messages }: { messages: Message[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const [question, setQuestion] = useState<string>('');
-  const [isValidate, setValidate] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>('');
-  const [isNext, setNext] = useState<boolean>(false);
-  const [isResStatus, setResStatus] = useState<boolean>(false);
   const [numToday, setToday] = useState<number>(0);
   const [todayMessages, setTodayMessages] = useState<MessageType[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
-  const [isAnswer, setAnswer] = useState<boolean>(false);
-  const [isInput, setInput] = useState<boolean>(true);
-  const [questionHolder, setQuestionHolder] = useState<string>(
-    'Irukaraへの\n質問を書いてください',
-  );
 
   // スクロールを一番下へ
   function scrollDown() {
@@ -51,67 +30,6 @@ export default function ChatGpt() {
         inline: 'nearest',
       });
       console.log('スクロールtrue');
-    }
-  }
-
-  const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
-    api: API.TOP_GPT,
-    onFinish: async (message: Message) => {
-      scrollDown();
-      setQuestionHolder('Irukaraへの質問を書いてください');
-      setAnswer(false);
-      setInput(true);
-      const params = {
-        userId,
-        question,
-        answer: message.content,
-        memberStatus: status,
-      };
-
-      const path = API.RELAY_POST_MSG.replace('{:type}', 'POST_MSG');
-      const res = await fetch(path, {
-        method: 'POST',
-        body: JSON.stringify(params),
-      });
-
-      if (res.ok) {
-        // 正常に保存処理が終了した時
-        setResStatus(true);
-      }
-    },
-  });
-
-  // 質問を送信
-  async function onSubmitFn(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setQuestionHolder('回答を作成中です');
-    if (question) {
-      setQuestion('');
-      handleSubmit(e);
-      setNext(true);
-      scrollDown();
-      setAnswer(false);
-    }
-  }
-
-  function textValidate(e: ChangeEvent<HTMLTextAreaElement>) {
-    if (e.target.value.length > 0) {
-      setInput(false);
-    } else {
-      setInput(true);
-    }
-    const validate = commonValidate(e.target.value, 250);
-    if (e.target.value.length > 250) {
-      setQuestion(e.target.value.slice(0, 250));
-    } else {
-      setQuestion(e.target.value);
-    }
-    setValidate(validate.result);
-    if (validate.text.length > 0) {
-      setErrorMsg(validate.text);
-    }
-    if (!validate.result) {
-      handleInputChange(e);
     }
   }
 
@@ -142,16 +60,9 @@ export default function ChatGpt() {
     })();
   }, []);
 
-  // useEffect(() => {
-  //   if (isLoaded) {
-  //     scrollDown();
-  //   }
-  // }, [isLoaded]);
-
   return (
     <>
       {/* やり取り */}
-      {/* <div className='flex-1 h-[calc(100%-130px)]'> */}
       <div className='relative h-full px-2 md:px-6 pt-4 pb-[3rem]'>
         {isLoaded && numToday > 0 ? (
           <div className='flex flex-col-reverse'>
@@ -171,68 +82,20 @@ export default function ChatGpt() {
           <InputPrompt type={1} />
         )}
         {/* 追加のやり取り */}
-        {isNext &&
-          messages.map((message: Message) => (
-            <div key={message.id}>
-              {message.role === 'user' && (
-                <UserCard
-                  question={message.content}
-                  createdAt={currentUnix()}
-                />
-              )}
-              {message.role === 'assistant' && (
-                <div>
-                  <AiCard answer={message.content} createdAt={currentUnix()} />
-                </div>
-              )}
-            </div>
-          ))}
-      </div>
-      {/* </div> */}
-      <div ref={scrollRef} />
-      {/* 入力 */}
-      {/* <div className='w-full h-[120px] bg-white py-2 px-2 dark:border-white/20 overflow-hidden md:border-transparent md:dark:border-transparent'>
-        <div
-          className={`fixed right-2 bottom-[2.2rem] md:bottom-[2.5rem] z-[10] flex items-center ${
-            isSidebar
-              ? 'w-[calc(100%-16px)] md:w-[calc(100%-256px)]' // +12px
-              : 'w-[calc(100%-16px)] md:w-[calc(100%-64px)]'
-          }`}
-        > */}
-      {/* メニュー表示・非表示 */}
-      {/* <div
-            className='mr-4 ml-2 text-2xl text-blue-500 cursor-pointer'
-            onClick={() => {
-              console.log('メニューの状態', isMenu);
-              store.dispatch(setMenuArea({ isMenu: !isMenu }));
-            }}
-          >
-            {isMenu ? <TbTriangleInvertedFilled /> : <TbTriangleFilled />}
+        {messages.map((message: Message) => (
+          <div key={message.id}>
+            {message.role === 'user' && (
+              <UserCard question={message.content} createdAt={currentUnix()} />
+            )}
+            {message.role === 'assistant' && (
+              <div>
+                <AiCard answer={message.content} createdAt={currentUnix()} />
+              </div>
+            )}
           </div>
-          <form
-            onSubmit={async (e) => onSubmitFn(e)}
-            className='w-full h-full flex-1 bg-white gap-4 border-solid border-2 border-blue-400 rounded-md'
-          >
-            <textarea
-              value={question}
-              readOnly={isAnswer}
-              onChange={textValidate}
-              placeholder={questionHolder}
-              className='border-none outline-none pl-4 py-2 pr-12 w-full text-base resize-none'
-            />
-            <div className='absolute bottom-2 right-1 flex justify-end mr-2 mb-1 bg-white'>
-              <button
-                className={`text-white text-xl p-1 rounded-full bg-blue-500 ${
-                  isInput ? 'opacity-70' : ''
-                }`}
-                disabled={isInput}
-              >
-                <FaAngleDoubleRight className='text-right' />
-              </button>
-            </div>
-          </form>
-        </div>
-      </div> */}
+        ))}
+      </div>
+      <div ref={scrollRef} />
     </>
   );
 }

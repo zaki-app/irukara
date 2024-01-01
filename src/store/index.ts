@@ -4,7 +4,6 @@ import AuthUserDataSlice from '@/store/auth/user/slice';
 import TabsKeySlice from '@/store/ui/tab/slice';
 import SidebarSlice from '@/store/ui/sidebar/slice';
 import MenuSlice from '@/store/ui/menu/slice';
-import ChatValueSlice from '@/store/input/chat/slice';
 
 /* 各reducerを読み込む */
 const rootReducers = combineReducers({
@@ -13,7 +12,6 @@ const rootReducers = combineReducers({
   tabsKeySlice: TabsKeySlice.reducer,
   sidebarSlice: SidebarSlice.reducer,
   menuSlice: MenuSlice.reducer,
-  chatValueSlice: ChatValueSlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducers>;
