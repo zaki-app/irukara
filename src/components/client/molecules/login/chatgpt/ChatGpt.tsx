@@ -5,9 +5,10 @@ import { currentUnix } from '@/common/libs/dateFormat';
 import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import AiCard from '@/components/client/atoms/login/chat/AiCard';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
+import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
 import { MessageType } from '@/types/message';
 import { Message } from 'ai/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * GenarateAreaで生成されたChatGptのやりとりを表示する
@@ -15,23 +16,10 @@ import { useEffect, useRef, useState } from 'react';
  * @returns
  */
 export default function ChatGpt({ messages }: { messages: Message[] }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
+  // console.log('子供', isSmooth);
   const [numToday, setToday] = useState<number>(0);
   const [todayMessages, setTodayMessages] = useState<MessageType[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
-
-  // スクロールを一番下へ
-  function scrollDown() {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-        inline: 'nearest',
-      });
-      console.log('スクロールtrue');
-    }
-  }
 
   // 今日の保存データを取得
   // TODO 画面には今日のデータを表示して、追加されたらこれが入っている配列に入れる
@@ -51,7 +39,6 @@ export default function ChatGpt({ messages }: { messages: Message[] }) {
   }
 
   useEffect(() => {
-    scrollDown();
     (async () => {
       console.log('useEffect1');
       await getTodayMessage();
@@ -61,41 +48,47 @@ export default function ChatGpt({ messages }: { messages: Message[] }) {
   }, []);
 
   return (
-    <>
-      {/* やり取り */}
-      <div className='relative h-full px-2 md:px-6 pt-4 pb-[3rem]'>
-        {isLoaded && numToday > 0 ? (
-          <div className='flex flex-col-reverse'>
-            {todayMessages.map((today) => (
-              <div key={today.messageId}>
-                {/* ユーザー */}
-                <UserCard
-                  question={today.question}
-                  createdAt={today.createdAt}
-                />
-                {/* Irukara */}
-                <AiCard answer={today.answer} createdAt={today.createdAt} />
-              </div>
+    <div className='relative w-full h-full'>
+      {isLoaded && numToday > 0 ? (
+        <>
+          <ScrollBottom className='relative w-full h-full overflow-y-auto px-2 md:px-4'>
+            <div className='flex flex-col-reverse'>
+              {todayMessages.map((today) => (
+                <div key={today.messageId}>
+                  {/* ユーザー */}
+                  <UserCard
+                    question={today.question}
+                    createdAt={today.createdAt}
+                  />
+                  {/* Irukara */}
+                  <AiCard answer={today.answer} createdAt={today.createdAt} />
+                </div>
+              ))}
+            </div>
+            {/* 追加のやり取り */}
+            {messages.map((message: Message) => (
+              <ScrollBottom option key={message.id}>
+                {message.role === 'user' && (
+                  <UserCard
+                    question={message.content}
+                    createdAt={currentUnix()}
+                  />
+                )}
+                {message.role === 'assistant' && (
+                  <div>
+                    <AiCard
+                      answer={message.content}
+                      createdAt={currentUnix()}
+                    />
+                  </div>
+                )}
+              </ScrollBottom>
             ))}
-          </div>
-        ) : (
-          <InputPrompt type={1} />
-        )}
-        {/* 追加のやり取り */}
-        {messages.map((message: Message) => (
-          <div key={message.id}>
-            {message.role === 'user' && (
-              <UserCard question={message.content} createdAt={currentUnix()} />
-            )}
-            {message.role === 'assistant' && (
-              <div>
-                <AiCard answer={message.content} createdAt={currentUnix()} />
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-      <div ref={scrollRef} />
-    </>
+          </ScrollBottom>
+        </>
+      ) : (
+        <InputPrompt type={1} />
+      )}
+    </div>
   );
 }
