@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RootState, store } from '@/store';
 import { setAuthUserData } from '@/store/auth/user/slice';
 import useTabs from '@/hooks/useTabs';
@@ -13,6 +13,7 @@ import { commonValidate } from '@/common/utils/varidate/input';
 import { FaAngleDoubleRight } from 'react-icons/fa';
 import { API } from '@/common/constants/path';
 import { useChat, Message } from 'ai/react';
+import { setScroll } from '@/store/ui/scroll/slice';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/tab/MenuTab';
 
@@ -26,17 +27,7 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
     (state: RootState) => state.authUserDataSlice,
   );
 
-  const scrollRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-        inline: 'nearest',
-      });
-    }
-
     // userIdとstatusをreduxへ
     store.dispatch(
       setAuthUserData({
@@ -119,11 +110,8 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
   const { tabProps, selectedTab } = useTabs(hookProps);
 
   return (
-    <main className='relative h-full w-full flex-1 flex flex-col transition-width overflow-hidden'>
-      <div
-        className='w-full h-full flex-1 overflow-y-auto z-[1] pt-[40px] mb-[170px]'
-        id='scroll'
-      >
+    <div className='relative h-full w-full flex-1 flex flex-col transition-width overflow-hidden'>
+      <div className='w-full h-full flex-1 z-[1] overflow-hidden pt-[40px] mb-[150px]'>
         {/* {selectedTab.children} */}
         <ChatGpt messages={messages} />
       </div>
@@ -141,9 +129,6 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
           />
         </div>
       )}
-      <div className='bg-red-300' ref={scrollRef}>
-        スクロール
-      </div>
       {/* 生成textarea */}
       <div
         className={`fixed z-[2] h-[85px] bottom-[30px] right-0 flex bg-white w-full md:w-[100%-240px] ${
@@ -158,6 +143,7 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
         >
           {isMenu ? <TbTriangleInvertedFilled /> : <TbTriangleFilled />}
         </div>
+
         <form
           onSubmit={async (e) => {
             e.preventDefault();
@@ -177,6 +163,8 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
             readOnly={isAnswer}
             onChange={(e) => {
               setQuestion(e.target.value);
+              // scrollをreduxへ
+              store.dispatch(setScroll({ isScroll: true }));
               if (question.length > 0) {
                 setInput(false);
               } else {
@@ -195,7 +183,6 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
               if (!validate.result) {
                 handleInputChange(e);
               }
-              // console.log('バリデーション', validate);
             }}
             placeholder={questionHolder}
             className='w-full flex-1 border-none outline-none text-base resize-none py-2 px-2 '
@@ -220,6 +207,6 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
           </span>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
