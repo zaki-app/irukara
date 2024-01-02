@@ -24,37 +24,41 @@ export default function MenuTab({
   const items = [
     {
       key: 0,
-      icon: <RiChatSmile2Fill className='text-[1.9rem]' />,
+      icon: <RiChatSmile2Fill className='text-[1.7rem]' />,
       text: 'GPT3.5',
     },
     {
       key: 1,
-      icon: <IoLogoWechat className='text-[1.9rem] ' />,
+      icon: <IoLogoWechat className='text-[1.7rem] ' />,
       text: 'GPT3.5',
     },
     {
       key: 2,
-      icon: <RiGameFill className='text-[1.9rem]' />,
+      icon: <RiGameFill className='text-[1.7rem]' />,
       text: 'イラスト',
     },
     {
       key: 3,
-      icon: <CgGirl className='text-[1.9rem]' />,
+      icon: <CgGirl className='text-[1.7rem]' />,
       text: 'リアル',
     },
   ];
 
   return (
-    <div className='bg-red-200 w-[350px] md:w-[450px] m-auto rounded-lg'>
-      <div className='w-full flex justify-center items-center gap-8 md:gap-10'>
+    <div className='bg-slate-50 border-2 border-blue-500 w-[350px] md:w-[450px] m-auto rounded-lg shadow-md'>
+      <div className='w-full flex justify-center items-center py-2'>
         {items.map((item) => (
-          <div
+          <ul
             key={item.key}
-            className='py-2 flex flex-col items-center justify-center cursor-pointer'
+            className='w-[25%] h-full border-r-4 last:border-r-0'
           >
-            {item.icon}
-            <div className='text-[0.8rem] text-semibold'>{item.text}</div>
-          </div>
+            <li className='w-full h-full flex flex-col items-center justify-center cursor-pointer text-blue-500 hover:scale-110'>
+              {item.icon}
+              <div className='text-[0.7rem] font-semibold mt-1'>
+                {item.text}
+              </div>
+            </li>
+          </ul>
         ))}
       </div>
     </div>
