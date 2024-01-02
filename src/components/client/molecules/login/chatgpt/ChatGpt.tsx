@@ -16,7 +16,6 @@ import { useEffect, useState } from 'react';
  * @returns
  */
 export default function ChatGpt({ messages }: { messages: Message[] }) {
-  // console.log('子供', isSmooth);
   const [numToday, setToday] = useState<number>(0);
   const [todayMessages, setTodayMessages] = useState<MessageType[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
