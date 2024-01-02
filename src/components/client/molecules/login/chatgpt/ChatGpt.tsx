@@ -27,17 +27,21 @@ export default function ChatGpt({ messages }: { messages: Message[] }) {
       '{:target}',
       '0',
     );
+    console.log('パス', path);
     const res = await fetch(path);
+    console.log('レスポンスになります', res);
     if (res.ok) {
       const todayData = await res.json();
       console.log('今日のデータ', todayData.count);
       // 今日のメッセージを格納
       setTodayMessages(todayData.data);
       setToday(todayData.count);
+    } else {
+      console.log('エラーになりました', res);
     }
   }
 
-  useMemo(() => {
+  useEffect(() => {
     (async () => {
       console.log('useEffect1');
       await getTodayMessage();
