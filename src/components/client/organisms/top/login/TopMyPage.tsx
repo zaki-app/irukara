@@ -17,7 +17,7 @@ export default async function TopMyPage() {
   const userId = await getCookie(COOKIE_NAME.IRUKARA_ID);
   const getUserEndpoint = IRUKARA_API.GET_USER_ID.replace('{userId}', userId);
   const { data }: { data: GetUserIdRes } = await getApi(getUserEndpoint);
-  console.log('レスポンス', data);
+  // console.log('レスポンス', data);
 
   let isUser = false;
   if (data) {
