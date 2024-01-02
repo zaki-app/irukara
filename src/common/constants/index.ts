@@ -17,6 +17,8 @@ export const COOKIE_NAME = {
   IRUKARA_REFRESH: '__auth-jwt-token-refresh',
   // next-auth
   NEXT_AUTH_SESSION: 'next-auth.session-token',
+  // menu
+  SELECTED_MENU: 'selected-key',
 };
 
 // プラン
@@ -42,3 +44,11 @@ export const RESPONSIVE = {
   XL: 1280,
   '2XL': 1536,
 };
+
+// 選択モード
+export const SELECTED_MENU = [
+  'チャットモード(GPT3.5)を選択中です',
+  'チャットモード(GPT4)を選択中です',
+  'イラストモードを選択中です',
+  'リアルモードを選択中です',
+];

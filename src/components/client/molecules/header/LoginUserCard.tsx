@@ -5,10 +5,10 @@ import { FaCaretDown } from 'react-icons/fa';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { CALLBACK } from '@/common/constants/path';
-import { allDeleteCookies } from '@/common/utils/manageCookies';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
+import { allDeleteCookies } from '@/common/utils/cookie/manageCookies';
 
 /**
  * ログインユーザーの画像ボックス、ドロップダウン

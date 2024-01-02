@@ -1,5 +1,5 @@
-import { getCookie } from '@/common/utils/manageCookies';
 import type { SaveMessageData } from '@/types/fetchData';
+import { getCookie } from '../utils/cookie/manageCookies';
 
 interface AllSaveMessageProps {
   count: number;

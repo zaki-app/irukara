@@ -4,7 +4,6 @@ interface Tab {
   id: number;
   label: string;
   key: number;
-  icon: React.ReactNode;
   children: React.ReactNode;
 }
 
