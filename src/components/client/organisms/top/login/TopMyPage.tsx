@@ -2,7 +2,7 @@ import { deleteNextAuthSession } from '@/app/api/auth/[...nextauth]/adapter';
 import { COOKIE_NAME } from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
 import { getApi } from '@/common/libs/api/lambda/requestClient';
-import { getCookie } from '@/common/utils/manageCookies';
+import { getCookie } from '@/common/utils/cookie/manageCookies';
 import GenerateArea from '@/components/client/molecules/login/GenerateArea';
 import Sidebar from '@/components/client/molecules/login/Sidebar';
 import { GetUserIdRes } from '@/types/auth/api';

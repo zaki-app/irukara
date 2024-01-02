@@ -8,7 +8,7 @@ import { SessionProvider, signOut } from 'next-auth/react';
 import { SessionUserInfo } from '@/types/auth';
 import { clearUserProfile, setUserProfile } from '@/store/auth/slice';
 import { CALLBACK } from '@/common/constants/path';
-import { allDeleteCookies, isAllCookies } from '@/common/utils/manageCookies';
+import { allDeleteCookies } from '@/common/utils/cookie/manageCookies';
 import { Loading } from '../atoms';
 import Analytics from '../atoms/gtag/Analytics';
 import StyledComponentsRegistry from '../molecules/login/libs/AntdRegistry';

@@ -4,11 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { IRUKARA_LOGO } from '@/common/config/site.config';
 import { useEffect, useState } from 'react';
-import { getCookie } from '@/common/utils/manageCookies';
+
 import { InButton, KanitFont, LineButton } from '@/components/client/atoms';
 import LoginModal from '@/components/client/molecules/header/LoginModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
+import { getCookie } from '@/common/utils/cookie/manageCookies';
 
 export default function TopService() {
   const [isUserId, setIsUserId] = useState<boolean>(false);

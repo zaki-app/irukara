@@ -8,7 +8,7 @@ import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
 import { MessageType } from '@/types/message';
 import { Message } from 'ai/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 /**
  * GenarateAreaで生成されたChatGptのやりとりを表示する
@@ -37,7 +37,7 @@ export default function ChatGpt({ messages }: { messages: Message[] }) {
     }
   }
 
-  useEffect(() => {
+  useMemo(() => {
     (async () => {
       console.log('useEffect1');
       await getTodayMessage();

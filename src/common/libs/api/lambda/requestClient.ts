@@ -1,6 +1,6 @@
 import { COOKIE_NAME } from '@/common/constants';
-import { getCookie } from '@/common/utils/manageCookies';
 import { updateToken } from '@/app/api/auth/[...nextauth]/updateToken';
+import { getCookie } from '@/common/utils/cookie/manageCookies';
 import { currentUnix } from '../../dateFormat';
 
 interface GetAuthInfoRes {

@@ -3,12 +3,15 @@
 import { SITE_CONFIG } from '@/common/config/site.config';
 import Image from 'next/image';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState, store } from '@/store';
 import { setSidebar } from '@/store/ui/sidebar/slice';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { FaTimes } from 'react-icons/fa';
+import { SELECTED_MENU } from '@/common/constants';
+import { getSelectedKey } from '@/common/utils/cookie';
+import { setSelectedMenuKey } from '@/store/ui/menu/selected/slice';
 import { KanitFont } from '../atoms';
 import LoginModal from '../molecules/header/LoginModal';
 import HamburgerMenu from '../molecules/header/HamburgerMenu';
@@ -21,6 +24,21 @@ export default function Header() {
     (state: RootState) => state.authUserProfileSlice,
   );
   const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
+  const { selectedMenu } = useSelector(
+    (state: RootState) => state.selectedMenuSlice,
+  );
+
+  const [isLoading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    (async () => {
+      const key = await getSelectedKey();
+      if (key !== 0) {
+        store.dispatch(setSelectedMenuKey({ selectedMenu: key }));
+      }
+      setLoading(true);
+    })();
+  }, []);
 
   return (
     <header className='shadow-md w-full fixed top-0 left-0 h-[4rem] z-[10]'>
@@ -82,9 +100,11 @@ export default function Header() {
       </nav>
       {isAuth && (
         <div className='bg-orange-200 w-full flex flex-col'>
-          <div>
-            <h2>現在は、チャットモードです。</h2>
-          </div>
+          {isLoading ? (
+            <h2>{SELECTED_MENU[selectedMenu]}</h2>
+          ) : (
+            <h2>モードを取得中です...</h2>
+          )}
         </div>
       )}
     </header>

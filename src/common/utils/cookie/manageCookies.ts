@@ -1,7 +1,7 @@
 'use server';
 
+import { COOKIE_NAME } from '@/common/constants';
 import { cookies } from 'next/headers';
-import { COOKIE_NAME } from '../constants';
 
 // cookieから値を取得する
 export async function getCookie(name: string): Promise<string> {

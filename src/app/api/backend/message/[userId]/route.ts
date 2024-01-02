@@ -2,7 +2,7 @@ import { COOKIE_NAME } from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
 import { getApi } from '@/common/libs/api/lambda/requestClient';
 import { startEndUnix } from '@/common/libs/dateFormat';
-import { getCookie } from '@/common/utils/manageCookies';
+import { getCookie } from '@/common/utils/cookie/manageCookies';
 import { GetMessagesType } from '@/types/message';
 import { NextRequest, NextResponse } from 'next/server';
 

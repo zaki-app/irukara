@@ -1,5 +1,5 @@
 import { SaveImageData } from '../../types/fetchData';
-import { getCookie } from '../utils/manageCookies';
+import { getCookie } from '../utils/cookie/manageCookies';
 
 interface Limit50SaveImageType {
   count: number;

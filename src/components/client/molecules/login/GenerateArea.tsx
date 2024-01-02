@@ -3,9 +3,8 @@
 import { useEffect, useState } from 'react';
 import { RootState, store } from '@/store';
 import { setAuthUserData } from '@/store/auth/user/slice';
-import useTabs from '@/hooks/useTabs';
+// import useTabs from '@/hooks/useTabs';
 import { GetUserIdRes } from '@/types/auth/api';
-import { BsFillChatDotsFill, BsWechat } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { TbTriangleFilled, TbTriangleInvertedFilled } from 'react-icons/tb';
 import { setMenuArea } from '@/store/ui/menu/slice';
@@ -45,6 +44,8 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
   const [questionHolder, setQuestionHolder] = useState<string>(
     'Irukaraへの\n質問を書いてください',
   );
+  // 選択しているメニュー番号
+  const [selectedMenu, setSelectedMenu] = useState<number>(0);
 
   const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
     api: API.TOP_GPT,
@@ -79,42 +80,41 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
         id: 0,
         key: 1,
         label: 'GPT3.5',
-        icon: <BsFillChatDotsFill />,
         children: <ChatGpt messages={messages} />,
       },
       {
         id: 1,
         key: 2,
         label: 'GPT4.0',
-        icon: <BsWechat />,
         children: 'tab2',
       },
       {
         id: 2,
         key: 3,
         label: 'イラスト',
-        icon: <BsWechat />,
         children: 'tab3',
       },
       {
         id: 3,
         key: 4,
         label: 'リアル',
-        icon: <BsWechat />,
         children: 'tab4',
       },
     ],
     initialTabKey: 1,
   });
 
-  const { tabProps, selectedTab } = useTabs(hookProps);
+  // const { tabProps, selectedTab } = useTabs(hookProps);
 
   return (
     <div className='relative h-full w-full flex-1 flex flex-col transition-width overflow-hidden'>
       {/* 生成されたやり取りコンポーネント */}
       <div className='w-full h-full flex-1 z-[1] overflow-hidden pt-[40px] mb-[150px]'>
         {/* {selectedTab.children} */}
-        <ChatGpt messages={messages} />
+        {selectedMenu === 0 && <ChatGpt messages={messages} />}
+        {selectedMenu === 1 && 'chatgpt4が出現'}
+        {selectedMenu === 2 && 'イラストが出現'}
+        {selectedMenu === 3 && 'リアルが出現'}
       </div>
       {/* 切り替えメニュー */}
       {isMenu && (
@@ -124,9 +124,9 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
           }`}
         >
           <MenuTab
-            tabs={tabProps.tabs}
-            selectedTabIndex={tabProps.selectedTabIndex}
-            setSelectedTab={tabProps.setSelectedTab}
+            setSelectedMenu={setSelectedMenu}
+            selectedMenu={selectedMenu}
+            setQuestionHolder={setQuestionHolder}
           />
         </div>
       )}

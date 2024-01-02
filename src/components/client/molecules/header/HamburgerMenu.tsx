@@ -13,10 +13,10 @@ import { FaBarsStaggered } from 'react-icons/fa6';
 import { FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
-import { allDeleteCookies } from '@/common/utils/manageCookies';
 import { CALLBACK } from '@/common/constants/path';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
+import { allDeleteCookies } from '@/common/utils/cookie/manageCookies';
 import LoginButton from '../../atoms/LoginButton';
 
 /**
