@@ -111,14 +111,15 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
 
   return (
     <div className='relative h-full w-full flex-1 flex flex-col transition-width overflow-hidden'>
+      {/* 生成されたやり取りコンポーネント */}
       <div className='w-full h-full flex-1 z-[1] overflow-hidden pt-[40px] mb-[150px]'>
         {/* {selectedTab.children} */}
         <ChatGpt messages={messages} />
       </div>
-      {/* bottom tab */}
+      {/* 切り替えメニュー */}
       {isMenu && (
         <div
-          className={`fixed z-[2] bottom-[85px] right-0 h-[60px] w-full md:w-[100%-240px] ${
+          className={`fixed z-[2] bottom-[110px] right-0 h-[80px] w-full md:w-[100%-240px] ${
             isSidebar ? 'md:w-[calc(100%-240px)]' : 'md:w-[calc(100%-48px)]'
           }`}
         >
