@@ -1,14 +1,12 @@
 'use client';
 
-import { Header, Footer } from '@/components/client/organisms';
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Header } from '@/components/client/organisms';
+import { Suspense, useMemo, useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '@/store';
-import { SessionProvider, signOut } from 'next-auth/react';
+import { SessionProvider } from 'next-auth/react';
 import { SessionUserInfo } from '@/types/auth';
 import { clearUserProfile, setUserProfile } from '@/store/auth/slice';
-import { CALLBACK } from '@/common/constants/path';
-import { allDeleteCookies } from '@/common/utils/cookie/manageCookies';
 import { Loading } from '../atoms';
 import Analytics from '../atoms/gtag/Analytics';
 import StyledComponentsRegistry from '../molecules/login/libs/AntdRegistry';
@@ -22,21 +20,17 @@ export default function ProvidersWrapper({
 }) {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  // clientはreduxで認証状況を確認する
-  if (session) {
-    const authUser = { ...session, isAuth: true };
-    store.dispatch(setUserProfile(authUser));
-  } else {
-    store.dispatch(clearUserProfile());
-  }
-
-  async function signOutHandler() {
-    // サインアウト
-    await allDeleteCookies();
-  }
-
   useMemo(() => {
     setIsLoaded(true);
+
+    // clientはreduxで認証状況を確認する
+    if (session) {
+      const authUser = { ...session, isAuth: true };
+      store.dispatch(setUserProfile(authUser));
+    } else {
+      store.dispatch(clearUserProfile());
+    }
+
     // cookieの有効期限切れ時は削除する
     // (async () => {
     //   const isCookie = await isAllCookies();

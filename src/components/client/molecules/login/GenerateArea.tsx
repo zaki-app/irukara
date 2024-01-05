@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { RootState, store } from '@/store';
 import { setAuthUserData } from '@/store/auth/user/slice';
-// import useTabs from '@/hooks/useTabs';
 import { GetUserIdRes } from '@/types/auth/api';
 import { useSelector } from 'react-redux';
 import { TbTriangleFilled, TbTriangleInvertedFilled } from 'react-icons/tb';
@@ -79,7 +78,6 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
     <div className='relative h-full w-full flex-1 flex flex-col transition-width overflow-hidden'>
       {/* 生成されたやり取りコンポーネント */}
       <div className='w-full h-full flex-1 z-[1] overflow-hidden pt-[40px] mb-[150px]'>
-        {/* {selectedTab.children} */}
         {selectedMenu === 0 && <ChatGpt messages={messages} />}
         {selectedMenu === 1 && '準備中です'}
         {selectedMenu === 2 && <IllustImage />}
@@ -167,14 +165,6 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
             </button>
           </div>
         </form>
-      </div>
-      {/* </div> */}
-      <div className='fixed overflow-hidden bottom-0 right-0 w-full z-[12] h-[30px]'>
-        <div className='bg-blue-500 text-white text-[0.5rem] md:text-[0.8rem] flex justify-center py-2 px-4 font-semibold tracking-[.1rem]'>
-          <span>
-            Irukaraはまだまだ勉強中です。重要な情報に関してはご注意ください。
-          </span>
-        </div>
       </div>
     </div>
   );

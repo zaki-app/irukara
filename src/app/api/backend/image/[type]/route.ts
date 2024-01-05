@@ -22,7 +22,6 @@ export async function GET(
   req: NextRequest,
 ): Promise<NextResponse<GetImageRes>> {
   console.log('GET request...', req.nextUrl.searchParams);
-
   let response;
   let status;
 
@@ -33,7 +32,7 @@ export async function GET(
     const { searchParams } = req.nextUrl;
     const type = searchParams.get('type');
     const target = searchParams.get('target');
-    const imageType = searchParams.get('imageType') as string;
+    const imageType = searchParams.get('imageType') ?? '';
 
     // type別にエンドポイントを作成
     if (type === 'DATE') {
@@ -52,7 +51,7 @@ export async function GET(
       // メッセージを最新のものから150件取得
     }
   } catch (err) {
-    console.error('get illust api error...', err);
+    console.error('get image api error...', err);
     response = false;
     status = 500;
   }
