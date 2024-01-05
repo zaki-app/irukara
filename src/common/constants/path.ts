@@ -17,9 +17,9 @@ export const API = {
   RATE_LIMIT_TOP_CHAT: '/api/rate-limit/top-limit?type={:type}',
   // 中間API
   RELAY_POST_MSG: '/api/backend/message?type={:type}',
-  RELAY_GET_MSG: '/api/backend/message/type?type={:type}&target={:target}',
+  RELAY_GET_MSG: '/api/backend/message/{:userId}?type={:type}&target={:target}',
   RELAY_GET_IMAGE:
-    '/api/backend/image/illust?type={:type}&target={:target}&imageType={:imageType}',
+    '/api/backend/image/illust?{:userId}={:type}&target={:target}&imageType={:imageType}',
 };
 
 // CALLBACK
