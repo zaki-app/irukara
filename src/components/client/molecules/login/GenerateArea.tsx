@@ -12,9 +12,12 @@ import { FaAngleDoubleRight } from 'react-icons/fa';
 import { API } from '@/common/constants/path';
 import { useChat, Message } from 'ai/react';
 import { setScroll } from '@/store/ui/scroll/slice';
+import { imageGenerate } from '@/common/libs/api/image/imageGenerate';
+import { ImageGenerateRes } from '@/types/image';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/tab/MenuTab';
 import IllustImage from './illust/IllustImage';
+import ChatTextArea from '../../atoms/login/chat/ChatTextArea';
 
 /**
  * 各生成エリア
@@ -24,6 +27,9 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
   const { isMenu } = useSelector((state: RootState) => state.menuSlice);
   const { userId, status } = useSelector(
     (state: RootState) => state.authUserDataSlice,
+  );
+  const { selectedMenu } = useSelector(
+    (state: RootState) => state.selectedMenuSlice,
   );
 
   useEffect(() => {
@@ -45,7 +51,8 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
     'Irukaraへの\n質問を書いてください',
   );
   // 選択しているメニュー番号
-  const [selectedMenu, setSelectedMenu] = useState<number>(0);
+  const [numSelected, setSelectedMenu] = useState<number>(0);
+  const [illustOutput, setIllustOutput] = useState<ImageGenerateRes>();
 
   const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
     api: API.TOP_GPT,
@@ -78,10 +85,10 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
     <div className='relative h-full w-full flex-1 flex flex-col transition-width overflow-hidden'>
       {/* 生成されたやり取りコンポーネント */}
       <div className='w-full h-full flex-1 z-[1] overflow-hidden pt-[40px] mb-[150px]'>
-        {selectedMenu === 0 && <ChatGpt messages={messages} />}
-        {selectedMenu === 1 && '準備中です'}
-        {selectedMenu === 2 && <IllustImage />}
-        {selectedMenu === 3 && 'リアルが出現'}
+        {numSelected === 0 && <ChatGpt messages={messages} />}
+        {numSelected === 1 && '準備中です'}
+        {numSelected === 2 && <IllustImage illustOutput={illustOutput} />}
+        {numSelected === 3 && 'リアルが出現'}
       </div>
       {/* 切り替えメニュー */}
       {isMenu && (
@@ -92,7 +99,7 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
         >
           <MenuTab
             setSelectedMenu={setSelectedMenu}
-            selectedMenu={selectedMenu}
+            numSelected={numSelected}
             setQuestionHolder={setQuestionHolder}
           />
         </div>
@@ -117,11 +124,28 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
             e.preventDefault();
             if (question) {
               setQuestionHolder('回答を作成中です');
-              setQuestion('');
               setAnswer(false);
-              handleSubmit(e);
+
+              if (selectedMenu === 0) {
+                handleSubmit(e);
+              } else if (selectedMenu === 1) {
+                // chatGPT4
+              } else if (selectedMenu === 2) {
+                // イラスト生成
+                const illustRes = await imageGenerate({
+                  userId,
+                  prompt: question,
+                  memberStatus: status,
+                  type: 2,
+                });
+                if (illustRes) setIllustOutput(illustRes);
+                console.log('イラスト生成するボタンをクリック', illustRes);
+              } else if (selectedMenu === 3) {
+                console.log('リアル画像生成クリック');
+              }
+
+              setQuestion('');
             }
-            console.log('on onSubmit', e);
           }}
           className='w-full border-2 border-blue-500 rounded-lg mx-2 my-2'
         >

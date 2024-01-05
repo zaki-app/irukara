@@ -10,13 +10,13 @@ import { setCookie } from '@/common/utils/cookie/manageCookies';
 import { getSelectedKey } from '@/common/utils/cookie';
 
 interface MenuProps {
-  selectedMenu: number;
+  numSelected: number;
   setSelectedMenu: Dispatch<SetStateAction<number>>;
   setQuestionHolder: Dispatch<SetStateAction<string>>;
 }
 
 export default function MenuTab({
-  selectedMenu,
+  numSelected,
   setSelectedMenu,
   setQuestionHolder,
 }: MenuProps) {
@@ -84,7 +84,7 @@ export default function MenuTab({
                 setHolderText(item.key);
               }}
               className={`w-full h-full flex flex-col items-center justify-center cursor-pointer  hover:scale-110 ${
-                selectedMenu === item.key
+                numSelected === item.key
                   ? 'text-blue-500 scale-110 font-bold'
                   : 'text-gray-400'
               }`}

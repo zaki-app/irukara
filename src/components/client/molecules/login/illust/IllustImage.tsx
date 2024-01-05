@@ -9,7 +9,7 @@ import ImageOutput from '@/components/client/atoms/login/chat/ImageOutput';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
 import { RootState } from '@/store';
-import { ImageTableRes } from '@/types/image';
+import { ImageGenerateRes, ImageTableRes } from '@/types/image';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -17,10 +17,15 @@ import { useSelector } from 'react-redux';
  * イラスト生成のやりとりを表示する
  * @returns
  */
-export default function IllustImage() {
+export default function IllustImage({
+  illustOutput,
+}: {
+  illustOutput: ImageGenerateRes | undefined;
+}) {
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
+  console.log('追加のデータ', illustOutput);
 
   const [numToday, setToday] = useState<number>(0);
   const [todayIllusts, setTodayIllusts] = useState<ImageTableRes[]>([]);
@@ -78,7 +83,7 @@ export default function IllustImage() {
             ))}
           </div>
           {/* 追加のやり取り */}
-          {/* {message.map((message: Message) => (
+          {/* {illustRes.map((illust) => (
             <ScrollBottom option key={message.id}>
               {message.role === 'user' && (
                 <UserCard
