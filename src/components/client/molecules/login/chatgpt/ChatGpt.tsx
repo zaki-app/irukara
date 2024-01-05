@@ -1,7 +1,9 @@
 'use client';
 
+import { COOKIE_NAME } from '@/common/constants';
 import { API } from '@/common/constants/path';
 import { currentUnix } from '@/common/libs/dateFormat';
+import { getCookie } from '@/common/utils/cookie/manageCookies';
 import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import AiCard from '@/components/client/atoms/login/chat/AiCard';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
@@ -28,10 +30,10 @@ export default function ChatGpt({ messages }: { messages: Message[] }) {
   // 今日の保存データを取得
   // TODO 画面には今日のデータを表示して、追加されたらこれが入っている配列に入れる
   async function getTodayMessage() {
-    const path = API.RELAY_GET_MSG.replace('{:type}', 'DATE').replace(
-      '{:target}',
-      '0',
-    );
+    const userId = await getCookie(COOKIE_NAME.IRUKARA_ID);
+    const path = API.RELAY_GET_MSG.replace('{:userId}', userId)
+      .replace('{:type}', 'DATE')
+      .replace('{:target}', '0');
     const res = await fetch(path);
     if (res.ok) {
       const todayData = await res.json();

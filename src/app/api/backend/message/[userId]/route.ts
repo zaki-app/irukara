@@ -20,14 +20,20 @@ import { NextRequest, NextResponse } from 'next/server';
  */
 export async function GET(
   req: NextRequest,
+  { params }: { params: { userId: string } },
 ): Promise<NextResponse<GetMessagesType>> {
+  // ユーザーIDがない場合はエラーを返却
+  if (!params.userId) {
+    throw new Error('No userId...');
+  }
+
   console.log('GET request...', req.nextUrl.searchParams);
   let response;
   let status;
 
   try {
     // userIdをcookieから取得
-    const userId = await getCookie(COOKIE_NAME.IRUKARA_ID);
+    // const userId = await getCookie(COOKIE_NAME.IRUKARA_ID);
     // typeを確認
     const { searchParams } = req.nextUrl;
     const type = searchParams.get('type');
@@ -36,8 +42,8 @@ export async function GET(
     // type別にエンドポイントを作成
     if (type === 'DATE') {
       const { start, end } = startEndUnix(Number(target));
-      console.log('start end unix...', start, end, userId);
-      const path = IRUKARA_API.GET_MSG_DATE.replace('{userId}', userId)
+      console.log('start end unix...', start, end, params.userId);
+      const path = IRUKARA_API.GET_MSG_DATE.replace('{userId}', params.userId)
         .replace('{startUnix}', start.toString())
         .replace('{endUnix}', end.toString());
       const res = await getApi(path);
