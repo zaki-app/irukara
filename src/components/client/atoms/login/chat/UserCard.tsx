@@ -26,7 +26,7 @@ export default function UserCard({ question, createdAt }: UserCardProps) {
         alt='ユーザーロゴ'
         width={30}
         height={30}
-        className='rounded-full border border-gray-300'
+        className='rounded-full border-2 border-blue-500 bg-sky-200 shadow-md'
       />
       <div className='flex flex-col ml-4 w-full'>
         <p>{question}</p>

@@ -15,6 +15,7 @@ import { useChat, Message } from 'ai/react';
 import { setScroll } from '@/store/ui/scroll/slice';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/tab/MenuTab';
+import IllustImage from './illust/IllustImage';
 
 /**
  * 各生成エリア
@@ -74,46 +75,14 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
     },
   });
 
-  const [hookProps] = useState({
-    tabs: [
-      {
-        id: 0,
-        key: 1,
-        label: 'GPT3.5',
-        children: <ChatGpt messages={messages} />,
-      },
-      {
-        id: 1,
-        key: 2,
-        label: 'GPT4.0',
-        children: 'tab2',
-      },
-      {
-        id: 2,
-        key: 3,
-        label: 'イラスト',
-        children: 'tab3',
-      },
-      {
-        id: 3,
-        key: 4,
-        label: 'リアル',
-        children: 'tab4',
-      },
-    ],
-    initialTabKey: 1,
-  });
-
-  // const { tabProps, selectedTab } = useTabs(hookProps);
-
   return (
     <div className='relative h-full w-full flex-1 flex flex-col transition-width overflow-hidden'>
       {/* 生成されたやり取りコンポーネント */}
       <div className='w-full h-full flex-1 z-[1] overflow-hidden pt-[40px] mb-[150px]'>
         {/* {selectedTab.children} */}
         {selectedMenu === 0 && <ChatGpt messages={messages} />}
-        {selectedMenu === 1 && 'chatgpt4が出現'}
-        {selectedMenu === 2 && 'イラストが出現'}
+        {selectedMenu === 1 && '準備中です'}
+        {selectedMenu === 2 && <IllustImage />}
         {selectedMenu === 3 && 'リアルが出現'}
       </div>
       {/* 切り替えメニュー */}
@@ -150,7 +119,6 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
             e.preventDefault();
             if (question) {
               setQuestionHolder('回答を作成中です');
-              console.log('質問です', question);
               setQuestion('');
               setAnswer(false);
               handleSubmit(e);

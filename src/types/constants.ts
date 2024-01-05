@@ -6,6 +6,7 @@ type IrukaraApiObjkey =
   | 'GET_MSG'
   | 'POST_MSG'
   | 'PUT_MSG'
-  | 'DEL_MSG';
+  | 'DEL_MSG'
+  | 'GET_ILLUST_DATE';
 
 export type IrukaraApiUnion = Record<IrukaraApiObjkey, string>;

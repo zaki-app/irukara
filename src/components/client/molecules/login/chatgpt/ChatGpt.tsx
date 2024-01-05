@@ -8,10 +8,10 @@ import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
 import { MessageType } from '@/types/message';
 import { Message } from 'ai/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
- * GenarateAreaで生成されたChatGptのやりとりを表示する
+ * GenerateAreaで生成されたChatGptのやりとりを表示する
  * @param  ユーザーとIrukaraのやり取り
  * @returns
  */
@@ -27,17 +27,15 @@ export default function ChatGpt({ messages }: { messages: Message[] }) {
       '{:target}',
       '0',
     );
-    console.log('パス', path);
     const res = await fetch(path);
-    console.log('レスポンスになります', res);
     if (res.ok) {
       const todayData = await res.json();
-      console.log('今日のデータ', todayData.count);
+      console.log('today data...', todayData.count);
       // 今日のメッセージを格納
       setTodayMessages(todayData.data);
       setToday(todayData.count);
     } else {
-      console.log('エラーになりました', res);
+      console.log('today data fetch error...', res);
     }
   }
 
@@ -53,42 +51,37 @@ export default function ChatGpt({ messages }: { messages: Message[] }) {
   return (
     <div className='relative w-full h-full'>
       {isLoaded && numToday > 0 ? (
-        <>
-          <ScrollBottom className='relative w-full h-full overflow-y-auto px-2 md:px-4'>
-            <div className='flex flex-col-reverse'>
-              {todayMessages.map((today) => (
-                <div key={today.messageId}>
-                  {/* ユーザー */}
-                  <UserCard
-                    question={today.question}
-                    createdAt={today.createdAt}
-                  />
-                  {/* Irukara */}
-                  <AiCard answer={today.answer} createdAt={today.createdAt} />
-                </div>
-              ))}
-            </div>
-            {/* 追加のやり取り */}
-            {messages.map((message: Message) => (
-              <ScrollBottom option key={message.id}>
-                {message.role === 'user' && (
-                  <UserCard
-                    question={message.content}
-                    createdAt={currentUnix()}
-                  />
-                )}
-                {message.role === 'assistant' && (
-                  <div>
-                    <AiCard
-                      answer={message.content}
-                      createdAt={currentUnix()}
-                    />
-                  </div>
-                )}
-              </ScrollBottom>
+        <ScrollBottom className='relative w-full h-full overflow-y-auto px-2 md:px-4'>
+          <div className='flex flex-col-reverse'>
+            {todayMessages.map((today) => (
+              <div key={today.messageId}>
+                {/* ユーザー */}
+                <UserCard
+                  question={today.question}
+                  createdAt={today.createdAt}
+                />
+                {/* Irukara */}
+                <AiCard answer={today.answer} createdAt={today.createdAt} />
+              </div>
             ))}
-          </ScrollBottom>
-        </>
+          </div>
+          {/* 追加のやり取り */}
+          {messages.map((message: Message) => (
+            <ScrollBottom option key={message.id}>
+              {message.role === 'user' && (
+                <UserCard
+                  question={message.content}
+                  createdAt={currentUnix()}
+                />
+              )}
+              {message.role === 'assistant' && (
+                <div>
+                  <AiCard answer={message.content} createdAt={currentUnix()} />
+                </div>
+              )}
+            </ScrollBottom>
+          ))}
+        </ScrollBottom>
       ) : (
         <InputPrompt type={1} />
       )}
