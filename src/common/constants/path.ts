@@ -19,7 +19,7 @@ export const API = {
   RELAY_POST_MSG: '/api/backend/message?type={:type}',
   RELAY_GET_MSG: '/api/backend/message/{:userId}?type={:type}&target={:target}',
   RELAY_GET_IMAGE:
-    '/api/backend/image/illust?{:userId}={:type}&target={:target}&imageType={:imageType}',
+    '/api/backend/image/{:userId}?type={:type}&target={:target}&imageType={:imageType}',
 };
 
 // CALLBACK
