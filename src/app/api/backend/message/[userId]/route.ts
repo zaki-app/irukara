@@ -1,8 +1,6 @@
-import { COOKIE_NAME } from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
 import { getApi } from '@/common/libs/api/lambda/requestClient';
 import { startEndUnix } from '@/common/libs/dateFormat';
-import { getCookie } from '@/common/utils/cookie/manageCookies';
 import { GetMessagesType } from '@/types/message';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -32,8 +30,6 @@ export async function GET(
   let status;
 
   try {
-    // userIdをcookieから取得
-    // const userId = await getCookie(COOKIE_NAME.IRUKARA_ID);
     // typeを確認
     const { searchParams } = req.nextUrl;
     const type = searchParams.get('type');

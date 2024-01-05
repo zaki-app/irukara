@@ -1,7 +1,9 @@
 'use client';
 
+import { COOKIE_NAME } from '@/common/constants';
 import { API } from '@/common/constants/path';
 import { currentUnix } from '@/common/libs/dateFormat';
+import { getCookie } from '@/common/utils/cookie/manageCookies';
 import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import ImageOutput from '@/components/client/atoms/login/chat/ImageOutput';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
@@ -27,7 +29,9 @@ export default function IllustImage() {
   // 今日の保存データを取得
   // TODO 画面には今日のデータを表示して、追加されたらこれが入っている配列に入れる
   async function getTodayMessage() {
-    const path = API.RELAY_GET_IMAGE.replace('{:type}', 'DATE')
+    const userId = await getCookie(COOKIE_NAME.IRUKARA_ID);
+    const path = API.RELAY_GET_IMAGE.replace('{:userId}', userId)
+      .replace('{:type}', 'DATE')
       .replace('{:target}', '0')
       .replace('{:imageType}', '1');
     console.log('パス', path);
