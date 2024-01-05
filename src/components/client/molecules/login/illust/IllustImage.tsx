@@ -3,18 +3,23 @@
 import { API } from '@/common/constants/path';
 import { currentUnix } from '@/common/libs/dateFormat';
 import InputPrompt from '@/components/client/atoms/login/InputPrompt';
-import AiCard from '@/components/client/atoms/login/chat/AiCard';
 import ImageOutput from '@/components/client/atoms/login/chat/ImageOutput';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
+import { RootState } from '@/store';
 import { ImageTableRes } from '@/types/image';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 /**
  * イラスト生成のやりとりを表示する
  * @returns
  */
 export default function IllustImage() {
+  const { selectedMenu } = useSelector(
+    (state: RootState) => state.selectedMenuSlice,
+  );
+
   const [numToday, setToday] = useState<number>(0);
   const [todayIllusts, setTodayIllusts] = useState<ImageTableRes[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
@@ -25,7 +30,9 @@ export default function IllustImage() {
     const path = API.RELAY_GET_IMAGE.replace('{:type}', 'DATE')
       .replace('{:target}', '0')
       .replace('{:imageType}', '1');
+    console.log('パス', path);
     const res = await fetch(path);
+
     if (res.ok) {
       const todayData = await res.json();
       console.log('today data...', todayData.count);
@@ -38,12 +45,14 @@ export default function IllustImage() {
   }
 
   useEffect(() => {
-    (async () => {
-      console.log('illust useEffect1');
-      await getTodayMessage();
-      console.log('illust useEffect2 ここになったらデータが表示される');
-      setLoaded(true);
-    })();
+    if (selectedMenu === 2) {
+      (async () => {
+        console.log('illust useEffect1');
+        await getTodayMessage();
+        console.log('illust useEffect2 ここになったらデータが表示される');
+        setLoaded(true);
+      })();
+    }
   }, []);
 
   return (

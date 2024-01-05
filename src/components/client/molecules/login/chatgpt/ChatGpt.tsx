@@ -6,9 +6,11 @@ import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import AiCard from '@/components/client/atoms/login/chat/AiCard';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
+import { RootState } from '@/store';
 import { MessageType } from '@/types/message';
 import { Message } from 'ai/react';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 /**
  * GenerateAreaで生成されたChatGptのやりとりを表示する
@@ -16,6 +18,9 @@ import { useEffect, useState } from 'react';
  * @returns
  */
 export default function ChatGpt({ messages }: { messages: Message[] }) {
+  const { selectedMenu } = useSelector(
+    (state: RootState) => state.selectedMenuSlice,
+  );
   const [numToday, setToday] = useState<number>(0);
   const [todayMessages, setTodayMessages] = useState<MessageType[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
@@ -40,12 +45,14 @@ export default function ChatGpt({ messages }: { messages: Message[] }) {
   }
 
   useEffect(() => {
-    (async () => {
-      console.log('useEffect1');
-      await getTodayMessage();
-      console.log('useEffect2 ここになったらデータが表示される');
-      setLoaded(true);
-    })();
+    if (selectedMenu === 0) {
+      (async () => {
+        console.log('useEffect1');
+        await getTodayMessage();
+        console.log('useEffect2 ここになったらデータが表示される');
+        setLoaded(true);
+      })();
+    }
   }, []);
 
   return (
