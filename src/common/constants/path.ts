@@ -11,6 +11,9 @@ export const LINK_PATH = {
   MEMBER: 'for-users/membership',
 };
 
+// Lambda API
+export const LAMBDA_API = process.env.IRUKARA_API_ENDPOINT;
+
 // API
 export const API = {
   TOP_GPT: '/api/playground/top',
@@ -20,24 +23,8 @@ export const API = {
   RELAY_GET_MSG: '/api/backend/message/{:userId}?type={:type}&target={:target}',
   RELAY_GET_IMAGE:
     '/api/backend/image/{:userId}?type={:type}&target={:target}&imageType={:imageType}',
+  RELAY_POST_ILLUST: '/api/backend/image',
 };
-
-// CALLBACK
-export const CALLBACK = {
-  SIGNIN_URL: '/api/auth/signin?callbackUrl=/server',
-  LOGOUT_URL: '/api/auth/signout',
-  SERVER_LOGOUT_URL: '/api/auth/signout?callbackUrl=/api/auth/session',
-  LOGOUT_CSRF: '/api/auth/csrf',
-};
-
-// external API
-export const EXTERNAL_API = {
-  GOOGLE_AUTH: 'https://accounts.google.com/o/oauth2/v2/auth?',
-  GOOGLE_TOKEN: 'https://oauth2.googleapis.com/token?',
-};
-
-// Lambda API
-export const LAMBDA_API = process.env.IRUKARA_API_ENDPOINT;
 
 export const IRUKARA_API: IrukaraApiUnion = {
   // user
@@ -52,4 +39,20 @@ export const IRUKARA_API: IrukaraApiUnion = {
   DEL_MSG: `${LAMBDA_API}save-message-delete/{messageId}`,
   // image
   GET_ILLUST_DATE: `${LAMBDA_API}save-images/{userId}?type=date&start={startUnix}&end={endUnix}&imageType={imageType}`,
+  POST_ILLUST_IMAGE: `${LAMBDA_API}save-illust-image`,
+  POST_REAL_IMAGE: `${LAMBDA_API}`,
+};
+
+// CALLBACK
+export const CALLBACK = {
+  SIGNIN_URL: '/api/auth/signin?callbackUrl=/server',
+  LOGOUT_URL: '/api/auth/signout',
+  SERVER_LOGOUT_URL: '/api/auth/signout?callbackUrl=/api/auth/session',
+  LOGOUT_CSRF: '/api/auth/csrf',
+};
+
+// external API
+export const EXTERNAL_API = {
+  GOOGLE_AUTH: 'https://accounts.google.com/o/oauth2/v2/auth?',
+  GOOGLE_TOKEN: 'https://oauth2.googleapis.com/token?',
 };
