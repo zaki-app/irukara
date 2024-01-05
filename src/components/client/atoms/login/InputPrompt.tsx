@@ -16,21 +16,43 @@ export default function InputPrompt({ type }: { type: number }) {
   );
 
   return (
-    <div className='flex-1 w-full h-full flex justify-center flex-col items-center py-12 text-base_font'>
-      <h2 className='text-xl font-semibold'>
-        Irukaraは{name ? `${name}さん` : 'あなた'}だけの
-        <br />
-        AIアシスタントです！
-      </h2>
-      <Image
-        src={SITE_CONFIG.ICON}
-        alt={irukaraSmileAlt}
-        width={100}
-        height={100}
-        className='my-12'
-      />
-      <div className='text-lg font-semibold'>
-        {type === 1 && <p>どんなことをお手伝いできますか？</p>}
+    <div className='flex-1 w-full h-full flex justify-center flex-col items-center'>
+      <div className='text-base_font text-center font-semibold'>
+        <h2 className='text-xl'>
+          Irukaraは{name ? `${name}さん` : 'あなた'}だけの
+          <br />
+          AIアシスタントです！
+        </h2>
+        <div className='flex justify-center'>
+          <Image
+            src={SITE_CONFIG.ICON}
+            alt={irukaraSmileAlt}
+            width={100}
+            height={100}
+            className='my-12'
+          />
+        </div>
+        <div className='text-base'>
+          {type === 1 && (
+            <p>
+              ここはチャットでIrukaraに質問できるページです。
+              <br />
+              どんなことをお手伝いできますか？
+            </p>
+          )}
+          {type === 3 && (
+            <p>
+              ここはイラスト画像を生成できるページです
+              <br />
+              どのようなイラスト生成したいですか？
+            </p>
+          )}
+          <p className='mt-4'>
+            下のメニューから選んでください！
+            <br />
+            メニューの表示切り替えは左下の三角ボタンを押してください。
+          </p>
+        </div>
       </div>
     </div>
   );

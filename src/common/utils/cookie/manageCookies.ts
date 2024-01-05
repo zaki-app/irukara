@@ -38,10 +38,8 @@ export async function isAllCookies(): Promise<boolean> {
   let isCookie;
 
   if (isId || isJwt || isExpires || isProvider || isRefresh) {
-    console.log('cookieあり');
     isCookie = true;
   } else {
-    console.log('cookieなしです');
     isCookie = false;
   }
 

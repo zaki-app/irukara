@@ -18,7 +18,6 @@ export default function ShareButton({
 
   async function shareHandler() {
     setShare(share === 0 ? 1 : 0);
-    console.log('shareプロップス', shareStatus);
     // const response = await fetch('/api/message/share', {
     //   method: 'PUT',
     //   body: JSON.stringify({

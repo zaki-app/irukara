@@ -9,7 +9,6 @@ import { useEffect } from 'react';
  * @returns
  */
 export default function Redirect({ path }: { path: string }) {
-  console.log('パス', path);
   useEffect(() => {
     redirect(path);
   }, []);
