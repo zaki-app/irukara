@@ -48,7 +48,7 @@ export default function IllustImage() {
     if (selectedMenu === 2) {
       (async () => {
         console.log('illust useEffect1');
-        await getTodayMessage();
+        // await getTodayMessage();
         console.log('illust useEffect2 ここになったらデータが表示される');
         setLoaded(true);
       })();
