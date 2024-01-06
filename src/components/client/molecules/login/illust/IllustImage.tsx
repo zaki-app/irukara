@@ -2,13 +2,13 @@
 
 import { COOKIE_NAME } from '@/common/constants';
 import { API } from '@/common/constants/path';
-import { currentUnix } from '@/common/libs/dateFormat';
 import { getCookie } from '@/common/utils/cookie/manageCookies';
 import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import ImageOutput from '@/components/client/atoms/login/chat/ImageOutput';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
-import { RootState } from '@/store';
+import { RootState, store } from '@/store';
+import { setScroll } from '@/store/ui/scroll/slice';
 import { ImageGenerateRes, ImageTableRes } from '@/types/image';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -25,7 +25,6 @@ export default function IllustImage({
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
-  console.log('追加のデータ', illustOutput);
 
   const [numToday, setToday] = useState<number>(0);
   const [todayIllusts, setTodayIllusts] = useState<ImageTableRes[]>([]);
@@ -64,13 +63,23 @@ export default function IllustImage({
     }
   }, []);
 
+  // 生成された画像データを配列に入れる
+  useEffect(() => {
+    if (illustOutput) {
+      setTodayIllusts((prev) => [illustOutput, ...prev]);
+      setToday((prev) => prev + 1);
+      console.log('追加の時のみ呼ばれるようにしたい', illustOutput);
+      store.dispatch(setScroll({ isScroll: true }));
+    }
+  }, [illustOutput]);
+
   return (
     <div className='relative w-full h-full'>
       {isLoaded && numToday > 0 ? (
         <ScrollBottom className='relative w-full h-full overflow-y-auto px-2 md:px-4'>
           <div className='flex flex-col-reverse'>
             {todayIllusts.map((today) => (
-              <div key={today.imageId}>
+              <div key={today.imageId} className='mt-4'>
                 {/* ユーザー */}
                 <UserCard question={today.prompt} createdAt={today.createdAt} />
                 {/* Irukara */}
@@ -82,22 +91,6 @@ export default function IllustImage({
               </div>
             ))}
           </div>
-          {/* 追加のやり取り */}
-          {/* {illustRes.map((illust) => (
-            <ScrollBottom option key={message.id}>
-              {message.role === 'user' && (
-                <UserCard
-                  question={message.content}
-                  createdAt={currentUnix()}
-                />
-              )}
-              {message.role === 'assistant' && (
-                <div>
-                  <AiCard answer={message.content} createdAt={currentUnix()} />
-                </div>
-              )}
-            </ScrollBottom>
-          ))} */}
         </ScrollBottom>
       ) : (
         <InputPrompt type={3} />
