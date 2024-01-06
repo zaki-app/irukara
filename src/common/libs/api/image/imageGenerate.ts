@@ -12,9 +12,13 @@ export async function imageGenerate({
   let response;
 
   try {
+    // promptの半角・全角スペースをカンマ区切りに変換
+    const newSeparator = prompt.replace(/[\s\uFEFF\xA0]+/g, ',');
+    console.log('変換できてるか？', newSeparator);
+
     const illustRes = await postApi(API.RELAY_POST_ILLUST, {
       userId,
-      prompt,
+      prompt: newSeparator,
       memberStatus,
       type,
     });
