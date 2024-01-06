@@ -84,7 +84,12 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
   return (
     <div className='relative h-full w-full flex-1 flex flex-col transition-width overflow-hidden'>
       {/* 生成されたやり取りコンポーネント */}
-      <div className='w-full h-full flex-1 z-[1] overflow-hidden pt-[40px] mb-[150px]'>
+      <div
+        className={`fixed w-full h-full flex-1 z-[1] overflow-hidden top-[5.5rem] right-0 ${
+          isSidebar ? 'md:w-[calc(100%-240px)]' : 'md:w-[calc(100%-48px)]'
+        } 
+        ${isMenu ? 'pb-[18.4rem]' : 'pb-[13rem]'}`}
+      >
         {numSelected === 0 && <ChatGpt messages={messages} />}
         {numSelected === 1 && '準備中です'}
         {numSelected === 2 && <IllustImage illustOutput={illustOutput} />}
