@@ -53,7 +53,7 @@ export default async function Home() {
               {/* 生成エリア */}
               {/* サイドバー spは45px pcは250px */}
               <Sidebar />
-              <div className='relative flex flex-1 h-full w-full flex-col overflow-hidden'>
+              <div className='relative flex flex-1 h-full w-full flex-col overflow-hidden z-[8]'>
                 <GenerateArea data={data} />
               </div>
               {/* </div> */}
