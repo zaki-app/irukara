@@ -68,20 +68,29 @@ export default function Sidebar() {
   }, []);
 
   return (
+    // 背景
     <aside
-      className={`absolute top-0 left-0 z-[10] w-full h-full md:bg-transparent overflow-hidden ${
-        isHeaderAction ? 'bg-black/10 backdrop-blur-sm' : 'bg-transparent'
-      }`}
+      className={`absolute top-[1.5rem] h-full left-0 z-[10] overflow-hidden ${
+        isHeaderAction
+          ? `w-full bg-black/10 backdrop-blur-sm md:bg-transparent md:backdrop-blur-0`
+          : ''
+      } ${isSidebar ? 'md:w-[240px]' : 'md:w-[48px]'}`}
     >
+      {/* サイドバー */}
       <nav
-        className={`md:w-[240px] h-full bg-blue-100 pt-[3rem] overflow-hidden ${
+        className={`w-0 md:w-[240px] bg-red-200 h-full duration-300 ${
           isHeaderAction
-            ? 'visible absolute top-0 left-0 w-[300px] z-[10] duration-300 ease-in-out'
-            : 'w-0 invisible md:visible duration-300 ease-out'
+            ? 'visible w-[300px]'
+            : 'invisible md:visible w-[0] md:w-full'
         }`}
       >
-        <div className='w-full h-full flex flex-coll'>
-          <p>サイドバーです</p>
+        <div>
+          <div>サイドバー</div>
+          <div>サイドバー</div>
+          <div>サイドバー</div>
+          <div>サイドバー</div>
+          <div>サイドバー</div>
+          <div>サイドバー</div>
         </div>
       </nav>
     </aside>
@@ -106,16 +115,8 @@ export default function Sidebar() {
     //           isSidebar ? 'w-[48px] md:w-[240px]' : 'w-[240px] md:w-[48px]'
     //         }`}
     //       >
-    //         <div className='px-4 h-full w-full overflow-hidden'>
-    //           <ul>
-    //             <li>12/30</li>
-    //             <li>12/29</li>
-    //             <li>12/28</li>
-    //             <li>12/27</li>
-    //             <li>12/26</li>
-    //             <li>12/25</li>
-    //             <li>12/24</li>
-    //           </ul>
+    //         <div className='px-4 py-[2rem] h-full w-full overflow-hidden'>
+    //           <div>サイドバーです</div>
     //           <button
     //             className='bg-neutral-100 rounded-lg py-2 px-4 font-semibold hidden md:block'
     //             onClick={() => toggleSidebar()}
