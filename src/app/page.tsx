@@ -16,6 +16,7 @@ import { GetUserIdRes } from '@/types/auth/api';
 import { getApi } from '@/common/libs/api/lambda/requestClient';
 import Sidebar from '@/components/client/molecules/login/Sidebar';
 import GenerateArea from '@/components/client/molecules/login/GenerateArea';
+import CautionText from '@/components/client/atoms/login/CautionText';
 import { options } from './api/auth/[...nextauth]/options';
 import { deleteNextAuthSession } from './api/auth/[...nextauth]/adapter';
 
@@ -56,14 +57,7 @@ export default async function Home() {
               <div className='relative flex flex-1 h-full w-full flex-col overflow-hidden z-[8]'>
                 <GenerateArea data={data} />
               </div>
-              {/* </div> */}
-              <div className='fixed overflow-hidden bottom-0 right-0 w-full z-[12]'>
-                <div className='bg-blue-500 text-white text-[0.5rem] md:text-[0.8rem] flex justify-center py-2 px-4 font-semibold tracking-[.1rem]'>
-                  <span>
-                    Irukaraはまだまだ勉強中です。重要な情報に関してはご注意ください。
-                  </span>
-                </div>
-              </div>
+              <CautionText />
             </div>
           )}
         </>

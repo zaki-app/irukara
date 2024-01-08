@@ -52,12 +52,11 @@ export function startEndUnix(daysAgo: number) {
   return { start, end };
 }
 
-/* 今日から7日前の日付と開始終了のunix時間を返却 */
+/* 今日からn日前の日付と開始終了のunix時間を返却 */
 export function returnSevenDays() {
   const today = dayjs().tz();
 
   const response = [];
-
   for (let i = 1; i <= 7; i += 1) {
     const pastDate = today.subtract(i, 'day');
     const formatDate = pastDate.format('M月D日');
@@ -75,4 +74,24 @@ export function returnSevenDays() {
   console.log('1週間', response);
 
   return response;
+}
+
+/* 今日の日付と開始終了のunix時間を返却 */
+export function returnToday() {
+  const today = dayjs().tz();
+
+  const pastDate = today.subtract(0, 'day');
+  const formatDate = pastDate.format('M月D日');
+  const { start, end } = startEndUnix(0);
+
+  const params = {
+    key: 0,
+    day: formatDate,
+    start,
+    end,
+  };
+
+  console.log('今日', params);
+
+  return params;
 }
