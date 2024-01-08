@@ -16,7 +16,7 @@ export default function InputPrompt({ type }: { type: number }) {
   );
 
   return (
-    <div className='flex-1 w-full h-full flex justify-center flex-col items-center'>
+    <div className='relative w-full h-full flex justify-center flex-col items-center overflow-hidden'>
       <div className='text-base_font text-center font-semibold'>
         <h2 className='text-xl'>
           Irukaraは{name ? `${name}さん` : 'あなた'}だけの
