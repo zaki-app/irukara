@@ -5,7 +5,13 @@ import { getCookie } from '@/common/utils/cookie/manageCookies';
 import CautionText from '@/components/client/atoms/login/CautionText';
 import HistoryData from '@/components/client/molecules/HistoryData';
 import Sidebar from '@/components/client/molecules/login/Sidebar';
+import PrimaryWrapper from '@/components/client/template/PrimaryWrapper';
 
+/**
+ * 過去のデータを表示するコンポーネント
+ * @param pathParameter type(0...3.5, 2...イラスト), start, end
+ * @returns
+ */
 export default async function historyData({
   params,
 }: {
@@ -39,9 +45,9 @@ export default async function historyData({
   return (
     <div className='relative z-0 flex h-full w-full overflow-hidden'>
       <Sidebar />
-      <div className='relative flex flex-1 h-full w-full flex-col overflow-hidden z-[8]'>
+      <PrimaryWrapper type={1}>
         <HistoryData data={data} type={type} />
-      </div>
+      </PrimaryWrapper>
       <CautionText />
     </div>
   );

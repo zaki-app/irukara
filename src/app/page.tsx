@@ -14,9 +14,8 @@ import { COOKIE_NAME } from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
 import { GetUserIdRes } from '@/types/auth/api';
 import { getApi } from '@/common/libs/api/lambda/requestClient';
-import Sidebar from '@/components/client/molecules/login/Sidebar';
 import GenerateArea from '@/components/client/molecules/login/GenerateArea';
-import CautionText from '@/components/client/atoms/login/CautionText';
+import PrimaryWrapper from '@/components/client/template/PrimaryWrapper';
 import { options } from './api/auth/[...nextauth]/options';
 import { deleteNextAuthSession } from './api/auth/[...nextauth]/adapter';
 
@@ -50,15 +49,9 @@ export default async function Home() {
       ) : (
         <>
           {isUser && (
-            <div className='relative z-0 flex h-full w-full overflow-hidden'>
-              {/* 生成エリア */}
-              {/* サイドバー spは45px pcは250px */}
-              <Sidebar />
-              <div className='relative flex flex-1 h-full w-full flex-col overflow-hidden z-[8]'>
-                <GenerateArea userData={data} type={1} />
-              </div>
-              <CautionText />
-            </div>
+            <PrimaryWrapper type={2}>
+              <GenerateArea userData={data} type={1} />
+            </PrimaryWrapper>
           )}
         </>
       )}
