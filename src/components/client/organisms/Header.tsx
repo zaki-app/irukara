@@ -23,7 +23,9 @@ export default function Header() {
   const { isAuth } = useSelector(
     (state: RootState) => state.authUserProfileSlice,
   );
-  const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
+  const { isSidebar, isHeaderAction } = useSelector(
+    (state: RootState) => state.sidebarSlice,
+  );
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
@@ -45,11 +47,11 @@ export default function Header() {
       <nav className='w-full h-full bg-nav text-white p-4 flex items-center justify-between'>
         {isAuth && (
           <div className='block md:hidden text-2xl mr-4 cursor-pointer'>
-            {isSidebar ? (
+            {!isHeaderAction ? (
               <FaBarsStaggered
                 onClick={() => {
                   store.dispatch(
-                    setSidebar({ isSidebar: !isSidebar, isHeaderAction: true }),
+                    setSidebar({ isSidebar: true, isHeaderAction: true }),
                   );
                 }}
               />
@@ -58,7 +60,7 @@ export default function Header() {
                 onClick={() => {
                   store.dispatch(
                     setSidebar({
-                      isSidebar: !isSidebar,
+                      isSidebar: false,
                       isHeaderAction: false,
                     }),
                   );
