@@ -51,3 +51,28 @@ export function startEndUnix(daysAgo: number) {
 
   return { start, end };
 }
+
+/* 今日から7日前の日付と開始終了のunix時間を返却 */
+export function returnSevenDays() {
+  const today = dayjs().tz();
+
+  const response = [];
+
+  for (let i = 1; i <= 7; i += 1) {
+    const pastDate = today.subtract(i, 'day');
+    const formatDate = pastDate.format('M月D日');
+    const { start, end } = startEndUnix(i);
+
+    const params = {
+      key: i,
+      day: formatDate,
+      start,
+      end,
+    };
+    response.push(params);
+  }
+
+  console.log('1週間', response);
+
+  return response;
+}
