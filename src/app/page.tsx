@@ -55,7 +55,7 @@ export default async function Home() {
               {/* サイドバー spは45px pcは250px */}
               <Sidebar />
               <div className='relative flex flex-1 h-full w-full flex-col overflow-hidden z-[8]'>
-                <GenerateArea data={data} />
+                <GenerateArea userData={data} type={1} />
               </div>
               <CautionText />
             </div>

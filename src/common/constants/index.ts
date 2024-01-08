@@ -52,3 +52,11 @@ export const SELECTED_MENU = [
   'イラストモードを選択中です',
   'リアルモードを選択中です',
 ];
+
+// 選択モード(sidebar)
+export const SIDE_SELECTED_MENU = [
+  'チャット(GPT3.5)',
+  'チャット(GPT4.0)',
+  'イラストモード',
+  'リアルモード',
+];

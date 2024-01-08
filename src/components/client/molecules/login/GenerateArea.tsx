@@ -22,7 +22,13 @@ import ChatTextArea from '../../atoms/login/chat/ChatTextArea';
 /**
  * 各生成エリア
  */
-export default function GenerateArea({ data }: { data: GetUserIdRes }) {
+export default function GenerateArea({
+  userData,
+  type,
+}: {
+  userData: GetUserIdRes;
+  type: number;
+}) {
   const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
   const { isMenu } = useSelector((state: RootState) => state.menuSlice);
   const { userId, status } = useSelector(
@@ -34,12 +40,14 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
 
   useEffect(() => {
     // userIdとstatusをreduxへ
-    store.dispatch(
-      setAuthUserData({
-        userId: data.userId,
-        status: data.status,
-      }),
-    );
+    if (type === 1 && userData) {
+      store.dispatch(
+        setAuthUserData({
+          userId: userData.userId,
+          status: userData.status,
+        }),
+      );
+    }
   }, []);
 
   const [question, setQuestion] = useState<string>('');
@@ -90,9 +98,11 @@ export default function GenerateArea({ data }: { data: GetUserIdRes }) {
         } 
         ${isMenu ? 'pb-[18.4rem]' : 'pb-[13rem]'}`}
       >
-        {numSelected === 0 && <ChatGpt messages={messages} />}
+        {numSelected === 0 && <ChatGpt messages={messages} type={1} />}
         {numSelected === 1 && '準備中です'}
-        {numSelected === 2 && <IllustImage illustOutput={illustOutput} />}
+        {numSelected === 2 && (
+          <IllustImage illustOutput={illustOutput} type={1} />
+        )}
         {numSelected === 3 && 'リアルが出現'}
       </div>
       {/* 切り替えメニュー */}

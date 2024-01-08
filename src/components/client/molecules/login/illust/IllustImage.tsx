@@ -9,7 +9,11 @@ import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
 import { RootState, store } from '@/store';
 import { setScroll } from '@/store/ui/scroll/slice';
-import { ImageGenerateRes, ImageTableRes } from '@/types/image';
+import {
+  ImageGenerateRes,
+  ImageHistoryRes,
+  ImageTableRes,
+} from '@/types/image';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -19,12 +23,18 @@ import { useSelector } from 'react-redux';
  */
 export default function IllustImage({
   illustOutput,
+  type,
+  historyData,
 }: {
-  illustOutput: ImageGenerateRes | undefined;
+  type: number;
+  illustOutput?: ImageGenerateRes | undefined;
+  historyData?: ImageHistoryRes;
 }) {
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
+
+  console.log('履歴画像', type, illustOutput, historyData);
 
   const [numToday, setToday] = useState<number>(0);
   const [todayIllusts, setTodayIllusts] = useState<ImageTableRes[]>([]);
@@ -53,13 +63,18 @@ export default function IllustImage({
   }
 
   useEffect(() => {
-    if (selectedMenu === 2) {
+    if (selectedMenu === 2 && type === 1) {
       (async () => {
         console.log('illust useEffect1');
         await getTodayMessage();
         console.log('illust useEffect2 ここになったらデータが表示される');
         setLoaded(true);
       })();
+    } else if (type === 2 && historyData) {
+      console.log('過去の画像生成');
+      setTodayIllusts(historyData?.data);
+      setToday(historyData?.count);
+      setLoaded(true);
     }
   }, []);
 

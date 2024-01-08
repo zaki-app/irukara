@@ -7,6 +7,7 @@ import { FaAngleDoubleLeft } from 'react-icons/fa';
 import { useEffect, useRef, useState } from 'react';
 import { returnSevenDays, returnToday } from '@/common/libs/dateFormat';
 import Link from 'next/link';
+import { SIDE_SELECTED_MENU } from '@/common/constants';
 
 interface ReturnDays {
   key: number;
@@ -55,14 +56,10 @@ export default function Sidebar() {
         }`}
       >
         <div>
+          <div>今日の{SIDE_SELECTED_MENU[selectedMenu]}</div>
           <div>
-            今日の
-            {selectedMenu === 0 && 'ChatGpt3.5'}
-            {selectedMenu === 1 && 'ChatGpt4.0'}
-            {selectedMenu === 2 && 'イラスト画像生成'}
-            {selectedMenu === 3 && 'リアル画像生成'}
+            <Link href='/'>{today?.day}</Link>
           </div>
-          <div>{today?.day}</div>
           <div>
             <h2>過去7日間の履歴</h2>
           </div>
@@ -71,12 +68,35 @@ export default function Sidebar() {
               <li key={day.key} className='cursor-pointer'>
                 <Link
                   href={`/history/${selectedMenu}and${day.start}and${day.end}`}
+                  onClick={() => {
+                    store.dispatch(
+                      setSidebar({
+                        isSidebar,
+                        isHeaderAction: false,
+                      }),
+                    );
+                  }}
                 >
                   {day.day}
                 </Link>
               </li>
             ))}
           </ul>
+          <div>
+            モード選択
+            <ul>
+              {SIDE_SELECTED_MENU.map((menu) => (
+                <li key={menu}>{menu}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <ul>
+              <li>プロフィール</li>
+              <li>プラン変更</li>
+              <li>ログアウト</li>
+            </ul>
+          </div>
         </div>
 
         {/* PC用 */}

@@ -9,7 +9,7 @@ import AiCard from '@/components/client/atoms/login/chat/AiCard';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
 import { RootState } from '@/store';
-import { MessageType } from '@/types/message';
+import { HistoryDataMessageRes, MessageType } from '@/types/message';
 import { Message } from 'ai/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -17,9 +17,20 @@ import { useSelector } from 'react-redux';
 /**
  * GenerateAreaで生成されたChatGptのやりとりを表示する
  * @param  ユーザーとIrukaraのやり取り
+ * @param type 1が今日、2が7日間
  * @returns
  */
-export default function ChatGpt({ messages }: { messages: Message[] }) {
+export default function ChatGpt({
+  messages,
+  type,
+  historyData,
+}: {
+  messages?: Message[];
+  historyData?: HistoryDataMessageRes;
+  type: number;
+}) {
+  console.log('このメッセージは何？', messages, historyData);
+
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
@@ -47,13 +58,17 @@ export default function ChatGpt({ messages }: { messages: Message[] }) {
   }
 
   useEffect(() => {
-    if (selectedMenu === 0) {
+    if (selectedMenu === 0 && type === 1) {
       (async () => {
         console.log('useEffect1');
         await getTodayMessage();
         console.log('useEffect2 ここになったらデータが表示される');
         setLoaded(true);
       })();
+    } else if (type === 2 && historyData) {
+      setTodayMessages(historyData?.data);
+      setToday(historyData?.count);
+      setLoaded(true);
     }
   }, []);
 
@@ -75,21 +90,25 @@ export default function ChatGpt({ messages }: { messages: Message[] }) {
             ))}
           </div>
           {/* 追加のやり取り */}
-          {messages.map((message: Message) => (
-            <ScrollBottom option key={message.id}>
-              {message.role === 'user' && (
-                <UserCard
-                  question={message.content}
-                  createdAt={currentUnix()}
-                />
-              )}
-              {message.role === 'assistant' && (
-                <div>
-                  <AiCard answer={message.content} createdAt={currentUnix()} />
-                </div>
-              )}
-            </ScrollBottom>
-          ))}
+          {messages &&
+            messages.map((message: Message) => (
+              <ScrollBottom option key={message.id}>
+                {message.role === 'user' && (
+                  <UserCard
+                    question={message.content}
+                    createdAt={currentUnix()}
+                  />
+                )}
+                {message.role === 'assistant' && (
+                  <div>
+                    <AiCard
+                      answer={message.content}
+                      createdAt={currentUnix()}
+                    />
+                  </div>
+                )}
+              </ScrollBottom>
+            ))}
         </ScrollBottom>
       ) : (
         <InputPrompt type={1} />

@@ -40,3 +40,9 @@ export interface ImageGenerateRes {
   generation: number;
   createdAt: number;
 }
+
+// 履歴取得時のレスポンス
+export interface ImageHistoryRes {
+  count: number;
+  data: ImageGenerateRes[];
+}
