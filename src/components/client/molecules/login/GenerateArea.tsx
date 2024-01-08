@@ -17,7 +17,6 @@ import { ImageGenerateRes } from '@/types/image';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/tab/MenuTab';
 import IllustImage from './illust/IllustImage';
-import ChatTextArea from '../../atoms/login/chat/ChatTextArea';
 
 /**
  * 各生成エリア

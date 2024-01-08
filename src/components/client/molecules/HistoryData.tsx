@@ -24,25 +24,19 @@ export default function HistoryData({
   data: HistoryDataProps | HistoryImageData;
   type: number;
 }) {
-  console.log('今日以外のデータです', data, type);
-  const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
+  const { selectedMenu } = useSelector(
+    (state: RootState) => state.selectedMenuSlice,
+  );
+  console.log('今日以外のデータです', type, selectedMenu);
 
   return (
-    <div className='relative h-full w-full flex-1 flex flex-col transition-width overflow-hidden'>
-      <div
-        className={`fixed w-full h-full flex-1 z-[1] overflow-y-auto top-[5.5rem] right-0 pb-[8rem] ${
-          isSidebar ? 'md:w-[calc(100%-240px)]' : 'md:w-[calc(100%-48px)]'
-        }`}
-      >
-        <div className='pt-[1rem]'>
-          {type === 0 && (
-            <ChatGpt type={2} historyData={data as HistoryDataProps} />
-          )}
-          {type === 2 && (
-            <IllustImage type={2} historyData={data as HistoryImageData} />
-          )}
-        </div>
-      </div>
+    <div className='pt-[1rem]'>
+      {type === 0 && (
+        <ChatGpt type={2} historyData={data as HistoryDataProps} />
+      )}
+      {type === 2 && (
+        <IllustImage type={2} historyData={data as HistoryImageData} />
+      )}
     </div>
   );
 }
