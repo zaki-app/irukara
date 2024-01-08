@@ -5,10 +5,10 @@ import { setSidebar } from '@/store/ui/sidebar/slice';
 import { useSelector } from 'react-redux';
 import { FaAngleDoubleLeft } from 'react-icons/fa';
 import { useEffect, useRef, useState } from 'react';
-import { FaAnglesLeft } from 'react-icons/fa6';
-import { returnSevenDays } from '@/common/libs/dateFormat';
+import { returnSevenDays, returnToday } from '@/common/libs/dateFormat';
+import Link from 'next/link';
 
-interface SevenDays {
+interface ReturnDays {
   key: number;
   day: string;
   start: number;
@@ -25,10 +25,15 @@ export default function Sidebar() {
   const { isSidebar, isHeaderAction } = useSelector(
     (state: RootState) => state.sidebarSlice,
   );
+  const { selectedMenu } = useSelector(
+    (state: RootState) => state.selectedMenuSlice,
+  );
 
-  const [sevenDays, setSevenDays] = useState<SevenDays[]>([]);
+  const [sevenDays, setSevenDays] = useState<ReturnDays[]>();
+  const [today, setToday] = useState<ReturnDays>();
 
   useEffect(() => {
+    setToday(returnToday());
     setSevenDays(returnSevenDays());
   }, []);
 
@@ -51,12 +56,24 @@ export default function Sidebar() {
       >
         <div>
           <div>
+            今日の
+            {selectedMenu === 0 && 'ChatGpt3.5'}
+            {selectedMenu === 1 && 'ChatGpt4.0'}
+            {selectedMenu === 2 && 'イラスト画像生成'}
+            {selectedMenu === 3 && 'リアル画像生成'}
+          </div>
+          <div>{today?.day}</div>
+          <div>
             <h2>過去7日間の履歴</h2>
           </div>
           <ul>
-            {sevenDays.map((day) => (
+            {sevenDays?.map((day) => (
               <li key={day.key} className='cursor-pointer'>
-                {day.day}
+                <Link
+                  href={`/history/${selectedMenu}and${day.start}and${day.end}`}
+                >
+                  {day.day}
+                </Link>
               </li>
             ))}
           </ul>
