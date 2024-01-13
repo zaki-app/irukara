@@ -1,5 +1,16 @@
+import { RootState } from '@/store';
 import { Spin } from 'antd';
+import { useSelector } from 'react-redux';
 
 export default function RoundSpinner() {
-  return <Spin />;
+  const { isSpinner } = useSelector((state: RootState) => state.spinnerSlice);
+  return (
+    <>
+      {isSpinner && (
+        <div className='fixed w-screen h-screen top-[64px] left-0 bg-white z-[50] overflow-hidden flex justify-center items-center'>
+          <Spin />
+        </div>
+      )}
+    </>
+  );
 }

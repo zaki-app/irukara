@@ -1,6 +1,6 @@
 'use client';
 
-import { COOKIE_NAME, SELECT_MODE } from '@/common/constants';
+import { COOKIE_NAME } from '@/common/constants';
 import { API } from '@/common/constants/path';
 import { currentUnix } from '@/common/libs/dateFormat';
 import { getCookie } from '@/common/utils/cookie/manageCookies';
@@ -8,8 +8,8 @@ import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import AiCard from '@/components/client/atoms/login/chat/AiCard';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
-import ShareButton from '@/components/client/atoms/ui/button/ShareButton';
-import { RootState } from '@/store';
+import { RootState, store } from '@/store';
+import { setSpinner } from '@/store/ui/spinner/slice';
 import { HistoryDataMessageRes, MessageType } from '@/types/message';
 import { Message } from 'ai/react';
 import { useEffect, useState } from 'react';
@@ -35,13 +35,14 @@ export default function ChatGpt({
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
+
   const [numDataCount, setDataCount] = useState<number>(0);
   const [dataMessages, setDataMessages] = useState<MessageType[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
 
   // 今日の保存データを取得
   // TODO 画面には今日のデータを表示して、追加されたらこれが入っている配列に入れる
-  async function getTodayMessage() {
+  async function getDataMessage() {
     const userId = await getCookie(COOKIE_NAME.IRUKARA_ID);
     const path = API.RELAY_GET_MSG.replace('{:userId}', userId)
       .replace('{:type}', 'DATE')
@@ -63,18 +64,20 @@ export default function ChatGpt({
     if (selectedMenu === 0 && type === 1) {
       (async () => {
         console.log('useEffect1');
-        await getTodayMessage();
+        store.dispatch(setSpinner({ isSpinner: true }));
+        await getDataMessage();
         console.log('useEffect2 ここになったらデータが表示される');
         setLoaded(true);
+        store.dispatch(setSpinner({ isSpinner: false }));
       })();
     } else if (type === 2 && historyData) {
+      store.dispatch(setSpinner({ isSpinner: true }));
       setDataMessages(historyData?.data);
       setDataCount(historyData?.count);
       setLoaded(true);
+      store.dispatch(setSpinner({ isSpinner: false }));
     }
   }, []);
-
-  console.log('新しく保存されたメッセージ', newMessage);
 
   return (
     <div className='relative w-full h-full'>
