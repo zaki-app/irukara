@@ -14,6 +14,7 @@ import { useChat, Message } from 'ai/react';
 import { setScroll } from '@/store/ui/scroll/slice';
 import { imageGenerate } from '@/common/libs/api/image/imageGenerate';
 import { ImageGenerateRes } from '@/types/image';
+import { MessageType } from '@/types/message';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/ui/tab/MenuTab';
 import IllustImage from './illust/IllustImage';
@@ -60,6 +61,7 @@ export default function GenerateArea({
   // 選択しているメニュー番号
   const [numSelected, setSelectedMenu] = useState<number>(0);
   const [illustOutput, setIllustOutput] = useState<ImageGenerateRes>();
+  const [newMessage, setNewMessage] = useState<MessageType>();
 
   const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
     api: API.TOP_GPT,
@@ -80,11 +82,10 @@ export default function GenerateArea({
         method: 'POST',
         body: JSON.stringify(params),
       });
-
-      // if (res.ok) {
-      //   // 正常に保存処理が終了した時
-      //   setResStatus(true);
-      // }
+      if (res.ok) {
+        const resJson = await res.json();
+        setNewMessage(resJson.body.data);
+      }
     },
   });
 
@@ -97,7 +98,9 @@ export default function GenerateArea({
         } 
         ${isMenu ? 'pb-[18.4rem]' : 'pb-[13rem]'}`}
       >
-        {numSelected === 0 && <ChatGpt messages={messages} type={1} />}
+        {numSelected === 0 && (
+          <ChatGpt messages={messages} newMessage={newMessage} type={1} />
+        )}
         {numSelected === 1 && '準備中です'}
         {numSelected === 2 && (
           <IllustImage illustOutput={illustOutput} type={1} />

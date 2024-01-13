@@ -1,6 +1,6 @@
 'use client';
 
-import { COOKIE_NAME } from '@/common/constants';
+import { COOKIE_NAME, SELECT_MODE } from '@/common/constants';
 import { API } from '@/common/constants/path';
 import { currentUnix } from '@/common/libs/dateFormat';
 import { getCookie } from '@/common/utils/cookie/manageCookies';
@@ -8,6 +8,7 @@ import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import AiCard from '@/components/client/atoms/login/chat/AiCard';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
+import ShareButton from '@/components/client/atoms/ui/button/ShareButton';
 import { RootState } from '@/store';
 import { HistoryDataMessageRes, MessageType } from '@/types/message';
 import { Message } from 'ai/react';
@@ -23,17 +24,19 @@ import { useSelector } from 'react-redux';
 export default function ChatGpt({
   messages,
   type,
+  newMessage,
   historyData,
 }: {
   messages?: Message[];
-  historyData?: HistoryDataMessageRes;
   type: number;
+  newMessage?: MessageType;
+  historyData?: HistoryDataMessageRes;
 }) {
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
-  const [numToday, setToday] = useState<number>(0);
-  const [todayMessages, setTodayMessages] = useState<MessageType[]>([]);
+  const [numDataCount, setDataCount] = useState<number>(0);
+  const [dataMessages, setDataMessages] = useState<MessageType[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
 
   // 今日の保存データを取得
@@ -49,8 +52,8 @@ export default function ChatGpt({
       const todayData = await res.json();
       console.log('today data...', todayData.count);
       // 今日のメッセージを格納
-      setTodayMessages(todayData.data);
-      setToday(todayData.count);
+      setDataMessages(todayData.data);
+      setDataCount(todayData.count);
     } else {
       console.log('today data fetch error...', res);
     }
@@ -65,26 +68,30 @@ export default function ChatGpt({
         setLoaded(true);
       })();
     } else if (type === 2 && historyData) {
-      setTodayMessages(historyData?.data);
-      setToday(historyData?.count);
+      setDataMessages(historyData?.data);
+      setDataCount(historyData?.count);
       setLoaded(true);
     }
   }, []);
 
+  console.log('新しく保存されたメッセージ', newMessage);
+
   return (
     <div className='relative w-full h-full'>
-      {isLoaded && numToday > 0 ? (
+      {isLoaded && numDataCount > 0 ? (
         <ScrollBottom className='relative w-full h-full overflow-y-auto px-2 md:px-4'>
           <div className='flex flex-col-reverse'>
-            {todayMessages.map((today) => (
-              <div key={today.messageId}>
+            {dataMessages.map((data) => (
+              <div key={data.messageId} className='test'>
                 {/* ユーザー */}
-                <UserCard
-                  question={today.question}
-                  createdAt={today.createdAt}
-                />
+                <UserCard question={data.question} createdAt={data.createdAt} />
                 {/* Irukara */}
-                <AiCard answer={today.answer} createdAt={today.createdAt} />
+                <AiCard
+                  answer={data.answer}
+                  createdAt={data.createdAt}
+                  messageId={data.messageId}
+                  shareStatus={data.shareStatus}
+                />
               </div>
             ))}
           </div>
@@ -102,7 +109,9 @@ export default function ChatGpt({
                   <div>
                     <AiCard
                       answer={message.content}
-                      createdAt={currentUnix()}
+                      createdAt={newMessage?.createdAt as number}
+                      messageId={newMessage?.messageId}
+                      shareStatus={newMessage?.shareStatus}
                     />
                   </div>
                 )}

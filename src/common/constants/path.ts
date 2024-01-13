@@ -21,6 +21,7 @@ export const API = {
   // 中間API
   RELAY_POST_MSG: '/api/backend/message?type={:type}',
   RELAY_GET_MSG: '/api/backend/message/{:userId}?type={:type}&target={:target}',
+  RELAY_PUT_MSG: '/api/backend/message/{:userId}',
   RELAY_GET_IMAGE:
     '/api/backend/image/{:userId}?type={:type}&target={:target}&imageType={:imageType}',
   RELAY_POST_ILLUST: '/api/backend/image',
@@ -36,8 +37,8 @@ export const IRUKARA_API: IrukaraApiUnion = {
   GET_MSG_REFE: `${LAMBDA_API}save-messages/{userId}?type=reference&status={num}`,
   GET_MSG: `${LAMBDA_API}save-messages/{userId}`,
   POST_MSG: `${LAMBDA_API}save-chat-message`,
-  PUT_MSG: `${LAMBDA_API}save-message-update/{messageId}`,
-  DEL_MSG: `${LAMBDA_API}save-message-delete/{messageId}`,
+  PUT_MSG: `${LAMBDA_API}save-message-update/{messageId}/createdAt/{createdAt}`,
+  DEL_MSG: `${LAMBDA_API}save-message-delete/{messageId}/createdAt/{createdAt}`,
   // image
   GET_ILLUST_DATE: `${LAMBDA_API}save-images/{userId}?type=date&start={startUnix}&end={endUnix}&imageType={imageType}`,
   POST_ILLUST_IMAGE: `${LAMBDA_API}save-illust-image`,

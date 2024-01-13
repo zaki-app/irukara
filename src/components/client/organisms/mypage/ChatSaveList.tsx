@@ -2,6 +2,7 @@ import { currentTime } from '@/common/libs/dateFormat';
 import textTruncate from '@/common/libs/textTruncate';
 import { SaveMessageData } from '@/types/fetchData';
 import { FaCircleQuestion } from 'react-icons/fa6';
+import { SELECT_MODE } from '@/common/constants';
 import ShareButton from '../../atoms/ui/button/ShareButton';
 
 interface TextChatProps {
@@ -38,10 +39,12 @@ export default function ChatSaveList({
                 {textTruncate(item.answer, 30)}
               </div>
               <div>
-                {/* <ShareButton
+                <ShareButton
+                  type={SELECT_MODE.GPT3}
                   messageId={item.messageId}
                   shareStatus={item.shareStatus}
-                /> */}
+                  createdAt={item.createdAt as number}
+                />
               </div>
             </div>
           </div>
