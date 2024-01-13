@@ -1,17 +1,17 @@
-import { IMAGE_TYPE } from '@/common/constants';
+import { SELECT_MODE } from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
 import { putApi } from '@/common/libs/api/lambda/requestClient';
 
 interface UpdateImageProps {
-  imageId: string;
+  messageId: string;
   createdAt: number;
   type: number;
   shareStatus: number;
   referenceType?: number;
 }
 
-export async function updateImage({
-  imageId,
+export async function updateMessage({
+  messageId,
   createdAt,
   type,
   shareStatus,
@@ -21,19 +21,19 @@ export async function updateImage({
   const params = { shareStatus, referenceType };
 
   try {
-    if (type === IMAGE_TYPE.ILLUST) {
-      // イラスト更新
-      const path = IRUKARA_API.PUT_ILLUST_IMAGE.replace(
-        '{imageId}',
-        imageId,
+    if (type === SELECT_MODE.GPT3) {
+      // chat3.5更新
+      const path = IRUKARA_API.PUT_MSG.replace(
+        '{messageId}',
+        messageId,
       ).replace('{createdAt}', createdAt.toString());
 
       const res = await putApi(path, params);
       console.log('更新レスポンス', res);
 
       response = res;
-    } else if (type === IMAGE_TYPE.REAL) {
-      // リアル更新
+    } else if (type === SELECT_MODE.GPT4) {
+      // chat4更新
     }
   } catch (err) {
     console.error('updateImage function error...', err);

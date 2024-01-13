@@ -3,6 +3,7 @@ import { getApi } from '@/common/libs/api/lambda/requestClient';
 import { startEndUnix } from '@/common/libs/dateFormat';
 import { GetMessagesType } from '@/types/message';
 import { NextRequest, NextResponse } from 'next/server';
+import { updateMessage } from './updateMessage';
 
 /**
  * 自動保存のメッセージを取得
@@ -53,6 +54,29 @@ export async function GET(
   } catch (err) {
     console.error('get message api error...', err);
     response = false;
+    status = 500;
+  }
+
+  return NextResponse.json(response, { status });
+}
+
+export async function PUT(req: NextRequest): Promise<NextResponse> {
+  let response;
+  let status;
+
+  try {
+    const body = await req.json();
+    console.log('PUT Request', body);
+
+    const imageRes = await updateMessage(body);
+    console.log('画像更新レスポンス', imageRes);
+
+    response = 'OK';
+    status = 200;
+  } catch (err) {
+    console.error('PUT Request Error...', err);
+
+    response = 'Error';
     status = 500;
   }
 

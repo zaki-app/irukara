@@ -43,19 +43,16 @@ export default function ShareButton({
   const [isConfirm, setConfirm] = useState<boolean>(false);
   const [isWait, setWait] = useState<boolean>(false);
 
-  async function updateShare() {
+  async function updateShare(updateType: number) {
     setWait(true);
     let path;
     let response;
-    let imageType;
+
     if (type === SELECT_MODE.ILLUST || type === SELECT_MODE.REAL) {
+      let imageType;
       if (type === SELECT_MODE.ILLUST) {
         // イラスト
-        path = API.RELAY_PUT_ILLUST.replace(
-          '{imageId}',
-          imageId as string,
-        ).replace('{createdAt}', createdAt.toString());
-        path = '';
+        path = API.RELAY_PUT_ILLUST.replace('{:userId}', imageId as string);
         imageType = IMAGE_TYPE.ILLUST;
       } else if (type === SELECT_MODE.REAL) {
         // リアル画像用
@@ -66,12 +63,24 @@ export default function ShareButton({
         body: JSON.stringify({
           imageId,
           createdAt,
-          shareStatus: SHARE.CANCEL,
-          type: IMAGE_TYPE.ILLUST,
+          shareStatus: updateType,
+          type: imageType,
         }),
       });
-    } else if (type === SELECT_MODE.GPT3) {
-      // chat3.5
+    } else if (type === SELECT_MODE.GPT3 || type === SELECT_MODE.GPT4) {
+      if (type === SELECT_MODE.GPT3) {
+        // chat3.5
+        path = API.RELAY_PUT_MSG.replace('{:userId}', messageId as string);
+      }
+      response = await fetch(path as string, {
+        method: 'PUT',
+        body: JSON.stringify({
+          messageId,
+          createdAt,
+          shareStatus: updateType,
+          type,
+        }),
+      });
     }
 
     setWait(false);
@@ -82,7 +91,7 @@ export default function ShareButton({
   async function confirmDialog(shareType: number) {
     if (shareType === SHARE.SAVE) {
       // 共有解除 shareStatusを0に更新
-      const response = await updateShare();
+      const response = await updateShare(SHARE.CANCEL);
 
       if (response && response.ok) {
         // 更新成功アラート
@@ -146,7 +155,7 @@ export default function ShareButton({
             setConfirm(true);
           } else {
             // shareStatusを1に更新
-            const response = await updateShare();
+            const response = await updateShare(SHARE.SAVE);
             if (response && response.ok) {
               // 更新成功アラート
               store.dispatch(

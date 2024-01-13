@@ -6,6 +6,8 @@ export interface MessageType {
   memberStatus: string;
   messageId: string;
   question: string;
+  referenceType: number;
+  shareStatus: number;
 }
 
 export interface GetMessagesType {

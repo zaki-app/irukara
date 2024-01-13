@@ -1,16 +1,27 @@
 import { irukaraBasic, irukaraBasicAlt } from '@/common/config/site.config';
 import { currentTime } from '@/common/libs/dateFormat';
+import { MessageType } from 'antd/es/message/interface';
 import Image from 'next/image';
+import { SELECT_MODE } from '@/common/constants';
+import ShareButton from '../../ui/button/ShareButton';
 
 interface AiCardProps {
   answer: string;
   createdAt: number;
+  messageId?: string;
+  shareStatus?: number;
 }
 
 /**
  * Irukaraの回答カード
  */
-export default function AiCard({ answer, createdAt }: AiCardProps) {
+export default function AiCard({
+  answer,
+  createdAt,
+  messageId,
+  shareStatus,
+}: AiCardProps) {
+  // console.log('データがくる時', answer, createdAt, messageId, shareStatus);
   return (
     <div className='flex justify-start items-start border-2 border-blue-200 rounded-lg bg-blue-50 p-4 mb-2'>
       <Image
@@ -22,7 +33,15 @@ export default function AiCard({ answer, createdAt }: AiCardProps) {
       />
       <div className='flex flex-col ml-4 w-full'>
         <p>{answer}</p>
-        <p className='flex justify-end'>{currentTime(createdAt)}</p>
+        <div className='flex justify-between items-center'>
+          <ShareButton
+            type={SELECT_MODE.GPT3}
+            messageId={messageId}
+            createdAt={createdAt}
+            shareStatus={Number(shareStatus)}
+          />
+          <p className='flex justify-end'>{currentTime(createdAt)}</p>
+        </div>
       </div>
     </div>
   );

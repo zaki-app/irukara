@@ -1,5 +1,5 @@
 import { irukaraBasic, irukaraBasicAlt } from '@/common/config/site.config';
-import { SELECTED_MENU, SELECT_MODE } from '@/common/constants';
+import { SELECT_MODE } from '@/common/constants';
 import { currentTime } from '@/common/libs/dateFormat';
 import ShareButton from '@/components/client/atoms/ui/button/ShareButton';
 import Image from 'next/image';
