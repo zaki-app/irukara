@@ -83,8 +83,14 @@ export const SHARE = {
 
 // アラートタイプ
 export const ALERT_TYPE = {
-  SUCCESS: 1,
-  INFO: 2,
-  WARNING: 3,
-  ERROR: 4,
+  SUCCESS: 'success' as const,
+  INFO: 'info' as const,
+  WARNING: 'warning' as const,
+  ERROR: 'error' as const,
+};
+
+// アラートコンポーネントタイプ
+export const ALERT_COM_TYPE = {
+  SIMPLE: 1,
+  DESCRIPTION: 2,
 };

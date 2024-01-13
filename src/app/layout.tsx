@@ -8,8 +8,6 @@ import {
 import ProvidersWrapper from '@/components/client/template/ProvidersWrapper';
 import { getServerSession } from 'next-auth';
 import type { SessionUserInfo } from '@/types/auth';
-import { signOut } from 'next-auth/react';
-import { CALLBACK } from '@/common/constants/path';
 import { options } from './api/auth/[...nextauth]/options';
 
 // メタデータ

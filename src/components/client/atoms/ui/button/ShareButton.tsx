@@ -1,12 +1,19 @@
 'use client';
 
-import { ALERT_TYPE, IMAGE_TYPE, SHARE } from '@/common/constants';
+import {
+  ALERT_COM_TYPE,
+  ALERT_TYPE,
+  IMAGE_TYPE,
+  SELECT_MODE,
+  SHARE,
+} from '@/common/constants';
 import { API } from '@/common/constants/path';
 import { store } from '@/store';
 import { setAlert } from '@/store/ui/alert/slice';
-import { Popconfirm } from 'antd';
+import { Popconfirm, Spin } from 'antd';
 import { Button } from 'antd/es/radio';
 import { useEffect, useState } from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
 
 interface ShareButtonProps {
   type: number;
@@ -17,8 +24,12 @@ interface ShareButtonProps {
 }
 
 /**
- * 生成メッセージ・画像を共有
+ * 生成メッセージ・画像共有を切り替えるボタン
  * @param type SELECT_MODE
+ * @param imageId PK
+ * @param messageId PK
+ * @param shareStatus 1...共有 0...共有してない
+ * @param createdAt SK
  * @returns
  */
 export default function ShareButton({
@@ -28,27 +39,29 @@ export default function ShareButton({
   shareStatus,
   createdAt,
 }: ShareButtonProps) {
-  console.log(
-    '画像更新プロップス',
-    type,
-    imageId,
-    shareStatus,
-    messageId,
-    createdAt,
-  );
   const [isShare, setShare] = useState<boolean>(false);
   const [isConfirm, setConfirm] = useState<boolean>(false);
+  const [isWait, setWait] = useState<boolean>(false);
 
-  // 共有は1
-  async function updateShare(shareType: number) {
-    if (shareType === SHARE.SAVE) {
-      console.log('共有解除');
-      // 共有解除 shareStatusを0にする
-      const path = API.RELAY_PUT_ILLUST.replace(
-        '{imageId}',
-        imageId as string,
-      ).replace('{createdAt}', createdAt.toString());
-      const response = await fetch(path, {
+  async function updateShare() {
+    setWait(true);
+    let path;
+    let response;
+    let imageType;
+    if (type === SELECT_MODE.ILLUST || type === SELECT_MODE.REAL) {
+      if (type === SELECT_MODE.ILLUST) {
+        // イラスト
+        path = API.RELAY_PUT_ILLUST.replace(
+          '{imageId}',
+          imageId as string,
+        ).replace('{createdAt}', createdAt.toString());
+        path = '';
+        imageType = IMAGE_TYPE.ILLUST;
+      } else if (type === SELECT_MODE.REAL) {
+        // リアル画像用
+      }
+      console.log('エンドポイント', path);
+      response = await fetch(path as string, {
         method: 'PUT',
         body: JSON.stringify({
           imageId,
@@ -57,25 +70,45 @@ export default function ShareButton({
           type: IMAGE_TYPE.ILLUST,
         }),
       });
-      console.log('クライアント更新処理', response);
+    } else if (type === SELECT_MODE.GPT3) {
+      // chat3.5
+    }
 
-      if (response.ok) {
+    setWait(false);
+    return response;
+  }
+
+  // 共有は1
+  async function confirmDialog(shareType: number) {
+    if (shareType === SHARE.SAVE) {
+      // 共有解除 shareStatusを0に更新
+      const response = await updateShare();
+
+      if (response && response.ok) {
         // 更新成功アラート
         store.dispatch(
           setAlert({
             isAlert: true,
+            numType: ALERT_COM_TYPE.SIMPLE,
             message: '共有を解除しました',
-            numAlertType: ALERT_TYPE.SUCCESS,
+            alertType: ALERT_TYPE.SUCCESS,
           }),
         );
         setShare(false);
       } else {
         // 失敗アラート
-        // setShare(false);
+        store.dispatch(
+          setAlert({
+            isAlert: true,
+            numType: ALERT_COM_TYPE.DESCRIPTION,
+            message: '解除に失敗しました',
+            description: 'お手数ですがお時間を空けて再度お試しください',
+            alertType: ALERT_TYPE.ERROR,
+          }),
+        );
       }
     } else if (shareType === SHARE.CANCEL) {
       console.log('特に何もしない');
-      // setShare(false);
     }
     setConfirm(false);
   }
@@ -102,8 +135,8 @@ export default function ShareButton({
           color: 'your-text-color',
         },
       }}
-      onConfirm={() => updateShare(SHARE.SAVE)}
-      onCancel={() => updateShare(SHARE.CANCEL)}
+      onConfirm={() => confirmDialog(SHARE.SAVE)}
+      onCancel={() => confirmDialog(SHARE.CANCEL)}
     >
       <Button
         onClick={async () => {
@@ -112,40 +145,50 @@ export default function ShareButton({
             console.log('共有を解除 modalを出す');
             setConfirm(true);
           } else {
-            console.log('共有クリック');
-            // 共有クリック shareStatusを1にする
-            const path = API.RELAY_PUT_ILLUST.replace(
-              '{imageId}',
-              imageId as string,
-            ).replace('{createdAt}', createdAt.toString());
-            const response = await fetch(path, {
-              method: 'PUT',
-              body: JSON.stringify({
-                imageId,
-                createdAt,
-                shareStatus: SHARE.SAVE,
-                type: IMAGE_TYPE.ILLUST,
-              }),
-            });
-            console.log('クライアント更新処理', response);
-            if (response.ok) {
+            // shareStatusを1に更新
+            const response = await updateShare();
+            if (response && response.ok) {
               // 更新成功アラート
               store.dispatch(
                 setAlert({
                   isAlert: true,
+                  numType: ALERT_COM_TYPE.SIMPLE,
                   message: '共有しました！',
-                  numAlertType: ALERT_TYPE.SUCCESS,
+                  alertType: ALERT_TYPE.SUCCESS,
                 }),
               );
               setShare(true);
             } else {
-              // 失敗アラート
-              // setShare(false);
+              // 更新失敗アラート
+              store.dispatch(
+                setAlert({
+                  isAlert: true,
+                  numType: ALERT_COM_TYPE.DESCRIPTION,
+                  message: '共有に失敗しました',
+                  description: 'お手数ですがお時間を空けて再度お試しください',
+                  alertType: ALERT_TYPE.ERROR,
+                }),
+              );
             }
           }
         }}
       >
-        {isShare ? '解除' : '共有'}
+        {isWait ? (
+          <Spin
+            indicator={
+              <LoadingOutlined
+                style={{
+                  fontSize: 18,
+                }}
+                spin
+              />
+            }
+          />
+        ) : isShare ? (
+          '解除'
+        ) : (
+          '共有'
+        )}
       </Button>
     </Popconfirm>
   );

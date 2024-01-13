@@ -3,8 +3,10 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface AlertType {
   isAlert: boolean;
+  numType: number; // 1...1行、 2...説明付き
   message: string;
-  numAlertType: number;
+  description?: string;
+  alertType: 'success' | 'info' | 'warning' | 'error' | undefined;
 }
 
 /**
@@ -12,8 +14,10 @@ interface AlertType {
  */
 const initialState: AlertType = {
   isAlert: false,
+  numType: 0,
   message: '',
-  numAlertType: 0,
+  description: '',
+  alertType: undefined,
 };
 
 const AlertSlice = createSlice({
@@ -23,8 +27,10 @@ const AlertSlice = createSlice({
     setAlert: (state: AlertType, action: PayloadAction<AlertType>) => ({
       ...state,
       isAlert: action.payload.isAlert,
+      numType: action.payload.numType,
       message: action.payload.message,
-      numAlertType: action.payload.numAlertType,
+      alertType: action.payload.alertType,
+      description: action.payload.description,
     }),
     clearAlert: () => initialState,
   },

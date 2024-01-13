@@ -2,8 +2,8 @@
 
 import { Header } from '@/components/client/organisms';
 import { Suspense, useMemo, useState } from 'react';
-import { Provider, useSelector } from 'react-redux';
-import { RootState, store } from '@/store';
+import { Provider } from 'react-redux';
+import { store } from '@/store';
 import { SessionProvider } from 'next-auth/react';
 import { SessionUserInfo } from '@/types/auth';
 import { clearUserProfile, setUserProfile } from '@/store/auth/slice';
@@ -56,8 +56,8 @@ export default function ProvidersWrapper({
             <Header />
             {isLoaded ? (
               <StyledComponentsRegistry>
-                <main className='main-contents'>{children}</main>
                 <AlertIcon />
+                <main className='main-contents'>{children}</main>
               </StyledComponentsRegistry>
             ) : (
               <RoundSpinner />
