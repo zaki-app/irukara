@@ -57,6 +57,7 @@ export default function ProvidersWrapper({
             {isLoaded ? (
               <StyledComponentsRegistry>
                 <AlertIcon />
+                <RoundSpinner />
                 <main className='main-contents'>{children}</main>
               </StyledComponentsRegistry>
             ) : (

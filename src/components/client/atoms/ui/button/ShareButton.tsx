@@ -64,7 +64,7 @@ export default function ShareButton({
           imageId,
           createdAt,
           shareStatus: updateType,
-          type: imageType,
+          type: imageType, // 画像タイプ
         }),
       });
     } else if (type === SELECT_MODE.GPT3 || type === SELECT_MODE.GPT4) {
