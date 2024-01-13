@@ -24,6 +24,7 @@ export const API = {
   RELAY_GET_IMAGE:
     '/api/backend/image/{:userId}?type={:type}&target={:target}&imageType={:imageType}',
   RELAY_POST_ILLUST: '/api/backend/image',
+  RELAY_PUT_ILLUST: '/api/backend/image/{:userId}',
 };
 
 export const IRUKARA_API: IrukaraApiUnion = {
@@ -40,6 +41,7 @@ export const IRUKARA_API: IrukaraApiUnion = {
   // image
   GET_ILLUST_DATE: `${LAMBDA_API}save-images/{userId}?type=date&start={startUnix}&end={endUnix}&imageType={imageType}`,
   POST_ILLUST_IMAGE: `${LAMBDA_API}save-illust-image`,
+  PUT_ILLUST_IMAGE: `${LAMBDA_API}save-image-update/{imageId}/createdAt/{createdAt}`,
   POST_REAL_IMAGE: `${LAMBDA_API}`,
 };
 

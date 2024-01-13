@@ -29,8 +29,6 @@ export default function ChatGpt({
   historyData?: HistoryDataMessageRes;
   type: number;
 }) {
-  console.log('このメッセージは何？', messages, historyData);
-
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
@@ -45,6 +43,7 @@ export default function ChatGpt({
     const path = API.RELAY_GET_MSG.replace('{:userId}', userId)
       .replace('{:type}', 'DATE')
       .replace('{:target}', '0');
+    console.log('中間', path);
     const res = await fetch(path);
     if (res.ok) {
       const todayData = await res.json();

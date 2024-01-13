@@ -4,8 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { IRUKARA_LOGO } from '@/common/config/site.config';
 import { useEffect, useState } from 'react';
-
-import { InButton, KanitFont, LineButton } from '@/components/client/atoms';
+import InButton from '@/components/client/atoms/ui/button/InButton';
+import KanitFont from '@/components/client/atoms/ui/font/KanitFont';
+import LineButton from '@/components/client/atoms/ui/button/LineButton';
 import LoginModal from '@/components/client/molecules/header/LoginModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';

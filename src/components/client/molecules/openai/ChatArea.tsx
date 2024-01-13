@@ -7,10 +7,10 @@ import {
 } from '@/common/config/site.config';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { InButton } from '@/components/client/atoms';
 import { API } from '@/common/constants/path';
 import { commonValidate } from '@/common/utils/varidate/input';
 import { Message, useChat } from 'ai/react';
+import InButton from '../../atoms/ui/button/InButton';
 
 export default function ChatArea() {
   const { messages, handleInputChange, handleSubmit } = useChat({

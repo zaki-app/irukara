@@ -36,8 +36,8 @@ export default function IllustImage({
 
   console.log('履歴画像', type, illustOutput, historyData);
 
-  const [numToday, setToday] = useState<number>(0);
-  const [todayIllusts, setTodayIllusts] = useState<ImageTableRes[]>([]);
+  const [numDataCount, setDataCount] = useState<number>(0);
+  const [dataIllusts, setDataIllusts] = useState<ImageTableRes[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
 
   // 今日の保存データを取得
@@ -55,8 +55,8 @@ export default function IllustImage({
       const todayData = await res.json();
       console.log('today data...', todayData.count);
       // 今日のイラスト画像を格納
-      setTodayIllusts(todayData.data);
-      setToday(todayData.count);
+      setDataIllusts(todayData.data);
+      setDataCount(todayData.count);
     } else {
       console.log('today data fetch error...', res);
     }
@@ -72,8 +72,8 @@ export default function IllustImage({
       })();
     } else if (type === 2 && historyData) {
       console.log('過去の画像生成');
-      setTodayIllusts(historyData?.data);
-      setToday(historyData?.count);
+      setDataIllusts(historyData?.data);
+      setDataCount(historyData?.count);
       setLoaded(true);
     }
   }, []);
@@ -81,8 +81,8 @@ export default function IllustImage({
   // 生成された画像データを配列に入れる
   useEffect(() => {
     if (illustOutput) {
-      setTodayIllusts((prev) => [illustOutput, ...prev]);
-      setToday((prev) => prev + 1);
+      setDataIllusts((prev) => [illustOutput, ...prev]);
+      setDataCount((prev) => prev + 1);
       console.log('追加の時のみ呼ばれるようにしたい', illustOutput);
       store.dispatch(setScroll({ isScroll: true }));
     }
@@ -90,17 +90,19 @@ export default function IllustImage({
 
   return (
     <div className='relative w-full h-full'>
-      {isLoaded && numToday > 0 ? (
+      {isLoaded && numDataCount > 0 ? (
         <ScrollBottom className='relative w-full h-full overflow-y-auto px-2 md:px-4'>
           <div className='flex flex-col-reverse'>
-            {todayIllusts.map((today) => (
+            {dataIllusts.map((today) => (
               <div key={today.imageId} className='mt-4'>
                 {/* ユーザー */}
                 <UserCard question={today.prompt} createdAt={today.createdAt} />
                 {/* Irukara */}
                 <ImageOutput
+                  imageId={today.imageId}
                   prompt={today.prompt}
                   output={today.outputUrl}
+                  shareStatus={today.shareStatus}
                   createdAt={today.createdAt}
                 />
               </div>

@@ -1,7 +1,6 @@
 'use client';
 
 import { usedServiceList } from '@/common/config/site.config';
-import { LineButton } from '@/components/client/atoms';
 import Link from 'next/link';
 
 export default function TopUsedService() {

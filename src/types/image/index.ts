@@ -9,6 +9,7 @@ export interface ImageTableRes {
   memberStatus: number;
   requestType: string;
   generation: number;
+  shareStatus: number;
   createdAt: number;
 }
 

@@ -6,6 +6,7 @@ import SidebarSlice from '@/store/ui/sidebar/slice';
 import MenuSlice from '@/store/ui/menu/slice';
 import ScrollSlice from './ui/scroll/slice';
 import SelectedMenuSlice from './ui/menu/selected/slice';
+import AlertSlice from './ui/alert/slice';
 
 /* 各reducerを読み込む */
 const rootReducers = combineReducers({
@@ -16,6 +17,7 @@ const rootReducers = combineReducers({
   menuSlice: MenuSlice.reducer,
   scrollSlice: ScrollSlice.reducer,
   selectedMenuSlice: SelectedMenuSlice.reducer,
+  alertSlice: AlertSlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducers>;

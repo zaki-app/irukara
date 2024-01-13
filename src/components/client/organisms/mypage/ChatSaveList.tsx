@@ -2,7 +2,7 @@ import { currentTime } from '@/common/libs/dateFormat';
 import textTruncate from '@/common/libs/textTruncate';
 import { SaveMessageData } from '@/types/fetchData';
 import { FaCircleQuestion } from 'react-icons/fa6';
-import ShareButton from '../../atoms/ShareButton';
+import ShareButton from '../../atoms/ui/button/ShareButton';
 
 interface TextChatProps {
   textChatCount: number;
@@ -38,10 +38,10 @@ export default function ChatSaveList({
                 {textTruncate(item.answer, 30)}
               </div>
               <div>
-                <ShareButton
+                {/* <ShareButton
                   messageId={item.messageId}
                   shareStatus={item.shareStatus}
-                />
+                /> */}
               </div>
             </div>
           </div>

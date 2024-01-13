@@ -90,3 +90,30 @@ export async function postApi(path: string, body: any) {
 
   return response;
 }
+
+// PUT
+export async function putApi(path: string, body: any) {
+  console.log('put api arg...', path, body);
+  let response;
+  try {
+    const { token, provider } = await getAuthInfo();
+    const res = await fetch(path, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token ?? '',
+        provider: provider ?? '',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) throw new Error(`post response error... ${res.status}`);
+
+    response = await res.json();
+  } catch (err) {
+    console.error('post request...', err);
+    response = false;
+  }
+
+  return response;
+}

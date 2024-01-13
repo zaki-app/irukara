@@ -1,11 +1,14 @@
 import { irukaraBasic, irukaraBasicAlt } from '@/common/config/site.config';
 import { currentTime } from '@/common/libs/dateFormat';
+import ShareButton from '@/components/client/atoms/ui/button/ShareButton';
 import Image from 'next/image';
 
 interface ImageOutputProps {
+  imageId: string;
   prompt: string;
   output: string;
   createdAt: number;
+  shareStatus: number;
 }
 
 /**
@@ -13,8 +16,10 @@ interface ImageOutputProps {
  * @param param0
  */
 export default function ImageOutput({
+  imageId,
   prompt,
   output,
+  shareStatus,
   createdAt,
 }: ImageOutputProps) {
   return (
@@ -28,11 +33,21 @@ export default function ImageOutput({
             height={30}
             className='rounded-full border-2 border-blue-500 bg-sky-200 shadow-md h-[30px] mb-4'
           />
-          <p className='flex-1 text-sm '>
+          <p className='flex-1 text-sm'>
             <span className='font-semibold text-base'>{prompt}</span>
             の画像を生成しました
           </p>
-          <p className='h-[30px] flex justify-end'>{currentTime(createdAt)}</p>
+          <div>
+            <ShareButton
+              type={2}
+              imageId={imageId}
+              createdAt={createdAt}
+              shareStatus={shareStatus}
+            />
+            <p className='h-[30px] flex justify-end text-sm'>
+              {currentTime(createdAt)}
+            </p>
+          </div>
         </div>
       </div>
       <div className='flex justify-end items-center h-[200px] w-[200px]'>

@@ -12,7 +12,7 @@ import { FaTimes } from 'react-icons/fa';
 import { SELECTED_MENU } from '@/common/constants';
 import { getSelectedKey } from '@/common/utils/cookie';
 import { setSelectedMenuKey } from '@/store/ui/menu/selected/slice';
-import { KanitFont } from '../atoms';
+import KanitFont from '../atoms/ui/font/KanitFont';
 import LoginModal from '../molecules/header/LoginModal';
 import HamburgerMenu from '../molecules/header/HamburgerMenu';
 import LoginUserCard from '../molecules/header/LoginUserCard';

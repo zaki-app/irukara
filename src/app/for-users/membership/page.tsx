@@ -1,6 +1,6 @@
 import React from 'react';
 import { servicePaid, servicePriceList } from '@/common/config/site.config';
-import { PriceCard } from '@/components/client/atoms';
+import PriceCard from '@/components/client/atoms/ui/card/PriceCard';
 import { StatePlan } from '@/components/client/organisms';
 import ContentsWrapper from '@/components/client/template/ContentsWrapper';
 

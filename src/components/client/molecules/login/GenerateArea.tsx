@@ -15,7 +15,7 @@ import { setScroll } from '@/store/ui/scroll/slice';
 import { imageGenerate } from '@/common/libs/api/image/imageGenerate';
 import { ImageGenerateRes } from '@/types/image';
 import ChatGpt from './chatgpt/ChatGpt';
-import MenuTab from '../../atoms/tab/MenuTab';
+import MenuTab from '../../atoms/ui/tab/MenuTab';
 import IllustImage from './illust/IllustImage';
 
 /**

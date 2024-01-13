@@ -1,10 +1,11 @@
-import { COOKIE_NAME } from '@/common/constants';
+import { COOKIE_NAME, IMAGE_TYPE } from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
 import { getApi } from '@/common/libs/api/lambda/requestClient';
 import { startEndUnix } from '@/common/libs/dateFormat';
 import { getCookie } from '@/common/utils/cookie/manageCookies';
 import { GetImageRes } from '@/types/image';
 import { NextRequest, NextResponse } from 'next/server';
+import { updateImage } from './updateImage';
 
 /**
  * イラストデータを取得
@@ -53,6 +54,34 @@ export async function GET(
   } catch (err) {
     console.error('get image api error...', err);
     response = false;
+    status = 500;
+  }
+
+  return NextResponse.json(response, { status });
+}
+
+/**
+ * ImagesTableに対しての更新処理
+ * @param req
+ * @returns
+ */
+export async function PUT(req: NextRequest): Promise<NextResponse> {
+  let response;
+  let status;
+
+  try {
+    const body = await req.json();
+    console.log('PUT Request', body);
+
+    const imageRes = await updateImage(body);
+    console.log('画像更新レスポンス', imageRes);
+
+    response = 'OK';
+    status = 200;
+  } catch (err) {
+    console.error('PUT Request Error...', err);
+
+    response = 'Error';
     status = 500;
   }
 
