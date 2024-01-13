@@ -24,20 +24,25 @@ export default async function Home() {
 
   // ユーザー情報を取得
   const userId = await getCookie(COOKIE_NAME.IRUKARA_ID);
-  const getUserEndpoint = IRUKARA_API.GET_USER_ID.replace('{userId}', userId);
-  const { data }: { data: GetUserIdRes } = await getApi(getUserEndpoint);
+  let userData;
+  if (userId) {
+    const getUserEndpoint = IRUKARA_API.GET_USER_ID.replace('{userId}', userId);
+    const { data }: { data: GetUserIdRes } = await getApi(getUserEndpoint);
+    userData = data;
+  }
 
   let isUser = false;
-  if (data) {
+  if (userData) {
     isUser = true;
   } else {
+    isUser = false;
     // ユーザーデータを取得できなかった場合はサインアウト
     await deleteNextAuthSession();
   }
 
   return (
     <>
-      {!session ? (
+      {!session || !userData ? (
         <>
           <TopService />
           <TopPlayGround />
@@ -50,7 +55,7 @@ export default async function Home() {
         <>
           {isUser && (
             <PrimaryWrapper type={2}>
-              <GenerateArea userData={data} type={1} />
+              <GenerateArea userData={userData} type={1} />
             </PrimaryWrapper>
           )}
         </>

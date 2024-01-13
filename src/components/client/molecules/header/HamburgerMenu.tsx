@@ -17,7 +17,7 @@ import { CALLBACK } from '@/common/constants/path';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { allDeleteCookies } from '@/common/utils/cookie/manageCookies';
-import LoginButton from '../../atoms/LoginButton';
+import LoginButton from '../../atoms/ui/button/LoginButton';
 
 /**
  * ハンバーガーメニュー

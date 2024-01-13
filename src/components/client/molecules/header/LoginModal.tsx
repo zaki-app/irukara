@@ -7,8 +7,8 @@ import { FaArrowAltCircleDown, FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
 import { LINK_PATH } from '@/common/constants/path';
 import { createPortal } from 'react-dom';
-import LineButton from '../../atoms/LineButton';
-import LoginButton from '../../atoms/LoginButton';
+import LineButton from '../../atoms/ui/button/LineButton';
+import LoginButton from '../../atoms/ui/button/LoginButton';
 
 /**
  * ログインモーダル

@@ -1,6 +1,6 @@
 'use client';
 
-import { PriceCard, LineButton } from '@/components/client/atoms';
+import PriceCard from '@/components/client/atoms/ui/card/PriceCard';
 import { servicePriceList } from '@/common/config/site.config';
 
 export default function TopServicePaid() {

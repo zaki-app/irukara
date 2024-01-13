@@ -60,3 +60,31 @@ export const SIDE_SELECTED_MENU = [
   'イラストモード',
   'リアルモード',
 ];
+
+// 選択モードタイプ
+export const SELECT_MODE = {
+  GPT3: 0,
+  GPT4: 1,
+  ILLUST: 2,
+  REAL: 3,
+};
+
+// 画像タイプ
+export const IMAGE_TYPE = {
+  ILLUST: 1,
+  REAL: 2,
+};
+
+// 共有タイプ
+export const SHARE = {
+  SAVE: 1,
+  CANCEL: 0,
+};
+
+// アラートタイプ
+export const ALERT_TYPE = {
+  SUCCESS: 1,
+  INFO: 2,
+  WARNING: 3,
+  ERROR: 4,
+};

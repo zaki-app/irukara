@@ -9,6 +9,7 @@ type IrukaraApiObjkey =
   | 'DEL_MSG'
   | 'GET_ILLUST_DATE'
   | 'POST_ILLUST_IMAGE'
-  | 'POST_REAL_IMAGE';
+  | 'POST_REAL_IMAGE'
+  | 'PUT_ILLUST_IMAGE';
 
 export type IrukaraApiUnion = Record<IrukaraApiObjkey, string>;

@@ -2,14 +2,15 @@
 
 import { Header } from '@/components/client/organisms';
 import { Suspense, useMemo, useState } from 'react';
-import { Provider } from 'react-redux';
-import { store } from '@/store';
+import { Provider, useSelector } from 'react-redux';
+import { RootState, store } from '@/store';
 import { SessionProvider } from 'next-auth/react';
 import { SessionUserInfo } from '@/types/auth';
 import { clearUserProfile, setUserProfile } from '@/store/auth/slice';
-import { Loading } from '../atoms';
 import Analytics from '../atoms/gtag/Analytics';
 import StyledComponentsRegistry from '../molecules/login/libs/AntdRegistry';
+import RoundSpinner from '../atoms/ui/spinner/Round';
+import AlertIcon from '../atoms/ui/alert/AlertIcon';
 
 export default function ProvidersWrapper({
   children,
@@ -56,9 +57,10 @@ export default function ProvidersWrapper({
             {isLoaded ? (
               <StyledComponentsRegistry>
                 <main className='main-contents'>{children}</main>
+                <AlertIcon />
               </StyledComponentsRegistry>
             ) : (
-              <Loading opacity={1} />
+              <RoundSpinner />
             )}
             <div id='login-modal' />
             <div id='hamburger' />

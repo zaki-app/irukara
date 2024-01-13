@@ -54,6 +54,8 @@ export async function allDeleteCookies() {
     cookies().delete(COOKIE_NAME.IRUKARA_PROVIDER);
     cookies().delete(COOKIE_NAME.IRUKARA_EXPIRES_AT);
     cookies().delete(COOKIE_NAME.IRUKARA_REFRESH);
+    cookies().delete(COOKIE_NAME.NEXT_AUTH_SESSION);
+    cookies().delete(COOKIE_NAME.SELECTED_MENU);
   } catch (err) {
     console.error('all cookie delete error...', err);
   }
