@@ -4,11 +4,8 @@ import { RootState, store } from '@/store';
 import { setSidebar } from '@/store/ui/sidebar/slice';
 import { useSelector } from 'react-redux';
 import { FaAngleDoubleLeft } from 'react-icons/fa';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { returnSevenDays, returnToday } from '@/common/libs/dateFormat';
-import Link from 'next/link';
-import { SIDE_SELECTED_MENU } from '@/common/constants';
-import { setSelectedMenuKey } from '@/store/ui/menu/selected/slice';
 import SidebarCard from '../../atoms/ui/card/SidebarCard';
 
 interface ReturnDays {
@@ -23,8 +20,6 @@ interface ReturnDays {
  * @returns
  */
 export default function Sidebar() {
-  const sidebarRef = useRef<HTMLDivElement>(null);
-
   const { isSidebar, isHeaderAction } = useSelector(
     (state: RootState) => state.sidebarSlice,
   );
@@ -81,19 +76,20 @@ export default function Sidebar() {
           <SidebarCard path='/' text={today?.day as string} type={2} />
         </div>
         <div>
-          <div>
-            <p
-              className={`${
-                isSidebar ? 'text-xs text-blue-400 font-semibold' : 'hidden'
-              }`}
-            >
-              history 7 days
-            </p>
-            <ul>
-              {sevenDays?.map((day) => (
-                <li
-                  key={day.key}
-                  className='cursor-pointer'
+          <p
+            className={`${
+              isSidebar ? 'text-xs text-blue-400 font-semibold' : 'hidden'
+            }`}
+          >
+            history 7 days
+          </p>
+          <ul>
+            {sevenDays?.map((day) => (
+              <li key={day.key} className='cursor-pointer'>
+                <SidebarCard
+                  path={`/history/${selectedMenu}and${day.start}and${day.end}`}
+                  type={3}
+                  text={day.day}
                   onClick={() => {
                     store.dispatch(
                       setSidebar({
@@ -102,65 +98,23 @@ export default function Sidebar() {
                       }),
                     );
                   }}
-                >
-                  {/* <Link
-                    href={`/history/${selectedMenu}and${day.start}and${day.end}`}
-                    onClick={() => {
-                      store.dispatch(
-                        setSidebar({
-                          isSidebar,
-                          isHeaderAction: false,
-                        }),
-                      );
-                    }}
-                  >
-                    {day.day}
-                  </Link> */}
-                  <SidebarCard
-                    path={`/history/${selectedMenu}and${day.start}and${day.end}`}
-                    type={3}
-                    text={day.day}
-                  />
-                </li>
-              ))}
-            </ul>
-            <button>more...</button>
-          </div>
+                />
+              </li>
+            ))}
+          </ul>
+          <button>more...</button>
         </div>
         <div>
-          {/* <div>
-            モード選択
-            <ul>
-              {SIDE_SELECTED_MENU.map((menu, index) => (
-                <li key={menu}>
-                  <Link
-                    onClick={() =>
-                      store.dispatch(
-                        setSelectedMenuKey({ selectedMenu: index }),
-                      )
-                    }
-                    href={`/history/${index}and${today?.start}and${today?.end}`}
-                  >
-                    {menu}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div> */}
-          <div>
-            <p
-              className={`${
-                isSidebar ? 'text-xs text-blue-400 font-semibold' : 'hidden'
-              }`}
-            >
-              account
-            </p>
-            <ul>
-              <li>プロフィール</li>
-              <li>プラン変更</li>
-              <li>サインアウト</li>
-            </ul>
-          </div>
+          <p
+            className={`${
+              isSidebar ? 'text-xs text-blue-400 font-semibold' : 'hidden'
+            }`}
+          >
+            account
+          </p>
+          <SidebarCard path='/' text='プロフィール' type={4} />
+          <SidebarCard path='/' text='プラン変更' type={5} />
+          <SidebarCard path='/' text='サインアウト' type={6} />
         </div>
       </nav>
       <div className='fixed bottom-[3rem] left-[]'>
