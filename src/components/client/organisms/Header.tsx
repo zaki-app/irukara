@@ -12,6 +12,9 @@ import { FaTimes } from 'react-icons/fa';
 import { SELECTED_MENU } from '@/common/constants';
 import { getSelectedKey } from '@/common/utils/cookie';
 import { setSelectedMenuKey } from '@/store/ui/menu/selected/slice';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { AiFillCheckCircle } from 'react-icons/ai';
 import KanitFont from '../atoms/ui/font/KanitFont';
 import LoginModal from '../molecules/header/LoginModal';
 import HamburgerMenu from '../molecules/header/HamburgerMenu';
@@ -101,12 +104,29 @@ export default function Header() {
         )}
       </nav>
       {isAuth && (
-        <div className='bg-orange-200 w-full flex flex-col'>
-          {isLoading ? (
-            <h2>{SELECTED_MENU[selectedMenu]}</h2>
-          ) : (
-            <h2>モードを取得中です...</h2>
-          )}
+        <div className='relative w-full'>
+          <div className='absolute z-[12] top-[5px] right-[10px] border-b-2 shadow-sm py-2 bg-white w-[270px] rounded-md'>
+            {isLoading ? (
+              <p className='text-xs font-semibold flex justify-center items-center'>
+                <AiFillCheckCircle className='text-blue-500 text-sm' />
+                <p className='ml-2'>{SELECTED_MENU[selectedMenu]}</p>
+              </p>
+            ) : (
+              <div className='flex justify-center items-center'>
+                <Spin
+                  indicator={
+                    <LoadingOutlined
+                      style={{
+                        fontSize: 18,
+                      }}
+                      spin
+                    />
+                  }
+                />
+                <span className='ml-4'>モード取得中...</span>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </header>
