@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { allDeleteCookies } from '@/common/utils/cookie/manageCookies';
+import { authSignOut } from '@/common/libs/nextauth';
 
 /**
  * ログインユーザーの画像ボックス、ドロップダウン
@@ -76,10 +77,7 @@ export default function LoginUserCard() {
             <div className='hover:bg-neutral-100 p-2 rounded-md'>
               <div
                 className='cursor-pointer'
-                onClick={async () => {
-                  await signOut({ callbackUrl: CALLBACK.LOGOUT_URL });
-                  await allDeleteCookies();
-                }}
+                onClick={async () => authSignOut()}
               >
                 サインアウト
               </div>

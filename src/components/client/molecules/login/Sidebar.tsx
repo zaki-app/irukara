@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import { FaAngleDoubleLeft } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { returnSevenDays, returnToday } from '@/common/libs/dateFormat';
+import { PAGE_LINK } from '@/common/constants/path';
+import { authSignOut } from '@/common/libs/nextauth';
 import SidebarCard from '../../atoms/ui/card/SidebarCard';
 
 interface ReturnDays {
@@ -90,14 +92,6 @@ export default function Sidebar() {
                   path={`/history/${selectedMenu}and${day.start}and${day.end}`}
                   type={3}
                   text={day.day}
-                  onClick={() => {
-                    store.dispatch(
-                      setSidebar({
-                        isSidebar,
-                        isHeaderAction: false,
-                      }),
-                    );
-                  }}
                 />
               </li>
             ))}
@@ -112,9 +106,13 @@ export default function Sidebar() {
           >
             account
           </p>
-          <SidebarCard path='/' text='プロフィール' type={4} />
-          <SidebarCard path='/' text='プラン変更' type={5} />
-          <SidebarCard path='/' text='サインアウト' type={6} />
+          <SidebarCard path={PAGE_LINK.PROFILE} text='プロフィール' type={4} />
+          <SidebarCard path={PAGE_LINK.PLAN} text='プラン変更' type={5} />
+          <SidebarCard
+            text='サインアウト'
+            type={6}
+            onClick={async () => authSignOut()}
+          />
         </div>
       </nav>
       <div className='fixed bottom-[3rem] left-[]'>

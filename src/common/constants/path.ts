@@ -59,3 +59,9 @@ export const EXTERNAL_API = {
   GOOGLE_AUTH: 'https://accounts.google.com/o/oauth2/v2/auth?',
   GOOGLE_TOKEN: 'https://oauth2.googleapis.com/token?',
 };
+
+// page link
+export const PAGE_LINK = {
+  PROFILE: '/account/settings',
+  PLAN: '/for-users/membership',
+};
