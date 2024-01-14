@@ -5,7 +5,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 interface AuthUserDataType {
   userId: string;
   status: number;
-  // // gpt3.5
+  // gpt3.5
   // weekMsg: number;
   // totalMsg: number;
   // weekMsgSave: number;

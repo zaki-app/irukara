@@ -2,11 +2,11 @@ import React from 'react';
 import { servicePaid, servicePriceList } from '@/common/config/site.config';
 import PriceCard from '@/components/client/atoms/ui/card/PriceCard';
 import { StatePlan } from '@/components/client/organisms';
-import ContentsWrapper from '@/components/client/template/ContentsWrapper';
+import PrimaryWrapper from '@/components/client/template/PrimaryWrapper';
 
 export default async function Paid() {
   return (
-    <ContentsWrapper>
+    <PrimaryWrapper type={1}>
       <div>
         <div>
           <StatePlan text='現在のプラン' />
@@ -34,6 +34,6 @@ export default async function Paid() {
           </div>
         </div>
       </div>
-    </ContentsWrapper>
+    </PrimaryWrapper>
   );
 }

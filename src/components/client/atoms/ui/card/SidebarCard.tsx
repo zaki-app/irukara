@@ -1,4 +1,4 @@
-import { RootState } from '@/store';
+import { RootState, store } from '@/store';
 import { IoTodaySharp } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
 import { FaShareAlt, FaSignOutAlt } from 'react-icons/fa';
@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { RiChatHistoryFill } from 'react-icons/ri';
 import { CgProfile } from 'react-icons/cg';
 import { SiMoneygram } from 'react-icons/si';
+import { setSidebar } from '@/store/ui/sidebar/slice';
 
 /**
  * サイドバーのアイコンとテキスト
@@ -21,7 +22,7 @@ export default function SidebarCard({
   type,
   onClick,
 }: {
-  path: string;
+  path?: string;
   text: string;
   type: number;
   onClick?: () => void;
@@ -36,17 +37,39 @@ export default function SidebarCard({
       {type === 4 && <CgProfile className='text-blue-500 text-base' />}
       {type === 5 && <SiMoneygram className='text-blue-500 text-base' />}
       {type === 6 && <FaSignOutAlt className='text-blue-500 text-base' />}
-      {isSidebar && (
+      {isSidebar && path ? (
         <Link
           href={path}
           onClick={() => {
             if (onClick) {
               onClick();
             }
+            store.dispatch(
+              setSidebar({
+                isSidebar,
+                isHeaderAction: false,
+              }),
+            );
           }}
         >
           {text}
         </Link>
+      ) : (
+        <div
+          onClick={() => {
+            if (onClick) {
+              onClick();
+            }
+            store.dispatch(
+              setSidebar({
+                isSidebar,
+                isHeaderAction: false,
+              }),
+            );
+          }}
+        >
+          {text}
+        </div>
       )}
     </div>
   );
