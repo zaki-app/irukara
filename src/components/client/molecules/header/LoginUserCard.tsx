@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { FaCaretDown } from 'react-icons/fa';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
-import { CALLBACK } from '@/common/constants/path';
+import { CALLBACK, PAGE_LINK } from '@/common/constants/path';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
@@ -69,7 +69,7 @@ export default function LoginUserCard() {
           </div>
           <div className='flex flex-col gap-2'>
             <div className='hover:bg-neutral-100 p-2 rounded-md cursor-pointer'>
-              <Link href='/'>プロフィール</Link>
+              <Link href={PAGE_LINK.PROFILE}>プロフィール</Link>
             </div>
             <div className='hover:bg-neutral-100 p-2 rounded-md cursor-pointer'>
               <Link href='/'>プラン変更</Link>

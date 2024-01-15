@@ -17,9 +17,8 @@ export default function UserProfileCard() {
   }, []);
 
   return (
-    <div className='flex flex-col items-center gap-4'>
+    <div className='flex flex-col items-center gap-4 w-full h-full'>
       {isLoad ? (
-        // <div className='flex flex-col items-center gap-4'>
         <div>
           <Image
             src={image}
@@ -31,8 +30,9 @@ export default function UserProfileCard() {
           <p className='text-base font-semibold'>{name}</p>
         </div>
       ) : (
-        // </div>
-        <Spin />
+        <div className='w-full h-full flex items-center justify-center'>
+          <Spin />
+        </div>
       )}
     </div>
   );
