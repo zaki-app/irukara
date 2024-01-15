@@ -105,12 +105,12 @@ export default function Header() {
       </nav>
       {isAuth && (
         <div className='relative w-full'>
-          <div className='absolute z-[12] top-[5px] right-[10px] border-b-2 shadow-sm py-2 bg-white w-[270px] rounded-md'>
+          <div className='absolute z-[5] top-[5px] right-[10px] border-b-2 shadow-sm py-2 bg-white w-[270px] rounded-md'>
             {isLoading ? (
-              <p className='text-xs font-semibold flex justify-center items-center'>
+              <div className='text-xs font-semibold flex justify-center items-center'>
                 <AiFillCheckCircle className='text-blue-500 text-sm' />
                 <p className='ml-2'>{SELECTED_MENU[selectedMenu]}</p>
-              </p>
+              </div>
             ) : (
               <div className='flex justify-center items-center'>
                 <Spin
