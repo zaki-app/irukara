@@ -40,7 +40,7 @@ export default function Sidebar() {
   return (
     // 背景
     <aside
-      className={`fixed top-[4rem] h-screen left-0 z-[10] overflow-hidden transition-all ${
+      className={`fixed top-[4rem] h-screen left-0 z-[10] overflow-hidden mb-[100px] ${
         isHeaderAction
           ? `visible bg-black/10 backdrop-blur-sm md:bg-transparent md:backdrop-blur-0 duration-0`
           : 'invisible md:visible'

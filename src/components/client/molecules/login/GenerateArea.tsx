@@ -18,15 +18,18 @@ import { MessageType } from '@/types/message';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/ui/tab/MenuTab';
 import IllustImage from './illust/IllustImage';
+import InputPrompt from '../../atoms/login/InputPrompt';
 
 /**
  * 各生成エリア
  */
 export default function GenerateArea({
   userData,
+  todayData,
   type,
 }: {
   userData: GetUserIdRes;
+  todayData: MessageType[];
   type: number;
 }) {
   const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
@@ -37,6 +40,9 @@ export default function GenerateArea({
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
+  const [isData, setData] = useState<boolean>(false);
+
+  console.log('今日のデータを確認', todayData);
 
   useEffect(() => {
     // userIdとstatusをreduxへ
@@ -47,6 +53,9 @@ export default function GenerateArea({
           status: userData.status,
         }),
       );
+    }
+    if (todayData.length > 0) {
+      setData(true);
     }
   }, []);
 
@@ -98,14 +107,25 @@ export default function GenerateArea({
         } 
         ${isMenu ? 'pb-[18.4rem]' : 'pb-[13rem]'}`}
       >
-        {numSelected === 0 && (
-          <ChatGpt messages={messages} newMessage={newMessage} type={1} />
+        {isData ? (
+          <>
+            {numSelected === 0 && (
+              <ChatGpt
+                todayData={todayData}
+                messages={messages}
+                newMessage={newMessage}
+                type={1}
+              />
+            )}
+            {numSelected === 1 && '準備中です'}
+            {numSelected === 2 && (
+              <IllustImage illustOutput={illustOutput} type={1} />
+            )}
+            {numSelected === 3 && 'リアルが出現'}
+          </>
+        ) : (
+          <InputPrompt type={1} />
         )}
-        {numSelected === 1 && '準備中です'}
-        {numSelected === 2 && (
-          <IllustImage illustOutput={illustOutput} type={1} />
-        )}
-        {numSelected === 3 && 'リアルが出現'}
       </div>
       {/* 切り替えメニュー */}
       {isMenu && (
@@ -139,8 +159,10 @@ export default function GenerateArea({
         <form
           onSubmit={async (e) => {
             e.preventDefault();
+            console.log('回答作成中です');
             if (question) {
               setQuestionHolder('回答を作成中です');
+              setData(true);
               setAnswer(false);
 
               if (selectedMenu === 0) {
