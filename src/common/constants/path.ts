@@ -24,7 +24,11 @@ export const API = {
   RELAY_PUT_MSG: '/api/backend/message/{:userId}',
   RELAY_GET_IMAGE:
     '/api/backend/image/{:userId}?type={:type}&target={:target}&imageType={:imageType}',
+  // イラスト
   RELAY_POST_ILLUST: '/api/backend/image',
+  // リアル画像
+  RELAY_POST_REAL: '/api/backend/real',
+  // 画像共通
   RELAY_PUT_ILLUST: '/api/backend/image/{:userId}',
 };
 

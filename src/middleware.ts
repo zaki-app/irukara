@@ -5,7 +5,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // basic認証
 export const config = {
-  matcher: ['/:path*', '/index/:path*'],
+  // matcher: ['/:path*', '/index/:path*'],
+  matcher: ['/:path*'],
 };
 
 /**
