@@ -1,6 +1,6 @@
 import { API } from '@/common/constants/path';
-import { ImageGenerateBody, ImageGenerateRes } from '@/types/image';
-import { postApi } from '../lambda/requestClient';
+import { ImageGenerateBody } from '@/types/image';
+import { relayPostApi } from '../lambda/requestClient';
 
 export async function imageGenerate({
   userId,
@@ -14,9 +14,8 @@ export async function imageGenerate({
   try {
     // promptの半角・全角スペースをカンマ区切りに変換
     const newSeparator = prompt.replace(/[\s\uFEFF\xA0]+/g, ',');
-    console.log('変換できてるか？', newSeparator);
 
-    const illustRes = await postApi(API.RELAY_POST_ILLUST, {
+    const illustRes = await relayPostApi(API.RELAY_POST_ILLUST, {
       userId,
       prompt: newSeparator,
       memberStatus,

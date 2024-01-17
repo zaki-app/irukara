@@ -117,3 +117,29 @@ export async function putApi(path: string, body: any) {
 
   return response;
 }
+
+// 中間POST
+export async function relayPostApi(path: string, body: any) {
+  console.log('post message arg...', path, body);
+  let response;
+  try {
+    const res = await fetch(path, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) throw new Error(`post response error... ${res.status}`);
+
+    response = await res.json();
+  } catch (err) {
+    console.error('post request...', err);
+    response = false;
+  }
+
+  console.log('post finish response...', response);
+
+  return response;
+}

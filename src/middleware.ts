@@ -15,7 +15,7 @@ export const config = {
  * @returns
  */
 export function middleware(req: NextRequest) {
-  if (process.env.CURRENT_STAGE !== 'local') {
+  if (process.env.CURRENT_STAGE !== '') {
     const basicAuth = req.headers.get('Authorization');
     if (basicAuth) {
       const authValue = basicAuth.split(' ')[1];
