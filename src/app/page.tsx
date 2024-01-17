@@ -34,7 +34,7 @@ export default async function Home() {
     const { data }: { data: GetUserIdRes } = await getApi(getUserEndpoint);
     userData = data;
     // メニューごとに今日のデータを取得
-    const selectedMenu = await getCookie(COOKIE_NAME.SELECTED_MENU);
+    const selectedMenu = (await getCookie(COOKIE_NAME.SELECTED_MENU)) ?? '0';
     const { start, end } = startEndUnix(0);
     let path;
 

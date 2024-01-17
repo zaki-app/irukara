@@ -15,6 +15,7 @@ import { setScroll } from '@/store/ui/scroll/slice';
 import { imageGenerate } from '@/common/libs/api/image/imageGenerate';
 import { ImageGenerateRes } from '@/types/image';
 import { MessageType } from '@/types/message';
+import { SELECT_MODE } from '@/common/constants';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/ui/tab/MenuTab';
 import IllustImage from './illust/IllustImage';
@@ -109,7 +110,7 @@ export default function GenerateArea({
       >
         {isData ? (
           <>
-            {numSelected === 0 && (
+            {numSelected === SELECT_MODE.GPT3 && (
               <ChatGpt
                 todayData={todayData}
                 messages={messages}
@@ -117,11 +118,11 @@ export default function GenerateArea({
                 type={1}
               />
             )}
-            {numSelected === 1 && '準備中です'}
-            {numSelected === 2 && (
+            {numSelected === SELECT_MODE.GPT4 && '準備中です'}
+            {numSelected === SELECT_MODE.ILLUST && (
               <IllustImage illustOutput={illustOutput} type={1} />
             )}
-            {numSelected === 3 && 'リアルが出現'}
+            {numSelected === SELECT_MODE.REAL && 'リアルが出現'}
           </>
         ) : (
           <InputPrompt type={1} />
@@ -180,7 +181,13 @@ export default function GenerateArea({
                 if (illustRes) setIllustOutput(illustRes);
                 console.log('イラスト生成するボタンをクリック', illustRes);
               } else if (selectedMenu === 3) {
-                console.log('リアル画像生成クリック');
+                // リアル画像生成
+                const realRes = await imageGenerate({
+                  userId,
+                  prompt: question,
+                  memberStatus: status,
+                  type: 3,
+                });
               }
 
               setQuestion('');
