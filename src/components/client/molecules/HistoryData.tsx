@@ -4,8 +4,10 @@ import { RootState } from '@/store';
 import { useSelector } from 'react-redux';
 import { MessageType } from '@/types/message';
 import { ImageGenerateRes } from '@/types/image';
+import { DATA, SELECT_MODE } from '@/common/constants';
 import ChatGpt from './login/chatgpt/ChatGpt';
 import IllustImage from './login/illust/IllustImage';
+import RealImage from './login/real/RealImage';
 
 interface HistoryDataProps {
   count: number;
@@ -31,11 +33,17 @@ export default function HistoryData({
 
   return (
     <div className='pt-[1rem]'>
-      {type === 0 && (
-        <ChatGpt type={2} historyData={data as HistoryDataProps} />
+      {type === SELECT_MODE.GPT3 && (
+        <ChatGpt type={DATA.HISTORY} historyData={data as HistoryDataProps} />
       )}
-      {type === 2 && (
-        <IllustImage type={2} historyData={data as HistoryImageData} />
+      {type === SELECT_MODE.ILLUST && (
+        <IllustImage
+          type={DATA.HISTORY}
+          historyData={data as HistoryImageData}
+        />
+      )}
+      {type === SELECT_MODE.REAL && (
+        <RealImage type={DATA.HISTORY} historyData={data as HistoryImageData} />
       )}
     </div>
   );

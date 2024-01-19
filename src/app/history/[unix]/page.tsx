@@ -1,4 +1,4 @@
-import { COOKIE_NAME } from '@/common/constants';
+import { COOKIE_NAME, SELECT_MODE } from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
 import { getApi } from '@/common/libs/api/lambda/requestClient';
 import { getCookie } from '@/common/utils/cookie/manageCookies';
@@ -27,15 +27,20 @@ export default async function historyData({
 
   console.log('pages params', type, start, end);
   let path;
-  if (type === 0) {
+  if (type === SELECT_MODE.GPT3) {
     path = IRUKARA_API.GET_MSG_DATE.replace('{userId}', userId)
       .replace('{startUnix}', start)
       .replace('{endUnix}', end);
-  } else if (type === 2) {
-    path = IRUKARA_API.GET_ILLUST_DATE.replace('{userId}', userId)
+  } else if (type === SELECT_MODE.ILLUST) {
+    path = IRUKARA_API.GET_IMAGES.replace('{userId}', userId)
       .replace('{startUnix}', start)
       .replace('{endUnix}', end)
       .replace('{imageType}', '1');
+  } else if (type === SELECT_MODE.REAL) {
+    path = IRUKARA_API.GET_IMAGES.replace('{userId}', userId)
+      .replace('{startUnix}', start)
+      .replace('{endUnix}', end)
+      .replace('{imageType}', '2');
   }
   console.log('パスは？', path);
 

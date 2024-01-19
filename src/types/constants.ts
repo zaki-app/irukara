@@ -7,7 +7,7 @@ type IrukaraApiObjkey =
   | 'POST_MSG'
   | 'PUT_MSG'
   | 'DEL_MSG'
-  | 'GET_ILLUST_DATE'
+  | 'GET_IMAGES'
   | 'POST_ILLUST_IMAGE'
   | 'POST_REAL_IMAGE'
   | 'PUT_ILLUST_IMAGE';

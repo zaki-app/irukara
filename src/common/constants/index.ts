@@ -94,3 +94,9 @@ export const ALERT_COM_TYPE = {
   SIMPLE: 1,
   DESCRIPTION: 2,
 };
+
+// 今日か履歴を分岐
+export const DATA = {
+  TODAY: 1,
+  HISTORY: 2,
+};

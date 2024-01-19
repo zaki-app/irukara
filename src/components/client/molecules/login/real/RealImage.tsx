@@ -21,23 +21,23 @@ import { useSelector } from 'react-redux';
  * イラスト生成のやりとりを表示する
  * @returns
  */
-export default function IllustImage({
-  illustOutput,
+export default function RealImage({
+  realOutput,
   type,
   historyData,
 }: {
   type: number;
-  illustOutput?: ImageGenerateRes | undefined;
+  realOutput?: ImageGenerateRes | undefined;
   historyData?: ImageHistoryRes;
 }) {
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
 
-  console.log('履歴画像', type, illustOutput, historyData);
+  console.log('履歴画像', type, realOutput, historyData);
 
   const [numDataCount, setDataCount] = useState<number>(0);
-  const [dataIllusts, setDataIllusts] = useState<ImageTableRes[]>([]);
+  const [dataReals, setDataReals] = useState<ImageTableRes[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
 
   // 今日の保存データを取得
@@ -47,7 +47,7 @@ export default function IllustImage({
     const path = API.RELAY_GET_IMAGE.replace('{:userId}', userId)
       .replace('{:type}', 'DATE')
       .replace('{:target}', '0')
-      .replace('{:imageType}', '1');
+      .replace('{:imageType}', '2');
     console.log('パス', path);
     const res = await fetch(path);
 
@@ -55,7 +55,7 @@ export default function IllustImage({
       const todayData = await res.json();
       console.log('today data...', todayData.count);
       // 今日のイラスト画像を格納
-      setDataIllusts(todayData.data);
+      setDataReals(todayData.data);
       setDataCount(todayData.count);
     } else {
       console.log('today data fetch error...', res);
@@ -72,7 +72,7 @@ export default function IllustImage({
       })();
     } else if (type === 2 && historyData) {
       console.log('過去の画像生成');
-      setDataIllusts(historyData?.data);
+      setDataReals(historyData?.data);
       setDataCount(historyData?.count);
       setLoaded(true);
     }
@@ -80,20 +80,20 @@ export default function IllustImage({
 
   // 生成された画像データを配列に入れる
   useEffect(() => {
-    if (illustOutput) {
-      setDataIllusts((prev) => [illustOutput, ...prev]);
+    if (realOutput) {
+      setDataReals((prev) => [realOutput, ...prev]);
       setDataCount((prev) => prev + 1);
-      console.log('追加の時のみ呼ばれるようにしたい', illustOutput);
+      console.log('追加の時のみ呼ばれるようにしたい', realOutput);
       store.dispatch(setScroll({ isScroll: true }));
     }
-  }, [illustOutput]);
+  }, [realOutput]);
 
   return (
     <div className='relative w-full h-full'>
       {isLoaded && numDataCount > 0 ? (
         <ScrollBottom className='relative w-full h-full overflow-y-auto px-2 md:px-4'>
           <div className='flex flex-col-reverse'>
-            {dataIllusts.map((today) => (
+            {dataReals.map((today) => (
               <div key={today.imageId} className='mt-4'>
                 {/* ユーザー */}
                 <UserCard question={today.prompt} createdAt={today.createdAt} />
