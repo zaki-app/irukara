@@ -43,26 +43,6 @@ export default function ChatGpt({
   const [dataMessages, setDataMessages] = useState<MessageType[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
 
-  // 今日の保存データを取得
-  // TODO 画面には今日のデータを表示して、追加されたらこれが入っている配列に入れる
-  // async function getDataMessage() {
-  //   const userId = await getCookie(COOKIE_NAME.IRUKARA_ID);
-  //   const path = API.RELAY_GET_MSG.replace('{:userId}', userId)
-  //     .replace('{:type}', 'DATE')
-  //     .replace('{:target}', '0');
-  //   console.log('中間', path);
-  //   const res = await fetch(path);
-  //   if (res.ok) {
-  //     const todayData = await res.json();
-  //     console.log('today data...', todayData.count);
-  //     // 今日のメッセージを格納
-  //     setDataMessages(todayData.data);
-  //     setDataCount(todayData.count);
-  //   } else {
-  //     console.log('today data fetch error...', res);
-  //   }
-  // }
-
   useEffect(() => {
     if (selectedMenu === 0 && type === 1) {
       store.dispatch(setSpinner({ isSpinner: true }));

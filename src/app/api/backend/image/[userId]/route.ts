@@ -39,7 +39,7 @@ export async function GET(
     if (type === 'DATE') {
       const { start, end } = startEndUnix(Number(target));
       console.log('start end unix...', start, end, userId);
-      const path = IRUKARA_API.GET_ILLUST_DATE.replace('{userId}', userId)
+      const path = IRUKARA_API.GET_IMAGES.replace('{userId}', userId)
         .replace('{startUnix}', start.toString())
         .replace('{endUnix}', end.toString())
         .replace('{imageType}', imageType.toString());

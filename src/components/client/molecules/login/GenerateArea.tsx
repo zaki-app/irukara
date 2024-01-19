@@ -15,11 +15,12 @@ import { setScroll } from '@/store/ui/scroll/slice';
 import { imageGenerate } from '@/common/libs/api/image/imageGenerate';
 import { ImageGenerateRes } from '@/types/image';
 import { MessageType } from '@/types/message';
-import { SELECT_MODE } from '@/common/constants';
+import { DATA, SELECT_MODE } from '@/common/constants';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/ui/tab/MenuTab';
 import IllustImage from './illust/IllustImage';
 import InputPrompt from '../../atoms/login/InputPrompt';
+import RealImage from './real/RealImage';
 
 /**
  * 各生成エリア
@@ -55,7 +56,7 @@ export default function GenerateArea({
         }),
       );
     }
-    if (todayData.length > 0) {
+    if (todayData && todayData.length > 0) {
       setData(true);
     }
   }, []);
@@ -71,6 +72,7 @@ export default function GenerateArea({
   // 選択しているメニュー番号
   const [numSelected, setSelectedMenu] = useState<number>(0);
   const [illustOutput, setIllustOutput] = useState<ImageGenerateRes>();
+  const [realOutput, setRealOutput] = useState<ImageGenerateRes>();
   const [newMessage, setNewMessage] = useState<MessageType>();
 
   const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
@@ -115,14 +117,16 @@ export default function GenerateArea({
                 todayData={todayData}
                 messages={messages}
                 newMessage={newMessage}
-                type={1}
+                type={DATA.TODAY}
               />
             )}
             {numSelected === SELECT_MODE.GPT4 && '準備中です'}
             {numSelected === SELECT_MODE.ILLUST && (
-              <IllustImage illustOutput={illustOutput} type={1} />
+              <IllustImage illustOutput={illustOutput} type={DATA.TODAY} />
             )}
-            {numSelected === SELECT_MODE.REAL && 'リアルが出現'}
+            {numSelected === SELECT_MODE.REAL && (
+              <RealImage realOutput={realOutput} type={DATA.TODAY} />
+            )}
           </>
         ) : (
           <InputPrompt type={1} />
@@ -166,11 +170,11 @@ export default function GenerateArea({
               setData(true);
               setAnswer(false);
 
-              if (selectedMenu === 0) {
+              if (selectedMenu === SELECT_MODE.GPT3) {
                 handleSubmit(e);
-              } else if (selectedMenu === 1) {
+              } else if (selectedMenu === SELECT_MODE.GPT4) {
                 // chatGPT4
-              } else if (selectedMenu === 2) {
+              } else if (selectedMenu === SELECT_MODE.ILLUST) {
                 // イラスト生成
                 const illustRes = await imageGenerate({
                   userId,
@@ -180,7 +184,7 @@ export default function GenerateArea({
                 });
                 if (illustRes) setIllustOutput(illustRes);
                 console.log('イラスト生成するボタンをクリック', illustRes);
-              } else if (selectedMenu === 3) {
+              } else if (selectedMenu === SELECT_MODE.REAL) {
                 // リアル画像生成
                 const realRes = await imageGenerate({
                   userId,
@@ -188,6 +192,7 @@ export default function GenerateArea({
                   memberStatus: status,
                   type: 3,
                 });
+                if (realRes) setRealOutput(realRes);
               }
 
               setQuestion('');

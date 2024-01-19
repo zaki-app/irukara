@@ -10,7 +10,12 @@ import TopPlayGround from '@/components/client/organisms/top/nologin/TopPlayGrou
 import { getServerSession } from 'next-auth';
 import { SessionUserInfo } from '@/types/auth';
 import { getCookie } from '@/common/utils/cookie/manageCookies';
-import { COOKIE_NAME, SELECTED_MENU, SELECT_MODE } from '@/common/constants';
+import {
+  COOKIE_NAME,
+  IMAGE_TYPE,
+  SELECTED_MENU,
+  SELECT_MODE,
+} from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
 import { GetUserIdRes } from '@/types/auth/api';
 import { getApi } from '@/common/libs/api/lambda/requestClient';
@@ -38,18 +43,32 @@ export default async function Home() {
     const { start, end } = startEndUnix(0);
     let path;
 
-    // chatgpt3.5
     if (Number(selectedMenu) === SELECT_MODE.GPT3) {
+      // chatgpt3.5
       path = IRUKARA_API.GET_MSG_DATE.replace('{userId}', userId)
         .replace('{startUnix}', start.toString())
         .replace('{endUnix}', end.toString());
+      console.log('パス', path);
       const { data }: { data: MessageType[] } = await getApi(path);
+      console.log('データが入ってない？', data);
       todayData = data;
+    } else if (Number(selectedMenu) === SELECT_MODE.GPT4) {
+      // chatgpt4.0
+      todayData = [];
     } else if (Number(selectedMenu) === SELECT_MODE.ILLUST) {
-      path = IRUKARA_API.GET_ILLUST_DATE.replace('{userId}', userId)
+      // イラスト生成
+      path = IRUKARA_API.GET_IMAGES.replace('{userId}', userId)
         .replace('{startUnix}', start.toString())
         .replace('{endUnix}', end.toString())
-        .replace('{imageType}', '1');
+        .replace('{imageType}', IMAGE_TYPE.ILLUST.toString());
+      const { data }: { data: ImageTableRes } = await getApi(path);
+      todayData = data;
+    } else if (Number(selectedMenu) === SELECT_MODE.REAL) {
+      // リアル画像生成
+      path = IRUKARA_API.GET_IMAGES.replace('{userId}', userId)
+        .replace('{startUnix}', start.toString())
+        .replace('{endUnix}', end.toString())
+        .replace('{imageType}', IMAGE_TYPE.REAL.toString());
       const { data }: { data: ImageTableRes } = await getApi(path);
       todayData = data;
     }
