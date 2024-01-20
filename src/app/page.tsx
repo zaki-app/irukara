@@ -32,6 +32,8 @@ export default async function Home() {
 
   // ユーザー情報を取得
   const userId = await getCookie(COOKIE_NAME.IRUKARA_ID);
+  const selectedMode = (await getCookie(COOKIE_NAME.SELECTED_MENU)) ?? '0';
+
   let userData;
   let todayData;
   if (userId) {
@@ -102,6 +104,7 @@ export default async function Home() {
                 userData={userData}
                 todayData={todayData as MessageType[]}
                 type={1}
+                selectedMode={Number(selectedMode)}
               />
             </PrimaryWrapper>
           )}

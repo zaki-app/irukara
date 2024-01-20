@@ -1,31 +1,37 @@
 'use client';
 
-import { COOKIE_NAME } from '@/common/constants';
-import { API } from '@/common/constants/path';
-import { getCookie } from '@/common/utils/cookie/manageCookies';
-import InputPrompt from '@/components/client/atoms/login/InputPrompt';
+import { DATA, SELECT_MODE } from '@/common/constants';
 import ImageOutput from '@/components/client/atoms/login/chat/ImageOutput';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
 import { RootState, store } from '@/store';
 import { setScroll } from '@/store/ui/scroll/slice';
+import { setSpinner } from '@/store/ui/spinner/slice';
 import {
   ImageGenerateRes,
   ImageHistoryRes,
   ImageTableRes,
 } from '@/types/image';
-import { useEffect, useState } from 'react';
+import { Spin } from 'antd';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 /**
- * イラスト生成のやりとりを表示する
+ * リアル画像生成のやりとりを表示する
+ *
+ * @param todayData サーバー側で取得した今日のデータ一覧配列
+ * @param realOutput 画像生成時のレスポンスオブジェクト
+ * @param type 1が今日、2が7日間
+ * @param historyData 過去の指定されたリアル画像配列
  * @returns
  */
 export default function RealImage({
+  todayData,
   realOutput,
   type,
   historyData,
 }: {
+  todayData?: ImageGenerateRes[];
   type: number;
   realOutput?: ImageGenerateRes | undefined;
   historyData?: ImageHistoryRes;
@@ -34,49 +40,27 @@ export default function RealImage({
     (state: RootState) => state.selectedMenuSlice,
   );
 
-  console.log('履歴画像', type, realOutput, historyData);
-
   const [numDataCount, setDataCount] = useState<number>(0);
   const [dataReals, setDataReals] = useState<ImageTableRes[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
 
-  // 今日の保存データを取得
-  // TODO 画面には今日のデータを表示して、追加されたらこれが入っている配列に入れる
-  async function getTodayMessage() {
-    const userId = await getCookie(COOKIE_NAME.IRUKARA_ID);
-    const path = API.RELAY_GET_IMAGE.replace('{:userId}', userId)
-      .replace('{:type}', 'DATE')
-      .replace('{:target}', '0')
-      .replace('{:imageType}', '2');
-    console.log('パス', path);
-    const res = await fetch(path);
-
-    if (res.ok) {
-      const todayData = await res.json();
-      console.log('today data...', todayData.count);
-      // 今日のイラスト画像を格納
-      setDataReals(todayData.data);
-      setDataCount(todayData.count);
-    } else {
-      console.log('today data fetch error...', res);
-    }
-  }
-
   useEffect(() => {
-    if (selectedMenu === 2 && type === 1) {
-      (async () => {
-        console.log('illust useEffect1');
-        await getTodayMessage();
-        console.log('illust useEffect2 ここになったらデータが表示される');
-        setLoaded(true);
-      })();
-    } else if (type === 2 && historyData) {
-      console.log('過去の画像生成');
-      setDataReals(historyData?.data);
-      setDataCount(historyData?.count);
+    if (selectedMenu === SELECT_MODE.REAL && type === DATA.TODAY) {
+      // 今日のデータ
+      store.dispatch(setSpinner({ isSpinner: true }));
+      setDataReals(todayData as ImageGenerateRes[]);
+      setDataCount(todayData?.length as number);
       setLoaded(true);
+      store.dispatch(setSpinner({ isSpinner: false }));
+    } else if (type === DATA.HISTORY && historyData) {
+      // 履歴のデータ
+      store.dispatch(setSpinner({ isSpinner: true }));
+      setDataReals(historyData.data);
+      setDataCount(historyData.count);
+      setLoaded(true);
+      store.dispatch(setSpinner({ isSpinner: false }));
     }
-  }, []);
+  }, [todayData]);
 
   // 生成された画像データを配列に入れる
   useEffect(() => {
@@ -110,7 +94,7 @@ export default function RealImage({
           </div>
         </ScrollBottom>
       ) : (
-        <InputPrompt type={3} />
+        <Spin />
       )}
     </div>
   );

@@ -8,7 +8,7 @@ export async function imageGenerate({
   memberStatus,
   type,
 }: ImageGenerateBody) {
-  console.log('props', userId, prompt, memberStatus);
+  console.log('props', userId, prompt, memberStatus, type);
   let response;
 
   try {

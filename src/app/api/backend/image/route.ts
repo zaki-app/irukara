@@ -1,3 +1,4 @@
+import { SELECT_MODE } from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
 import { postApi } from '@/common/libs/api/lambda/requestClient';
 import { ImageGenerateRes } from '@/types/image';
@@ -15,10 +16,13 @@ export async function POST(
 
   try {
     const { userId, prompt, memberStatus, type } = await req.json();
+    console.log('中間API', type, prompt);
 
     let path = '';
-    if (type === 2) {
+    if (type === SELECT_MODE.ILLUST) {
       path = IRUKARA_API.POST_ILLUST_IMAGE;
+    } else if (type === SELECT_MODE.REAL) {
+      path = IRUKARA_API.POST_REAL_IMAGE;
     }
 
     const illustRes = await postApi(path, {

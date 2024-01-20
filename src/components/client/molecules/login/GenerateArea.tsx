@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { RootState, store } from '@/store';
 import { setAuthUserData } from '@/store/auth/user/slice';
 import { GetUserIdRes } from '@/types/auth/api';
@@ -15,7 +15,8 @@ import { setScroll } from '@/store/ui/scroll/slice';
 import { imageGenerate } from '@/common/libs/api/image/imageGenerate';
 import { ImageGenerateRes } from '@/types/image';
 import { MessageType } from '@/types/message';
-import { DATA, SELECT_MODE } from '@/common/constants';
+import { COOKIE_NAME, DATA, SELECT_MODE } from '@/common/constants';
+import { Spin } from 'antd';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/ui/tab/MenuTab';
 import IllustImage from './illust/IllustImage';
@@ -29,10 +30,12 @@ export default function GenerateArea({
   userData,
   todayData,
   type,
+  selectedMode,
 }: {
   userData: GetUserIdRes;
-  todayData: MessageType[];
+  todayData: MessageType[] | ImageGenerateRes[];
   type: number;
+  selectedMode: number;
 }) {
   const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
   const { isMenu } = useSelector((state: RootState) => state.menuSlice);
@@ -44,9 +47,7 @@ export default function GenerateArea({
   );
   const [isData, setData] = useState<boolean>(false);
 
-  console.log('今日のデータを確認', todayData);
-
-  useEffect(() => {
+  useMemo(() => {
     // userIdとstatusをreduxへ
     if (type === 1 && userData) {
       store.dispatch(
@@ -70,7 +71,7 @@ export default function GenerateArea({
     'Irukaraへの\n質問を書いてください',
   );
   // 選択しているメニュー番号
-  const [numSelected, setSelectedMenu] = useState<number>(0);
+  const [numSelected, setSelectedMenu] = useState<number>(selectedMode);
   const [illustOutput, setIllustOutput] = useState<ImageGenerateRes>();
   const [realOutput, setRealOutput] = useState<ImageGenerateRes>();
   const [newMessage, setNewMessage] = useState<MessageType>();
@@ -114,7 +115,7 @@ export default function GenerateArea({
           <>
             {numSelected === SELECT_MODE.GPT3 && (
               <ChatGpt
-                todayData={todayData}
+                todayData={todayData as MessageType[]}
                 messages={messages}
                 newMessage={newMessage}
                 type={DATA.TODAY}
@@ -122,14 +123,23 @@ export default function GenerateArea({
             )}
             {numSelected === SELECT_MODE.GPT4 && '準備中です'}
             {numSelected === SELECT_MODE.ILLUST && (
-              <IllustImage illustOutput={illustOutput} type={DATA.TODAY} />
+              <IllustImage
+                todayData={todayData as ImageGenerateRes[]}
+                illustOutput={illustOutput}
+                type={DATA.TODAY}
+              />
             )}
             {numSelected === SELECT_MODE.REAL && (
-              <RealImage realOutput={realOutput} type={DATA.TODAY} />
+              <RealImage
+                todayData={todayData as ImageGenerateRes[]}
+                realOutput={realOutput}
+                type={DATA.TODAY}
+              />
             )}
           </>
         ) : (
-          <InputPrompt type={1} />
+          // <InputPrompt type={1} />
+          <Spin />
         )}
       </div>
       {/* 切り替えメニュー */}
