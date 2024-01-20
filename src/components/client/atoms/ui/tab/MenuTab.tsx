@@ -3,11 +3,12 @@ import { IoLogoWechat } from 'react-icons/io5';
 import { CgGirl } from 'react-icons/cg';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
-import { store } from '@/store';
+import { RootState, store } from '@/store';
 import { setSelectedMenuKey } from '@/store/ui/menu/selected/slice';
 import { COOKIE_NAME } from '@/common/constants';
 import { setCookie } from '@/common/utils/cookie/manageCookies';
 import { getSelectedKey } from '@/common/utils/cookie';
+import { useSelector } from 'react-redux';
 
 interface MenuProps {
   numSelected: number;
@@ -20,6 +21,8 @@ export default function MenuTab({
   setSelectedMenu,
   setQuestionHolder,
 }: MenuProps) {
+  const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
+
   const items = [
     {
       key: 0,
@@ -69,33 +72,41 @@ export default function MenuTab({
   }, []);
 
   return (
-    <div className='bg-slate-50 border-2 border-blue-500 w-[350px] md:w-[450px] m-auto rounded-lg shadow-md'>
-      <div className='w-full flex justify-center items-center py-2'>
-        {items.map((item) => (
-          <ul
-            key={item.key}
-            className='w-[25%] h-full border-r-4 last:border-r-0'
-          >
-            <li
-              onClick={() => {
-                setSelectedMenu(item.key);
-                store.dispatch(setSelectedMenuKey({ selectedMenu: item.key }));
-                setCookie(COOKIE_NAME.SELECTED_MENU, item.key.toString());
-                setHolderText(item.key);
-              }}
-              className={`w-full h-full flex flex-col items-center justify-center cursor-pointer  hover:scale-110 ${
-                numSelected === item.key
-                  ? 'text-blue-500 scale-110 font-bold'
-                  : 'text-gray-400'
-              }`}
+    <div
+      className={`fixed z-[2] bottom-[110px] right-0 h-[80px] w-full md:w-[100%-240px] ${
+        isSidebar ? 'md:w-[calc(100%-240px)]' : 'md:w-[calc(100%-48px)]'
+      }`}
+    >
+      <div className='bg-slate-50 border-2 border-blue-500 w-[350px] md:w-[450px] m-auto rounded-lg shadow-md'>
+        <div className='w-full flex justify-center items-center py-2'>
+          {items.map((item) => (
+            <ul
+              key={item.key}
+              className='w-[25%] h-full border-r-4 last:border-r-0'
             >
-              {item.icon}
-              <div className='text-[0.7rem] font-semibold mt-1'>
-                {item.text}
-              </div>
-            </li>
-          </ul>
-        ))}
+              <li
+                onClick={() => {
+                  setSelectedMenu(item.key);
+                  store.dispatch(
+                    setSelectedMenuKey({ selectedMenu: item.key }),
+                  );
+                  setCookie(COOKIE_NAME.SELECTED_MENU, item.key.toString());
+                  setHolderText(item.key);
+                }}
+                className={`w-full h-full flex flex-col items-center justify-center cursor-pointer  hover:scale-110 ${
+                  numSelected === item.key
+                    ? 'text-blue-500 scale-110 font-bold'
+                    : 'text-gray-400'
+                }`}
+              >
+                {item.icon}
+                <div className='text-[0.7rem] font-semibold mt-1'>
+                  {item.text}
+                </div>
+              </li>
+            </ul>
+          ))}
+        </div>
       </div>
     </div>
   );
