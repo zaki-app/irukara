@@ -1,53 +1,51 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { RootState, store } from '@/store';
 import { setAuthUserData } from '@/store/auth/user/slice';
 import { GetUserIdRes } from '@/types/auth/api';
 import { useSelector } from 'react-redux';
-import { TbTriangleFilled, TbTriangleInvertedFilled } from 'react-icons/tb';
-import { setMenuArea } from '@/store/ui/menu/slice';
-import { commonValidate } from '@/common/utils/varidate/input';
-import { FaAngleDoubleRight } from 'react-icons/fa';
 import { API } from '@/common/constants/path';
 import { useChat, Message } from 'ai/react';
-import { setScroll } from '@/store/ui/scroll/slice';
-import { imageGenerate } from '@/common/libs/api/image/imageGenerate';
 import { ImageGenerateRes } from '@/types/image';
 import { MessageType } from '@/types/message';
-import { COOKIE_NAME, DATA, SELECT_MODE } from '@/common/constants';
+import { DATA, SELECT_MODE } from '@/common/constants';
 import { Spin } from 'antd';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/ui/tab/MenuTab';
 import IllustImage from './illust/IllustImage';
-import InputPrompt from '../../atoms/login/InputPrompt';
 import RealImage from './real/RealImage';
+import GenerateInput from '../../atoms/input/GenerateInput';
+
+interface GenerateAreaProps {
+  userData: GetUserIdRes;
+  todayData: MessageType[] | ImageGenerateRes[];
+  type: number;
+  selectedMode: number;
+}
 
 /**
  * 各生成エリア
+ * @param userData ログインユーザー情報
+ * @param todayData 今日の取得データ
+ * @param type ??
+ * @param selectedMode cookieに保存している選択番号
  */
 export default function GenerateArea({
   userData,
   todayData,
   type,
   selectedMode,
-}: {
-  userData: GetUserIdRes;
-  todayData: MessageType[] | ImageGenerateRes[];
-  type: number;
-  selectedMode: number;
-}) {
+}: GenerateAreaProps) {
   const { isSidebar } = useSelector((state: RootState) => state.sidebarSlice);
   const { isMenu } = useSelector((state: RootState) => state.menuSlice);
   const { userId, status } = useSelector(
     (state: RootState) => state.authUserDataSlice,
   );
-  const { selectedMenu } = useSelector(
-    (state: RootState) => state.selectedMenuSlice,
-  );
   const [isData, setData] = useState<boolean>(false);
 
   useMemo(() => {
+    console.log('生成コンポーネント1');
     // userIdとstatusをreduxへ
     if (type === 1 && userData) {
       store.dispatch(
@@ -60,13 +58,13 @@ export default function GenerateArea({
     if (todayData && todayData.length > 0) {
       setData(true);
     }
+
+    console.log('生成コンポーネント2');
   }, []);
 
   const [question, setQuestion] = useState<string>('');
   const [isAnswer, setAnswer] = useState<boolean>(false);
   const [isInput, setInput] = useState<boolean>(true);
-  const [isValidate, setValidate] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>('');
   const [questionHolder, setQuestionHolder] = useState<string>(
     'Irukaraへの\n質問を書いてください',
   );
@@ -157,100 +155,21 @@ export default function GenerateArea({
         </div>
       )}
       {/* 生成textarea */}
-      <div
-        className={`fixed z-[2] h-[85px] bottom-[30px] right-0 flex bg-white w-full md:w-[100%-240px] ${
-          isSidebar ? 'md:w-[calc(100%-240px)]' : 'md:w-[calc(100%-48px)]'
-        } `}
-      >
-        <div
-          className='mx-2 text-2xl text-blue-500 cursor-pointer flex justify-center items-center'
-          onClick={() => {
-            store.dispatch(setMenuArea({ isMenu: !isMenu }));
-          }}
-        >
-          {isMenu ? <TbTriangleInvertedFilled /> : <TbTriangleFilled />}
-        </div>
-
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            console.log('回答作成中です');
-            if (question) {
-              setQuestionHolder('回答を作成中です');
-              setData(true);
-              setAnswer(false);
-
-              if (selectedMenu === SELECT_MODE.GPT3) {
-                handleSubmit(e);
-              } else if (selectedMenu === SELECT_MODE.GPT4) {
-                // chatGPT4
-              } else if (selectedMenu === SELECT_MODE.ILLUST) {
-                // イラスト生成
-                const illustRes = await imageGenerate({
-                  userId,
-                  prompt: question,
-                  memberStatus: status,
-                  type: 2,
-                });
-                if (illustRes) setIllustOutput(illustRes);
-                console.log('イラスト生成するボタンをクリック', illustRes);
-              } else if (selectedMenu === SELECT_MODE.REAL) {
-                // リアル画像生成
-                const realRes = await imageGenerate({
-                  userId,
-                  prompt: question,
-                  memberStatus: status,
-                  type: 3,
-                });
-                if (realRes) setRealOutput(realRes);
-              }
-
-              setQuestion('');
-            }
-          }}
-          className='w-full border-2 border-blue-500 rounded-lg mx-2 my-2'
-        >
-          <textarea
-            value={question}
-            readOnly={isAnswer}
-            onChange={(e) => {
-              setQuestion(e.target.value);
-              // scrollをreduxへ
-              store.dispatch(setScroll({ isScroll: true }));
-              if (question.length > 0) {
-                setInput(false);
-              } else {
-                setInput(true);
-              }
-              const validate = commonValidate(question, 500);
-              if (e.target.value.length > 250) {
-                setQuestion(e.target.value.slice(0, 250));
-              } else {
-                setQuestion(e.target.value);
-              }
-              setValidate(validate.result);
-              if (validate.text.length > 0) {
-                setErrorMsg(validate.text);
-              }
-              if (!validate.result) {
-                handleInputChange(e);
-              }
-            }}
-            placeholder={questionHolder}
-            className='w-full flex-1 border-none outline-none text-base resize-none py-2 px-2 '
-          />
-          <div className='absolute bottom-[0.7rem] right-[1rem]'>
-            <button
-              className={`text-white text-xl p-1 rounded-full bg-blue-500 ${
-                isInput ? 'opacity-70' : ''
-              }`}
-              disabled={isInput}
-            >
-              <FaAngleDoubleRight className='text-right' />
-            </button>
-          </div>
-        </form>
-      </div>
+      <GenerateInput
+        question={question}
+        questionHolder={questionHolder}
+        isInput={isInput}
+        isAnswer={isAnswer}
+        setQuestion={setQuestion}
+        setQuestionHolder={setQuestionHolder}
+        setData={setData}
+        setAnswer={setAnswer}
+        handleSubmit={handleSubmit}
+        setIllustOutput={setIllustOutput}
+        setRealOutput={setRealOutput}
+        setInput={setInput}
+        handleInputChange={handleInputChange}
+      />
     </div>
   );
 }

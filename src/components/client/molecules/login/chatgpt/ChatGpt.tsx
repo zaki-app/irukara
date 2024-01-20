@@ -2,6 +2,7 @@
 
 import { DATA, SELECT_MODE } from '@/common/constants';
 import { currentUnix } from '@/common/libs/dateFormat';
+import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import AiCard from '@/components/client/atoms/login/chat/AiCard';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
@@ -10,7 +11,7 @@ import { setSpinner } from '@/store/ui/spinner/slice';
 import { HistoryDataMessageRes, MessageType } from '@/types/message';
 import { Message } from 'ai/react';
 import { Spin } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 /**
@@ -43,28 +44,51 @@ export default function ChatGpt({
   const [numDataCount, setDataCount] = useState<number>(0);
   const [dataMessages, setDataMessages] = useState<MessageType[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
+  const [isChatLayout, setChatLayout] = useState<boolean>(false);
+  const [isInitLayout, setInitLayout] = useState<boolean>(false);
 
   useEffect(() => {
+    console.log('chatgpt1');
     if (selectedMenu === SELECT_MODE.GPT3 && type === DATA.TODAY) {
       // 今日のデータ
-      store.dispatch(setSpinner({ isSpinner: true }));
+      // store.dispatch(setSpinner({ isSpinner: true }));
       setDataMessages(todayData as MessageType[]);
-      setDataCount(todayData?.length as number);
-      setLoaded(true);
-      store.dispatch(setSpinner({ isSpinner: false }));
+      // setDataCount(todayData?.length as number);
+      // setLoaded(true);
+      // store.dispatch(setSpinner({ isSpinner: false }));
     } else if (type === DATA.HISTORY && historyData) {
       // 履歴のデータ
-      store.dispatch(setSpinner({ isSpinner: true }));
+      // store.dispatch(setSpinner({ isSpinner: true }));
       setDataMessages(historyData?.data);
-      setDataCount(historyData?.count);
-      setLoaded(true);
-      store.dispatch(setSpinner({ isSpinner: false }));
+      // setDataCount(historyData?.count);
+      // setLoaded(true);
+      // store.dispatch(setSpinner({ isSpinner: false }));
     }
+
+    // 取得件数で表示するコンポーネントを分ける
+    // if (numDataCount > 0) {
+    //   setChatLayout(true);
+    //   setInitLayout(false);
+    //   setLoaded(true);
+    // } else {
+    //   setInitLayout(true);
+    //   setLoaded(true);
+    // }
+    // console.log('chatgpt2', numDataCount);
   }, [todayData]);
 
+  // if (!isLoaded) {
+  //   return (
+  //     <div>
+  //       <Spin />
+  //     </div>
+  //   );
+  // }
+
   return (
-    <div className='relative w-full h-full'>
-      {isLoaded ? (
+    <Suspense fallback='chatgptを読み込み中です'>
+      {/* {isChatLayout && ( */}
+      <div className='relative w-full h-full'>
         <ScrollBottom className='relative w-full h-full overflow-y-auto px-2 md:px-4'>
           <div className='flex flex-col-reverse'>
             {dataMessages &&
@@ -108,11 +132,8 @@ export default function ChatGpt({
               </ScrollBottom>
             ))}
         </ScrollBottom>
-      ) : numDataCount <= 0 ? (
-        <p>今日のデータが見つかりません</p>
-      ) : (
-        <Spin />
-      )}
-    </div>
+      </div>
+      {/* )} */}
+    </Suspense>
   );
 }

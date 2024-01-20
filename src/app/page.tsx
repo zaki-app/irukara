@@ -24,6 +24,7 @@ import PrimaryWrapper from '@/components/client/template/PrimaryWrapper';
 import { startEndUnix } from '@/common/libs/dateFormat';
 import { MessageType } from '@/types/message';
 import { ImageTableRes } from '@/types/image';
+import { Spin } from 'antd';
 import { options } from './api/auth/[...nextauth]/options';
 import { deleteNextAuthSession } from './api/auth/[...nextauth]/adapter';
 
@@ -35,7 +36,8 @@ export default async function Home() {
   const selectedMode = (await getCookie(COOKIE_NAME.SELECTED_MENU)) ?? '0';
 
   let userData;
-  let todayData;
+  let todayData: MessageType[] | ImageTableRes[] = [];
+
   if (userId) {
     const getUserEndpoint = IRUKARA_API.GET_USER_ID.replace('{userId}', userId);
     const { data }: { data: GetUserIdRes } = await getApi(getUserEndpoint);
@@ -52,28 +54,36 @@ export default async function Home() {
         .replace('{endUnix}', end.toString());
       console.log('パス', path);
       const { data }: { data: MessageType[] } = await getApi(path);
-      console.log('データが入ってない？', data);
+      console.log('chatgpt3のデータ', data);
       todayData = data;
+      // todayData.push(data);
     } else if (Number(selectedMenu) === SELECT_MODE.GPT4) {
       // chatgpt4.0
       todayData = [];
+      // todayData.push(data)
     } else if (Number(selectedMenu) === SELECT_MODE.ILLUST) {
       // イラスト生成
       path = IRUKARA_API.GET_IMAGES.replace('{userId}', userId)
         .replace('{startUnix}', start.toString())
         .replace('{endUnix}', end.toString())
         .replace('{imageType}', IMAGE_TYPE.ILLUST.toString());
-      const { data }: { data: ImageTableRes } = await getApi(path);
+      const { data }: { data: ImageTableRes[] } = await getApi(path);
       todayData = data;
+      // todayData.push(data);
     } else if (Number(selectedMenu) === SELECT_MODE.REAL) {
       // リアル画像生成
       path = IRUKARA_API.GET_IMAGES.replace('{userId}', userId)
         .replace('{startUnix}', start.toString())
         .replace('{endUnix}', end.toString())
         .replace('{imageType}', IMAGE_TYPE.REAL.toString());
-      const { data }: { data: ImageTableRes } = await getApi(path);
+      const { data }: { data: ImageTableRes[] } = await getApi(path);
       todayData = data;
+      // todayData.push(data);
+    } else {
+      todayData = [];
     }
+
+    console.log('今日の取得データ', todayData);
   }
 
   let isUser = false;
