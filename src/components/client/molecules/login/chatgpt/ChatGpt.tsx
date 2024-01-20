@@ -41,99 +41,74 @@ export default function ChatGpt({
     (state: RootState) => state.selectedMenuSlice,
   );
 
-  const [numDataCount, setDataCount] = useState<number>(0);
   const [dataMessages, setDataMessages] = useState<MessageType[]>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
-  const [isChatLayout, setChatLayout] = useState<boolean>(false);
-  const [isInitLayout, setInitLayout] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log('chatgpt1');
+    console.log('chatgpt1', todayData);
     if (selectedMenu === SELECT_MODE.GPT3 && type === DATA.TODAY) {
       // 今日のデータ
       // store.dispatch(setSpinner({ isSpinner: true }));
       setDataMessages(todayData as MessageType[]);
-      // setDataCount(todayData?.length as number);
-      // setLoaded(true);
-      // store.dispatch(setSpinner({ isSpinner: false }));
     } else if (type === DATA.HISTORY && historyData) {
       // 履歴のデータ
-      // store.dispatch(setSpinner({ isSpinner: true }));
       setDataMessages(historyData?.data);
-      // setDataCount(historyData?.count);
-      // setLoaded(true);
-      // store.dispatch(setSpinner({ isSpinner: false }));
     }
 
-    // 取得件数で表示するコンポーネントを分ける
-    // if (numDataCount > 0) {
-    //   setChatLayout(true);
-    //   setInitLayout(false);
-    //   setLoaded(true);
-    // } else {
-    //   setInitLayout(true);
-    //   setLoaded(true);
-    // }
-    // console.log('chatgpt2', numDataCount);
+    setLoaded(true);
   }, [todayData]);
 
-  // if (!isLoaded) {
-  //   return (
-  //     <div>
-  //       <Spin />
-  //     </div>
-  //   );
-  // }
-
   return (
-    <Suspense fallback='chatgptを読み込み中です'>
-      {/* {isChatLayout && ( */}
-      <div className='relative w-full h-full'>
-        <ScrollBottom className='relative w-full h-full overflow-y-auto px-2 md:px-4'>
-          <div className='flex flex-col-reverse'>
-            {dataMessages &&
-              dataMessages?.map((data) => (
-                <div key={data.messageId} className='test'>
-                  {/* ユーザー */}
-                  <UserCard
-                    question={data.question}
-                    createdAt={data.createdAt}
-                  />
-                  {/* Irukara */}
-                  <AiCard
-                    answer={data.answer}
-                    createdAt={data.createdAt}
-                    messageId={data.messageId}
-                    shareStatus={data.shareStatus}
-                  />
-                </div>
-              ))}
-          </div>
-          {/* 追加のやり取り */}
-          {messages &&
-            messages.map((message: Message) => (
-              <ScrollBottom option key={message.id}>
-                {message.role === 'user' && (
-                  <UserCard
-                    question={message.content}
-                    createdAt={currentUnix()}
-                  />
-                )}
-                {message.role === 'assistant' && (
-                  <div>
+    <>
+      {isLoaded ? (
+        <div className='relative w-full h-full'>
+          <ScrollBottom className='relative w-full h-full overflow-y-auto px-2 md:px-4'>
+            <div className='flex flex-col-reverse'>
+              {dataMessages &&
+                dataMessages.map((data) => (
+                  <div key={data.messageId} className='test'>
+                    {/* ユーザー */}
+                    <UserCard
+                      question={data.question}
+                      createdAt={data.createdAt}
+                    />
+                    {/* Irukara */}
                     <AiCard
-                      answer={message.content}
-                      createdAt={newMessage?.createdAt as number}
-                      messageId={newMessage?.messageId}
-                      shareStatus={newMessage?.shareStatus}
+                      answer={data.answer}
+                      createdAt={data.createdAt}
+                      messageId={data.messageId}
+                      shareStatus={data.shareStatus}
                     />
                   </div>
-                )}
-              </ScrollBottom>
-            ))}
-        </ScrollBottom>
-      </div>
-      {/* )} */}
-    </Suspense>
+                ))}
+            </div>
+            {/* 追加のやり取り */}
+            {messages &&
+              messages.map((message: Message) => (
+                <ScrollBottom option key={message.id}>
+                  {message.role === 'user' && (
+                    <UserCard
+                      question={message.content}
+                      createdAt={currentUnix()}
+                    />
+                  )}
+                  {message.role === 'assistant' && (
+                    <div>
+                      <AiCard
+                        answer={message.content}
+                        createdAt={newMessage?.createdAt as number}
+                        messageId={newMessage?.messageId}
+                        shareStatus={newMessage?.shareStatus}
+                      />
+                    </div>
+                  )}
+                </ScrollBottom>
+              ))}
+          </ScrollBottom>
+        </div>
+      ) : (
+        <Spin />
+      )}
+    </>
   );
 }

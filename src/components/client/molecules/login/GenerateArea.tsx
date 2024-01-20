@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { RootState, store } from '@/store';
 import { setAuthUserData } from '@/store/auth/user/slice';
 import { GetUserIdRes } from '@/types/auth/api';
@@ -43,9 +43,9 @@ export default function GenerateArea({
     (state: RootState) => state.authUserDataSlice,
   );
   const [isData, setData] = useState<boolean>(false);
+  const [isLoaded, setLoaded] = useState<boolean>(false);
 
   useMemo(() => {
-    console.log('生成コンポーネント1');
     // userIdとstatusをreduxへ
     if (type === 1 && userData) {
       store.dispatch(
@@ -55,11 +55,9 @@ export default function GenerateArea({
         }),
       );
     }
-    if (todayData && todayData.length > 0) {
-      setData(true);
-    }
-
-    console.log('生成コンポーネント2');
+    // if (todayData && todayData.length > 0) {
+    //   setData(true);
+    // }
   }, []);
 
   const [question, setQuestion] = useState<string>('');
@@ -73,6 +71,25 @@ export default function GenerateArea({
   const [illustOutput, setIllustOutput] = useState<ImageGenerateRes>();
   const [realOutput, setRealOutput] = useState<ImageGenerateRes>();
   const [newMessage, setNewMessage] = useState<MessageType>();
+  const [arrTodayData, setArrTodayData] = useState<
+    MessageType[] | ImageGenerateRes[]
+  >([]);
+
+  useMemo(() => {
+    console.log('生成エリア', selectedMode);
+    // tab切り替えで再度データを格納してからpropsで渡す
+    console.log('生成エリア今日のデータ', todayData);
+    if (selectedMode === SELECT_MODE.GPT3) {
+      setArrTodayData(todayData as MessageType[]);
+    } else if (
+      selectedMode === SELECT_MODE.ILLUST ||
+      selectedMode === SELECT_MODE.REAL
+    ) {
+      setArrTodayData(todayData as ImageGenerateRes[]);
+    }
+
+    setLoaded(true);
+  }, [selectedMode]);
 
   const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
     api: API.TOP_GPT,
@@ -109,11 +126,11 @@ export default function GenerateArea({
         } 
         ${isMenu ? 'pb-[18.4rem]' : 'pb-[13rem]'}`}
       >
-        {isData ? (
+        {isLoaded ? (
           <>
             {numSelected === SELECT_MODE.GPT3 && (
               <ChatGpt
-                todayData={todayData as MessageType[]}
+                todayData={arrTodayData as MessageType[]}
                 messages={messages}
                 newMessage={newMessage}
                 type={DATA.TODAY}
@@ -122,37 +139,30 @@ export default function GenerateArea({
             {numSelected === SELECT_MODE.GPT4 && '準備中です'}
             {numSelected === SELECT_MODE.ILLUST && (
               <IllustImage
-                todayData={todayData as ImageGenerateRes[]}
+                todayData={arrTodayData as ImageGenerateRes[]}
                 illustOutput={illustOutput}
                 type={DATA.TODAY}
               />
             )}
             {numSelected === SELECT_MODE.REAL && (
               <RealImage
-                todayData={todayData as ImageGenerateRes[]}
+                todayData={arrTodayData as ImageGenerateRes[]}
                 realOutput={realOutput}
                 type={DATA.TODAY}
               />
             )}
           </>
         ) : (
-          // <InputPrompt type={1} />
           <Spin />
         )}
       </div>
       {/* 切り替えメニュー */}
       {isMenu && (
-        <div
-          className={`fixed z-[2] bottom-[110px] right-0 h-[80px] w-full md:w-[100%-240px] ${
-            isSidebar ? 'md:w-[calc(100%-240px)]' : 'md:w-[calc(100%-48px)]'
-          }`}
-        >
-          <MenuTab
-            setSelectedMenu={setSelectedMenu}
-            numSelected={numSelected}
-            setQuestionHolder={setQuestionHolder}
-          />
-        </div>
+        <MenuTab
+          setSelectedMenu={setSelectedMenu}
+          numSelected={numSelected}
+          setQuestionHolder={setQuestionHolder}
+        />
       )}
       {/* 生成textarea */}
       <GenerateInput
