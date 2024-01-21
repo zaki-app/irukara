@@ -9,8 +9,9 @@ import { API } from '@/common/constants/path';
 import { useChat, Message } from 'ai/react';
 import { ImageGenerateRes } from '@/types/image';
 import { MessageType } from '@/types/message';
-import { DATA, SELECT_MODE } from '@/common/constants';
+import { DATA, SELECTED_MENU, SELECT_MODE } from '@/common/constants';
 import { Spin } from 'antd';
+import { useRouter } from 'next/navigation';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/ui/tab/MenuTab';
 import IllustImage from './illust/IllustImage';
@@ -42,10 +43,14 @@ export default function GenerateArea({
   const { userId, status } = useSelector(
     (state: RootState) => state.authUserDataSlice,
   );
-  const [isData, setData] = useState<boolean>(false);
-  const [isLoaded, setLoaded] = useState<boolean>(false);
+  const [, setData] = useState<boolean>(false);
+  const [todayMessagesData, setTodayMessageData] = useState<MessageType[]>([]);
+  const [todayIllustsData, setTodayIllustsData] = useState<ImageGenerateRes[]>(
+    [],
+  );
+  const [todayRealsData, setTodayRealsData] = useState<ImageGenerateRes[]>([]);
 
-  useMemo(() => {
+  useEffect(() => {
     // userIdとstatusをreduxへ
     if (type === 1 && userData) {
       store.dispatch(
@@ -55,10 +60,18 @@ export default function GenerateArea({
         }),
       );
     }
-    // if (todayData && todayData.length > 0) {
-    //   setData(true);
-    // }
   }, []);
+
+  useEffect(() => {
+    console.log('GenerateArea最初', todayData);
+    if (selectedMode === SELECT_MODE.GPT3) {
+      setTodayMessageData(todayData as MessageType[]);
+    } else if (selectedMode === SELECT_MODE.ILLUST) {
+      setTodayIllustsData(todayData as ImageGenerateRes[]);
+    } else if (selectedMode === SELECT_MODE.REAL) {
+      setTodayRealsData(todayData as ImageGenerateRes[]);
+    }
+  }, [todayData]);
 
   const [question, setQuestion] = useState<string>('');
   const [isAnswer, setAnswer] = useState<boolean>(false);
@@ -71,25 +84,6 @@ export default function GenerateArea({
   const [illustOutput, setIllustOutput] = useState<ImageGenerateRes>();
   const [realOutput, setRealOutput] = useState<ImageGenerateRes>();
   const [newMessage, setNewMessage] = useState<MessageType>();
-  const [arrTodayData, setArrTodayData] = useState<
-    MessageType[] | ImageGenerateRes[]
-  >([]);
-
-  useMemo(() => {
-    console.log('生成エリア', selectedMode);
-    // tab切り替えで再度データを格納してからpropsで渡す
-    console.log('生成エリア今日のデータ', todayData);
-    if (selectedMode === SELECT_MODE.GPT3) {
-      setArrTodayData(todayData as MessageType[]);
-    } else if (
-      selectedMode === SELECT_MODE.ILLUST ||
-      selectedMode === SELECT_MODE.REAL
-    ) {
-      setArrTodayData(todayData as ImageGenerateRes[]);
-    }
-
-    setLoaded(true);
-  }, [selectedMode]);
 
   const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
     api: API.TOP_GPT,
@@ -126,35 +120,31 @@ export default function GenerateArea({
         } 
         ${isMenu ? 'pb-[18.4rem]' : 'pb-[13rem]'}`}
       >
-        {isLoaded ? (
-          <>
-            {numSelected === SELECT_MODE.GPT3 && (
-              <ChatGpt
-                todayData={arrTodayData as MessageType[]}
-                messages={messages}
-                newMessage={newMessage}
-                type={DATA.TODAY}
-              />
-            )}
-            {numSelected === SELECT_MODE.GPT4 && '準備中です'}
-            {numSelected === SELECT_MODE.ILLUST && (
-              <IllustImage
-                todayData={arrTodayData as ImageGenerateRes[]}
-                illustOutput={illustOutput}
-                type={DATA.TODAY}
-              />
-            )}
-            {numSelected === SELECT_MODE.REAL && (
-              <RealImage
-                todayData={arrTodayData as ImageGenerateRes[]}
-                realOutput={realOutput}
-                type={DATA.TODAY}
-              />
-            )}
-          </>
-        ) : (
-          <Spin />
-        )}
+        <>
+          {numSelected === SELECT_MODE.GPT3 && (
+            <ChatGpt
+              todayData={todayMessagesData as MessageType[]}
+              messages={messages}
+              newMessage={newMessage}
+              type={DATA.TODAY}
+            />
+          )}
+          {numSelected === SELECT_MODE.GPT4 && '準備中です'}
+          {numSelected === SELECT_MODE.ILLUST && (
+            <IllustImage
+              todayData={todayIllustsData as ImageGenerateRes[]}
+              illustOutput={illustOutput}
+              type={DATA.TODAY}
+            />
+          )}
+          {numSelected === SELECT_MODE.REAL && (
+            <RealImage
+              todayData={todayRealsData as ImageGenerateRes[]}
+              realOutput={realOutput}
+              type={DATA.TODAY}
+            />
+          )}
+        </>
       </div>
       {/* 切り替えメニュー */}
       {isMenu && (

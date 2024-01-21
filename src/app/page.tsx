@@ -10,12 +10,7 @@ import TopPlayGround from '@/components/client/organisms/top/nologin/TopPlayGrou
 import { getServerSession } from 'next-auth';
 import { SessionUserInfo } from '@/types/auth';
 import { getCookie } from '@/common/utils/cookie/manageCookies';
-import {
-  COOKIE_NAME,
-  IMAGE_TYPE,
-  SELECTED_MENU,
-  SELECT_MODE,
-} from '@/common/constants';
+import { COOKIE_NAME, IMAGE_TYPE, SELECT_MODE } from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
 import { GetUserIdRes } from '@/types/auth/api';
 import { getApi } from '@/common/libs/api/lambda/requestClient';
@@ -24,7 +19,7 @@ import PrimaryWrapper from '@/components/client/template/PrimaryWrapper';
 import { startEndUnix } from '@/common/libs/dateFormat';
 import { MessageType } from '@/types/message';
 import { ImageTableRes } from '@/types/image';
-import { Spin } from 'antd';
+import SetDynamicRoute from '@/components/client/template/next/SetDynamicRoute';
 import { options } from './api/auth/[...nextauth]/options';
 import { deleteNextAuthSession } from './api/auth/[...nextauth]/adapter';
 
@@ -116,6 +111,7 @@ export default async function Home() {
                 type={1}
                 selectedMode={Number(selectedMode)}
               />
+              <SetDynamicRoute />
             </PrimaryWrapper>
           )}
         </>

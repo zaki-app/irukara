@@ -1,7 +1,7 @@
 'use client';
 
 import { RootState } from '@/store';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Sidebar from '../molecules/login/Sidebar';
 import CautionText from '../atoms/login/CautionText';
