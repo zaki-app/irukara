@@ -9,7 +9,7 @@ import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
 import { RootState, store } from '@/store';
 import { HistoryDataMessageRes, MessageType } from '@/types/message';
 import { Message } from 'ai/react';
-import { Spin } from 'antd';
+import { Spin, message } from 'antd';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -43,18 +43,34 @@ export default function ChatGpt({
   const [dataMessages, setDataMessages] = useState<MessageType[] | null>(null);
   const [isLoaded, setLoaded] = useState<boolean>(false);
 
+  console.log(
+    'chatgpt props',
+    todayData,
+    dataMessages,
+    messages,
+    type,
+    newMessage,
+    historyData,
+  );
+
   useMemo(() => {
-    if (selectedMenu === SELECT_MODE.GPT3 && type === DATA.TODAY) {
+    console.log('chatgpt usememo');
+    if (type === DATA.TODAY) {
       // 今日のデータ
       setDataMessages(todayData as MessageType[]);
+      console.log('今日のデータです', todayData, dataMessages);
     } else if (type === DATA.HISTORY && historyData) {
       // 履歴のデータ
-      setDataMessages(historyData?.data);
+      setDataMessages(historyData.data);
+    } else {
+      console.log('データがない時', dataMessages);
     }
-
     // 新しくデータが格納されてからローディングを外す
     if (dataMessages) {
+      console.log('データがあります', dataMessages);
       setLoaded(true);
+    } else {
+      console.log('データがありませんです', dataMessages);
     }
   }, [selectedMenu, todayData]);
 

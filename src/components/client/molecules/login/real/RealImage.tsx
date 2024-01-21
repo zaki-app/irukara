@@ -6,6 +6,8 @@ import ImageOutput from '@/components/client/atoms/login/chat/ImageOutput';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
 import { RootState, store } from '@/store';
+import { setScroll } from '@/store/ui/scroll/slice';
+import { setSpinner } from '@/store/ui/spinner/slice';
 import {
   ImageGenerateRes,
   ImageHistoryRes,
@@ -16,12 +18,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 /**
- * リアル画像生成のやりとりを表示する
+ * イラスト画像生成のやりとりを表示する
  *
  * @param todayData サーバー側で取得した今日のデータ一覧配列
  * @param realOutput 画像生成時のレスポンスオブジェクト
  * @param type 1が今日、2が7日間
- * @param historyData 過去の指定されたリアル画像配列
+ * @param historyData 過去の指定されたイラスト画像配列
  * @returns
  */
 export default function RealImage({
@@ -43,22 +45,36 @@ export default function RealImage({
   const [dataReals, setDataReals] = useState<ImageTableRes[] | null>(null);
   const [isLoaded, setLoaded] = useState<boolean>(false);
 
+  console.log(
+    'realImage props',
+    todayData,
+    realOutput,
+    type,
+    historyData,
+    isLoaded,
+  );
+
   useMemo(() => {
-    // console.log('リアル画像1', todayData, type, selectedMenu);
-    if (selectedMenu === SELECT_MODE.REAL && type === DATA.TODAY) {
+    console.log('リアル画像1', todayData, type, selectedMenu);
+    if (type === DATA.TODAY) {
       // 今日のデータ
       setDataReals(todayData as ImageGenerateRes[]);
+      console.log('今日のデータです', dataReals);
+      // setLoaded(true);
     } else if (type === DATA.HISTORY && historyData) {
       // 履歴のデータ
-      // store.dispatch(setSpinner({ isSpinner: true }));
       setDataReals(historyData.data);
       // setLoaded(true);
       // store.dispatch(setSpinner({ isSpinner: false }));
     }
+    // console.log('イラスト画像終了', dataReals === null);
 
     // 新しくデータが格納されてからローディングを外す
     if (dataReals) {
+      console.log('データはあります', todayData, dataReals);
       setLoaded(true);
+    } else {
+      console.log('データがありません', todayData, dataReals);
     }
   }, [selectedMenu, todayData]);
 
