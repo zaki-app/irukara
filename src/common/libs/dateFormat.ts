@@ -71,8 +71,6 @@ export function returnSevenDays() {
     response.push(params);
   }
 
-  console.log('1週間', response);
-
   return response;
 }
 

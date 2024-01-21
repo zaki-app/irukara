@@ -58,7 +58,7 @@ export default function IllustImage({
 
   useMemo(() => {
     // console.log('イラスト画像1', todayData, type, selectedMenu);
-    if (selectedMenu === SELECT_MODE.ILLUST && type === DATA.TODAY) {
+    if (type === DATA.TODAY) {
       // 今日のデータ
       setDataIllusts(todayData as ImageGenerateRes[]);
       // setLoaded(true);
