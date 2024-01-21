@@ -1,20 +1,18 @@
 'use client';
 
-import { DATA, SELECT_MODE } from '@/common/constants';
+import { DATA } from '@/common/constants';
 import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import ImageOutput from '@/components/client/atoms/login/chat/ImageOutput';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
-import { RootState, store } from '@/store';
-import { setScroll } from '@/store/ui/scroll/slice';
-import { setSpinner } from '@/store/ui/spinner/slice';
+import { RootState } from '@/store';
 import {
   ImageGenerateRes,
   ImageHistoryRes,
   ImageTableRes,
 } from '@/types/image';
-import { Input, Spin } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
+import { Spin } from 'antd';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 /**
@@ -41,57 +39,25 @@ export default function IllustImage({
     (state: RootState) => state.selectedMenuSlice,
   );
 
-  const [numDataCount, setDataCount] = useState<number>(0);
   const [dataIllusts, setDataIllusts] = useState<ImageTableRes[] | null>(null);
   const [isLoaded, setLoaded] = useState<boolean>(false);
 
-  console.log('最初のデータを確認したい　イラスト', todayData, dataIllusts);
+  console.log('illust props', todayData, dataIllusts);
 
-  // console.log(
-  //   'illustImage props',
-  //   todayData,
-  //   illustOutput,
-  //   type,
-  //   historyData,
-  //   isLoaded,
-  // );
-
-  useMemo(() => {
-    // console.log('イラスト画像1', todayData, type, selectedMenu);
+  useEffect(() => {
     if (type === DATA.TODAY) {
       // 今日のデータ
       setDataIllusts(todayData as ImageGenerateRes[]);
-      // setLoaded(true);
     } else if (type === DATA.HISTORY && historyData) {
       // 履歴のデータ
       setDataIllusts(historyData.data);
-      // setLoaded(true);
-      // store.dispatch(setSpinner({ isSpinner: false }));
     }
-    // console.log('イラスト画像終了', dataIllusts === null);
 
     // 新しくデータが格納されてからローディングを外す
     if (dataIllusts) {
       setLoaded(true);
     }
-  }, [selectedMenu, todayData]);
-
-  // 生成された画像データを配列に入れる
-  // useEffect(() => {
-  //   // if (illustOutput) {
-  //   //   setDataIllusts((prev) => [illustOutput, ...(prev as ImageGenerateRes[])]);
-  //   //   // setDataCount((prev) => prev + 1);
-  //   //   console.log('追加の時のみ呼ばれるようにしたい', illustOutput);
-  //   //   store.dispatch(setScroll({ isScroll: true }));
-  //   // }
-  //   // if (illustOutput) {
-  //   //   setDataIllusts(illustOutput as ImageGenerateRes[]);
-  //   // }
-  //   // setLoaded(true);
-  //   // return () => {
-  //   //   setLoaded(false);
-  //   // };
-  // }, [isLoaded]);
+  }, [todayData]);
 
   return (
     <>

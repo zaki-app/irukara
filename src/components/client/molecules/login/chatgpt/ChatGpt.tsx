@@ -10,6 +10,7 @@ import { RootState, store } from '@/store';
 import { HistoryDataMessageRes, MessageType } from '@/types/message';
 import { Message } from 'ai/react';
 import { Spin, message } from 'antd';
+import { useRouter } from 'next/navigation';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -40,42 +41,45 @@ export default function ChatGpt({
     (state: RootState) => state.selectedMenuSlice,
   );
 
-  const [dataMessages, setDataMessages] = useState<MessageType[] | null>(null);
+  const [dataMessages, setDataMessages] = useState<MessageType[] | null>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
+  const [numMode, setMode] = useState<number>(100);
+  const [isDiff, setDiff] = useState<boolean>(false);
 
   console.log(
+    // todayData === dataMessages,
     'chatgpt props',
+    // selectedMenu,
     todayData,
     dataMessages,
-    messages,
-    type,
-    newMessage,
-    historyData,
+    // messages,
+    // type,
+    // newMessage,
+    // historyData,
+    // isLoaded,
   );
 
-  useMemo(() => {
-    console.log('chatgpt usememo');
+  const router = useRouter();
+
+  useEffect(() => {
+    // router.refresh();
     if (type === DATA.TODAY) {
       // 今日のデータ
       setDataMessages(todayData as MessageType[]);
-      console.log('今日のデータです', todayData, dataMessages);
     } else if (type === DATA.HISTORY && historyData) {
       // 履歴のデータ
       setDataMessages(historyData.data);
-    } else {
-      console.log('データがない時', dataMessages);
     }
-    // 新しくデータが格納されてからローディングを外す
+    // }
+
     if (dataMessages) {
-      console.log('データがあります', dataMessages);
       setLoaded(true);
-    } else {
-      console.log('データがありませんです', dataMessages);
     }
-  }, [selectedMenu, todayData]);
+  }, [todayData]);
 
   return (
     <>
+      {console.log('HTMLレンダリング', isLoaded, dataMessages)}
       {isLoaded && dataMessages ? (
         <>
           {/* 今日のデータが１件以上ある場合 */}

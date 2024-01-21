@@ -9,6 +9,7 @@ import { COOKIE_NAME } from '@/common/constants';
 import { setCookie } from '@/common/utils/cookie/manageCookies';
 import { getSelectedKey } from '@/common/utils/cookie';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 
 interface MenuProps {
   numSelected: number;
@@ -60,6 +61,11 @@ export default function MenuTab({
     }
   }
 
+  const router = useRouter();
+  const { selectedMenu } = useSelector(
+    (state: RootState) => state.selectedMenuSlice,
+  );
+
   useEffect(() => {
     (async () => {
       const initKey = await getSelectedKey();
@@ -70,6 +76,11 @@ export default function MenuTab({
       }
     })();
   }, []);
+
+  useEffect(() => {
+    router.refresh();
+    console.log('props メニュークリックでリフレッシュ');
+  }, [selectedMenu]);
 
   return (
     <div
@@ -92,6 +103,8 @@ export default function MenuTab({
                   );
                   setCookie(COOKIE_NAME.SELECTED_MENU, item.key.toString());
                   setHolderText(item.key);
+                  router.refresh();
+                  console.log('props 強制リフレッシュ', selectedMenu);
                 }}
                 className={`w-full h-full flex flex-col items-center justify-center cursor-pointer  hover:scale-110 ${
                   numSelected === item.key
