@@ -40,6 +40,7 @@ export const IRUKARA_API: IrukaraApiUnion = {
   GET_MSG_DATE: `${LAMBDA_API}save-messages/{userId}?type=date&start={startUnix}&end={endUnix}`,
   GET_MSG_REFE: `${LAMBDA_API}save-messages/{userId}?type=reference&status={num}`,
   GET_MSG: `${LAMBDA_API}save-messages/{userId}`,
+  GET_MSG_ID: `${LAMBDA_API}save-message-detail/{messageId}?createdAt={createdAt}`,
   POST_MSG: `${LAMBDA_API}save-chat-message`,
   PUT_MSG: `${LAMBDA_API}save-message-update/{messageId}/createdAt/{createdAt}`,
   DEL_MSG: `${LAMBDA_API}save-message-delete/{messageId}/createdAt/{createdAt}`,

@@ -16,6 +16,14 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+interface RealImageProps {
+  todayData?: ImageGenerateRes[];
+  type: number;
+  realOutput?: ImageGenerateRes | null;
+  historyData?: ImageHistoryRes | null;
+  isRealTaking?: boolean;
+}
+
 /**
  * イラスト画像生成のやりとりを表示する
  *
@@ -30,27 +38,14 @@ export default function RealImage({
   realOutput,
   type,
   historyData,
-}: {
-  todayData?: ImageGenerateRes[];
-  type: number;
-  realOutput?: ImageGenerateRes | null;
-  historyData?: ImageHistoryRes | null;
-}) {
+  isRealTaking,
+}: RealImageProps) {
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
 
   const [dataReals, setDataReals] = useState<ImageTableRes[] | null>(null);
   const [isLoaded, setLoaded] = useState<boolean>(false);
-
-  console.log(
-    'realImage props',
-    todayData,
-    realOutput,
-    type,
-    historyData,
-    isLoaded,
-  );
 
   const router = useRouter();
 
@@ -66,7 +61,7 @@ export default function RealImage({
     }
 
     // 新しくデータが格納されてからローディングを外す
-    if (dataReals) {
+    if (dataReals || isRealTaking) {
       setLoaded(true);
     }
   }, [todayData]);
@@ -76,7 +71,7 @@ export default function RealImage({
       {isLoaded && dataReals ? (
         <>
           {/* 今日のデータが１件以上ある場合 */}
-          {dataReals.length > 0 ? (
+          {dataReals.length > 0 || isRealTaking ? (
             <div className='relative w-full h-full'>
               <ScrollBottom className='relative w-full h-full overflow-y-auto px-2 md:px-4'>
                 <div className='flex flex-col-reverse'>
@@ -98,6 +93,21 @@ export default function RealImage({
                     </div>
                   ))}
                 </div>
+                {realOutput && (
+                  <>
+                    <UserCard
+                      question={realOutput.prompt}
+                      createdAt={realOutput.createdAt}
+                    />
+                    <ImageOutput
+                      imageId={realOutput.imageId}
+                      prompt={realOutput.prompt}
+                      output={realOutput.outputUrl}
+                      shareStatus={realOutput.shareStatus}
+                      createdAt={realOutput.createdAt}
+                    />
+                  </>
+                )}
               </ScrollBottom>
             </div>
           ) : (
