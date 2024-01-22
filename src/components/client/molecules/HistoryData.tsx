@@ -29,7 +29,7 @@ export default function HistoryData({
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
-  console.log('今日以外のデータです', type, selectedMenu);
+  console.log('今日以外のデータです', data);
 
   return (
     <div className='pt-[1rem]'>

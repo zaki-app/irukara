@@ -4,6 +4,7 @@ type IrukaraApiObjkey =
   | 'GET_MSG_DATE'
   | 'GET_MSG_REFE'
   | 'GET_MSG'
+  | 'GET_MSG_ID'
   | 'POST_MSG'
   | 'PUT_MSG'
   | 'DEL_MSG'

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RootState, store } from '@/store';
 import { setAuthUserData } from '@/store/auth/user/slice';
 import { GetUserIdRes } from '@/types/auth/api';
@@ -9,9 +9,7 @@ import { API } from '@/common/constants/path';
 import { useChat, Message } from 'ai/react';
 import { ImageGenerateRes } from '@/types/image';
 import { MessageType } from '@/types/message';
-import { DATA, SELECTED_MENU, SELECT_MODE } from '@/common/constants';
-import { Spin } from 'antd';
-import { useRouter } from 'next/navigation';
+import { DATA, SELECT_MODE } from '@/common/constants';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/ui/tab/MenuTab';
 import IllustImage from './illust/IllustImage';
@@ -43,7 +41,6 @@ export default function GenerateArea({
   const { userId, status } = useSelector(
     (state: RootState) => state.authUserDataSlice,
   );
-  const [, setData] = useState<boolean>(false);
   const [todayMessagesData, setTodayMessageData] = useState<MessageType[]>([]);
   const [todayIllustsData, setTodayIllustsData] = useState<ImageGenerateRes[]>(
     [],
@@ -79,11 +76,13 @@ export default function GenerateArea({
   const [questionHolder, setQuestionHolder] = useState<string>(
     'Irukaraへの\n質問を書いてください',
   );
-  // 選択しているメニュー番号
   const [numSelected, setSelectedMenu] = useState<number>(selectedMode);
   const [illustOutput, setIllustOutput] = useState<ImageGenerateRes>();
   const [realOutput, setRealOutput] = useState<ImageGenerateRes>();
   const [newMessage, setNewMessage] = useState<MessageType>();
+  const [isTaking, setTaking] = useState<boolean>(false);
+  const [isIllustTaking, setIllustTaking] = useState<boolean>(false);
+  const [isRealTaking, setRealTaking] = useState<boolean>(false);
 
   const { messages, handleInputChange, handleSubmit, isLoading } = useChat({
     api: API.TOP_GPT,
@@ -127,6 +126,7 @@ export default function GenerateArea({
               messages={messages}
               newMessage={newMessage}
               type={DATA.TODAY}
+              isTaking={isTaking}
             />
           )}
           {numSelected === SELECT_MODE.GPT4 && '準備中です'}
@@ -135,6 +135,7 @@ export default function GenerateArea({
               todayData={todayIllustsData as ImageGenerateRes[]}
               illustOutput={illustOutput}
               type={DATA.TODAY}
+              isIllustTaking={isIllustTaking}
             />
           )}
           {numSelected === SELECT_MODE.REAL && (
@@ -142,6 +143,7 @@ export default function GenerateArea({
               todayData={todayRealsData as ImageGenerateRes[]}
               realOutput={realOutput}
               type={DATA.TODAY}
+              isRealTaking={isRealTaking}
             />
           )}
         </>
@@ -160,9 +162,11 @@ export default function GenerateArea({
         questionHolder={questionHolder}
         isInput={isInput}
         isAnswer={isAnswer}
+        setTaking={setTaking}
+        setIllustTaking={setIllustTaking}
+        setRealTaking={setRealTaking}
         setQuestion={setQuestion}
         setQuestionHolder={setQuestionHolder}
-        setData={setData}
         setAnswer={setAnswer}
         handleSubmit={handleSubmit}
         setIllustOutput={setIllustOutput}

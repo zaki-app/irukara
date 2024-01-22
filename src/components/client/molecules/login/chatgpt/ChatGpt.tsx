@@ -1,18 +1,26 @@
 'use client';
 
-import { DATA, SELECT_MODE } from '@/common/constants';
+import { DATA } from '@/common/constants';
 import { currentUnix } from '@/common/libs/dateFormat';
 import InputPrompt from '@/components/client/atoms/login/InputPrompt';
 import AiCard from '@/components/client/atoms/login/chat/AiCard';
 import UserCard from '@/components/client/atoms/login/chat/UserCard';
 import ScrollBottom from '@/components/client/atoms/scroll/ScrollBottom';
-import { RootState, store } from '@/store';
+import { RootState } from '@/store';
 import { HistoryDataMessageRes, MessageType } from '@/types/message';
 import { Message } from 'ai/react';
-import { Spin, message } from 'antd';
-import { useRouter } from 'next/navigation';
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Spin } from 'antd';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+
+interface ChatGptProps {
+  todayData?: MessageType[];
+  messages?: Message[];
+  type: number;
+  newMessage?: MessageType;
+  historyData?: HistoryDataMessageRes;
+  isTaking?: boolean; // やり取り画面への切り替え
+}
 
 /**
  * GenerateAreaで生成されたChatGptのやりとりを表示する
@@ -22,6 +30,7 @@ import { useSelector } from 'react-redux';
  * @param type 1が今日、2が7日間
  * @param newMessage 保存されたメッセージオブジェクト
  * @param historyData 過去の指定されたメッセージ配列
+ * @param isTaking やり取り画面への切り替え
  * @returns
  */
 export default function ChatGpt({
@@ -30,39 +39,16 @@ export default function ChatGpt({
   type,
   newMessage,
   historyData,
-}: {
-  todayData?: MessageType[];
-  messages?: Message[];
-  type: number;
-  newMessage?: MessageType;
-  historyData?: HistoryDataMessageRes;
-}) {
+  isTaking,
+}: ChatGptProps) {
   const { selectedMenu } = useSelector(
     (state: RootState) => state.selectedMenuSlice,
   );
 
   const [dataMessages, setDataMessages] = useState<MessageType[] | null>([]);
   const [isLoaded, setLoaded] = useState<boolean>(false);
-  const [numMode, setMode] = useState<number>(100);
-  const [isDiff, setDiff] = useState<boolean>(false);
-
-  console.log(
-    // todayData === dataMessages,
-    'chatgpt props',
-    // selectedMenu,
-    todayData,
-    dataMessages,
-    // messages,
-    // type,
-    // newMessage,
-    // historyData,
-    // isLoaded,
-  );
-
-  const router = useRouter();
 
   useEffect(() => {
-    // router.refresh();
     if (type === DATA.TODAY) {
       // 今日のデータ
       setDataMessages(todayData as MessageType[]);
@@ -70,20 +56,18 @@ export default function ChatGpt({
       // 履歴のデータ
       setDataMessages(historyData.data);
     }
-    // }
 
-    if (dataMessages) {
+    if (dataMessages || isTaking) {
       setLoaded(true);
     }
   }, [todayData]);
 
   return (
     <>
-      {console.log('HTMLレンダリング', isLoaded, dataMessages)}
       {isLoaded && dataMessages ? (
         <>
           {/* 今日のデータが１件以上ある場合 */}
-          {dataMessages.length > 0 ? (
+          {dataMessages.length > 0 || isTaking ? (
             <div className='relative w-full h-full'>
               <ScrollBottom className='relative w-full h-full overflow-y-auto px-2 md:px-4'>
                 <div className='flex flex-col-reverse'>

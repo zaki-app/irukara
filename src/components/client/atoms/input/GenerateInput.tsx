@@ -24,9 +24,11 @@ interface GenerateInputProps {
   questionHolder: string;
   isInput: boolean;
   isAnswer: boolean;
+  setTaking?: Dispatch<SetStateAction<boolean>>;
+  setIllustTaking?: Dispatch<SetStateAction<boolean>>;
+  setRealTaking?: Dispatch<SetStateAction<boolean>>;
   setQuestion: Dispatch<SetStateAction<string>>;
   setQuestionHolder: Dispatch<SetStateAction<string>>;
-  setData: Dispatch<SetStateAction<boolean>>;
   setAnswer: Dispatch<SetStateAction<boolean>>;
   handleSubmit: (
     e: FormEvent<HTMLFormElement>,
@@ -50,9 +52,11 @@ export default function GenerateInput({
   questionHolder,
   isInput,
   isAnswer,
+  setTaking,
+  setIllustTaking,
+  setRealTaking,
   setQuestion,
   setQuestionHolder,
-  setData,
   setAnswer,
   handleSubmit,
   setIllustOutput,
@@ -93,30 +97,31 @@ export default function GenerateInput({
           console.log('回答作成中です');
           if (question) {
             setQuestionHolder('回答を作成中です');
-            setData(true);
             setAnswer(false);
 
             if (selectedMenu === SELECT_MODE.GPT3) {
               handleSubmit(e);
+              if (setTaking) setTaking(true);
             } else if (selectedMenu === SELECT_MODE.GPT4) {
               // chatGPT4
             } else if (selectedMenu === SELECT_MODE.ILLUST) {
+              if (setIllustTaking) setIllustTaking(true);
               // イラスト生成
               const illustRes = await imageGenerate({
                 userId,
                 prompt: question,
                 memberStatus: status,
-                type: 2,
+                type: SELECT_MODE.ILLUST,
               });
               if (illustRes) setIllustOutput(illustRes);
-              console.log('イラスト生成するボタンをクリック', illustRes);
             } else if (selectedMenu === SELECT_MODE.REAL) {
+              if (setRealTaking) setRealTaking(true);
               // リアル画像生成
               const realRes = await imageGenerate({
                 userId,
                 prompt: question,
                 memberStatus: status,
-                type: 3,
+                type: SELECT_MODE.REAL,
               });
               if (realRes) setRealOutput(realRes);
             }
