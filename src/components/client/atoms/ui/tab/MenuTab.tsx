@@ -85,7 +85,7 @@ export default function MenuTab({
   return (
     <div
       className={`fixed z-[2] bottom-[110px] right-0 h-[80px] w-full md:w-[100%-240px] ${
-        isSidebar ? 'md:w-[calc(100%-240px)]' : 'md:w-[calc(100%-48px)]'
+        isSidebar && 'md:w-[calc(100%-240px)]'
       }`}
     >
       <div className='bg-slate-50 border-2 border-blue-500 w-[350px] md:w-[450px] m-auto rounded-lg shadow-md'>

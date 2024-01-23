@@ -79,7 +79,7 @@ export default function GenerateInput({
   return (
     <div
       className={`fixed z-[2] h-[85px] bottom-[30px] right-0 flex bg-white w-full md:w-[100%-240px] ${
-        isSidebar ? 'md:w-[calc(100%-240px)]' : 'md:w-[calc(100%-48px)]'
+        isSidebar ? 'md:w-[calc(100%-240px)]' : 'w-full'
       } `}
     >
       <div

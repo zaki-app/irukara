@@ -1,6 +1,19 @@
+import { SELECT_MODE } from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
 import { getApi } from '@/common/libs/api/lambda/requestClient';
+import AiCard from '@/components/client/atoms/login/chat/AiCard';
+import UserCard from '@/components/client/atoms/login/chat/UserCard';
+import Sidebar from '@/components/client/molecules/login/Sidebar';
+import PrimaryWrapper from '@/components/client/template/PrimaryWrapper';
+import ShareServerTmp from '@/components/server/ShareServerTmp';
+import { MessageType } from '@/types/message';
 
+/**
+ * chatGpt3.5の詳細画面
+ * @remark /{messageId}and{createdAt}でアクセスされる
+ * @param params {messageId} 詳細に表示するメッセージID
+ * @returns
+ */
 export default async function ChatInteraction({
   params,
 }: {
@@ -10,20 +23,15 @@ export default async function ChatInteraction({
   let isRes = false;
 
   try {
-    console.log('パラメータ', params);
     const splintParams = params.messageId.split('and');
     const messageId = splintParams[0];
     const createdAt = splintParams[1];
-
-    console.log('分割しました', messageId, createdAt);
 
     const path = IRUKARA_API.GET_MSG_ID.replace(
       '{messageId}',
       messageId,
     ).replace('{createdAt}', createdAt);
-    console.log('パスは？', path);
-    const { data } = await getApi(path);
-    console.log('詳細レスポンス', data);
+    const { data }: { data: MessageType } = await getApi(path);
     resData = data;
     isRes = true;
   } catch (err) {
@@ -32,15 +40,30 @@ export default async function ChatInteraction({
   }
 
   return (
-    <section>
-      {isRes ? (
-        <div>
-          <h2>{resData.question}</h2>
-          <p>{resData.answer}</p>
-        </div>
-      ) : (
-        'データを取得できませんでした'
-      )}
+    <section className='h-full w-full'>
+      {/* chatGpt3.5のやり取り詳細 */}
+      <div>
+        {resData ? (
+          <PrimaryWrapper type={3}>
+            <UserCard
+              question={resData.question}
+              createdAt={resData.createdAt}
+            />
+            <AiCard
+              answer={resData.answer}
+              createdAt={resData.createdAt}
+              messageId={resData.messageId}
+              shareStatus={resData.shareStatus}
+            />
+          </PrimaryWrapper>
+        ) : (
+          'データを取得できませんでした'
+        )}
+      </div>
+      {/* shareエリア */}
+      <div className=''>
+        <ShareServerTmp type={SELECT_MODE.GPT3} />
+      </div>
     </section>
   );
 }
