@@ -31,60 +31,59 @@ export default function Sidebar() {
 
   const [sevenDays, setSevenDays] = useState<ReturnDays[]>();
   const [today, setToday] = useState<ReturnDays>();
+  const [isMd, setMd] = useState<boolean>(window.innerWidth >= 768);
 
   useEffect(() => {
+    const handleResize = () => {
+      console.log('リサイズ', window.innerWidth);
+      setMd(window.innerWidth >= 768);
+      if (isMd) {
+        store.dispatch(setSidebar({ isSidebar: true }));
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
     setToday(returnToday());
     setSevenDays(returnSevenDays());
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
     // 背景
     <aside
-      className={`fixed top-[4rem] h-screen left-0 z-[10] overflow-hidden mb-[100px] ${
-        isHeaderAction
+      className={`fixed top-[4rem] h-screen left-0 z-[10] overflow-hidden mb-[100px] transition-all ${
+        isSidebar
           ? `visible bg-black/10 backdrop-blur-sm md:bg-transparent md:backdrop-blur-0 duration-0`
           : 'invisible md:visible'
-      } ${isSidebar ? 'w-full  md:w-[240px]' : 'w-[0] md:w-[48px]'}`}
+      } ${isSidebar ? 'w-full  md:w-[240px]' : 'w-[0]'}`}
     >
       {/* サイドバー */}
       <nav
-        className={`absolute left-0 top-0 pt-4 pb-[170px] overflow-y-auto w-0 md:w-[240px] flex flex-col gap-4 bg-neutral-100 border-r border-neutral-300 shadow-sm h-full transition-all px-4 ${
-          isHeaderAction
+        className={`absolute left-0 top-0 pt-4 overflow-y-auto w-0 md:w-[240px] flex flex-col gap-4 bg-neutral-100 border-r border-neutral-300 shadow-sm h-full transition-all px-4 ${
+          isSidebar
             ? 'w-[300px] md:w-[240px] left-0 duration-300'
             : '-left-full md:w-[240px] duration-300'
         }`}
       >
         {/* share */}
         <div>
-          <p
-            className={`${
-              isSidebar ? 'text-xs text-blue-400 font-semibold' : 'hidden'
-            }`}
-          >
-            share
-          </p>
+          <p className='text-xs text-blue-400 font-semibold'>share</p>
           <SidebarCard path='/' text='共有エリア' type={1} />
           <SidebarCard path='/' text='マイ共有データ' type={1} />
         </div>
         {/* today */}
         <div>
-          <p
-            className={`${
-              isSidebar ? 'text-xs text-blue-400 font-semibold' : 'hidden'
-            }`}
-          >
-            today
-          </p>
+          <p className='text-xs text-blue-400 font-semibold'>today</p>
           <SidebarCard path='/' text={today?.day as string} type={2} />
         </div>
         <div>
-          <p
-            className={`${
-              isSidebar ? 'text-xs text-blue-400 font-semibold' : 'hidden'
-            }`}
-          >
-            history 7 days
-          </p>
+          <p className='text-xs text-blue-400 font-semibold'>history 7 days</p>
           <ul>
             {sevenDays?.map((day) => (
               <li key={day.key} className='cursor-pointer'>
@@ -99,13 +98,7 @@ export default function Sidebar() {
           <button>more...</button>
         </div>
         <div>
-          <p
-            className={`${
-              isSidebar ? 'text-xs text-blue-400 font-semibold' : 'hidden'
-            }`}
-          >
-            account
-          </p>
+          <p className={"'text-xs text-blue-400 font-semibold'"}>account</p>
           <SidebarCard path={PAGE_LINK.PROFILE} text='プロフィール' type={4} />
           <SidebarCard path={PAGE_LINK.PLAN} text='プラン変更' type={5} />
           <SidebarCard
@@ -115,19 +108,6 @@ export default function Sidebar() {
           />
         </div>
       </nav>
-      <div className='fixed bottom-[3rem] left-[]'>
-        {/* PC用 */}
-        <div className='invisible md:visible'>
-          <FaAngleDoubleLeft
-            className={`bg-blue-500 text-white text-3xl rounded-full p-1 border shadow-sm cursor-pointer ${
-              !isSidebar && 'rotate-180'
-            }`}
-            onClick={() => {
-              store.dispatch(setSidebar({ isSidebar: !isSidebar }));
-            }}
-          />
-        </div>
-      </div>
     </aside>
   );
 }

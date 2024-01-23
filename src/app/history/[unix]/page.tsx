@@ -49,7 +49,7 @@ export default async function historyData({
 
   return (
     <div className='relative z-0 flex h-full w-full overflow-hidden'>
-      <Sidebar />
+      {/* <Sidebar /> */}
       <PrimaryWrapper type={1}>
         <HistoryData data={data} type={type} />
       </PrimaryWrapper>

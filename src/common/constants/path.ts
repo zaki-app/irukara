@@ -44,6 +44,7 @@ export const IRUKARA_API: IrukaraApiUnion = {
   POST_MSG: `${LAMBDA_API}save-chat-message`,
   PUT_MSG: `${LAMBDA_API}save-message-update/{messageId}/createdAt/{createdAt}`,
   DEL_MSG: `${LAMBDA_API}save-message-delete/{messageId}/createdAt/{createdAt}`,
+  GET_ALL_SHARE: `${LAMBDA_API}message-gsi/shareStatus?value=1`,
   // image
   GET_IMAGES: `${LAMBDA_API}save-images/{userId}?type=date&start={startUnix}&end={endUnix}&imageType={imageType}`,
   POST_ILLUST_IMAGE: `${LAMBDA_API}save-illust-image`,

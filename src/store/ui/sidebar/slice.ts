@@ -10,7 +10,7 @@ interface SidebarType {
  * tab切り替え時、sidebarも切り替える
  */
 const initialState: SidebarType = {
-  isSidebar: true,
+  isSidebar: false,
   isHeaderAction: false,
 };
 

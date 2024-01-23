@@ -47,7 +47,7 @@ export default function SidebarCard({
             store.dispatch(
               setSidebar({
                 isSidebar,
-                isHeaderAction: false,
+                // isHeaderAction: false,
               }),
             );
           }}
@@ -63,7 +63,7 @@ export default function SidebarCard({
             store.dispatch(
               setSidebar({
                 isSidebar,
-                isHeaderAction: false,
+                // isHeaderAction: false,
               }),
             );
           }}

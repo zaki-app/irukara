@@ -1,13 +1,15 @@
 /* MessageTableに関しての型定義 */
 
 export interface MessageType {
-  answer: string;
-  createdAt: number;
-  memberStatus: string;
-  messageId: string;
-  question: string;
-  referenceType: number;
   shareStatus: number;
+  question: string;
+  messageId: string;
+  mode?: number;
+  memberStatus: string;
+  requestType?: string;
+  createdAt: number;
+  referenceType: number;
+  answer: string;
 }
 
 export interface GetMessagesType {

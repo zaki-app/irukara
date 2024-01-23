@@ -49,12 +49,16 @@ export default function Header() {
     <header className='shadow-md w-full fixed top-0 left-0 h-[4rem] z-[10]'>
       <nav className='w-full h-full bg-nav text-white p-4 flex items-center justify-between'>
         {isAuth && (
-          <div className='block md:hidden text-2xl mr-4 cursor-pointer'>
-            {!isHeaderAction ? (
+          <div className='block text-2xl mr-4 cursor-pointer'>
+            {!isSidebar ? (
               <FaBarsStaggered
                 onClick={() => {
                   store.dispatch(
-                    setSidebar({ isSidebar: true, isHeaderAction: true }),
+                    // setSidebar({ isSidebar: true, isHeaderAction: true }),
+                    setSidebar({
+                      isSidebar: !isSidebar,
+                      // isHeaderAction: true,
+                    }),
                   );
                 }}
               />
@@ -63,8 +67,10 @@ export default function Header() {
                 onClick={() => {
                   store.dispatch(
                     setSidebar({
-                      isSidebar: false,
-                      isHeaderAction: false,
+                      // isSidebar: false,
+                      // isHeaderAction: false,
+                      isSidebar: !isSidebar,
+                      // isHeaderAction: false,
                     }),
                   );
                 }}

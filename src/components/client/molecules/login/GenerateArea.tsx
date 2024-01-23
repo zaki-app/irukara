@@ -115,7 +115,7 @@ export default function GenerateArea({
       {/* 生成されたやり取りコンポーネント */}
       <div
         className={`fixed w-full h-full flex-1 z-[1] overflow-hidden top-[5.5rem] right-0 ${
-          isSidebar ? 'md:w-[calc(100%-240px)]' : 'md:w-[calc(100%-48px)]'
+          isSidebar && 'md:w-[calc(100%-240px)]'
         } 
         ${isMenu ? 'pb-[18.4rem]' : 'pb-[13rem]'}`}
       >
