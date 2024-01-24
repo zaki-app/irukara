@@ -31,14 +31,16 @@ export default function Sidebar() {
 
   const [sevenDays, setSevenDays] = useState<ReturnDays[]>();
   const [today, setToday] = useState<ReturnDays>();
-  const [isMd, setMd] = useState<boolean>(window.innerWidth >= 768);
+  // const [isMd, setMd] = useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
-      console.log('リサイズ', window.innerWidth);
-      setMd(window.innerWidth >= 768);
+      // setMd(window.innerWidth >= 768);
+      const isMd = window.innerWidth >= 768;
       if (isMd) {
         store.dispatch(setSidebar({ isSidebar: true }));
+      } else {
+        store.dispatch(setSidebar({ isSidebar: false }));
       }
     };
 

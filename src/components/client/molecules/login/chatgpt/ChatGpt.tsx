@@ -85,6 +85,7 @@ export default function ChatGpt({
                           createdAt={data.createdAt}
                           messageId={data.messageId}
                           shareStatus={data.shareStatus}
+                          isShareButton={false}
                         />
                       </div>
                     ))}
@@ -106,6 +107,7 @@ export default function ChatGpt({
                             createdAt={newMessage?.createdAt as number}
                             messageId={newMessage?.messageId}
                             shareStatus={newMessage?.shareStatus}
+                            isShareButton={false}
                           />
                         </div>
                       )}

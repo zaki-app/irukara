@@ -42,6 +42,7 @@ export default function ShareButton({
   const [isShare, setShare] = useState<boolean>(false);
   const [isConfirm, setConfirm] = useState<boolean>(false);
   const [isWait, setWait] = useState<boolean>(false);
+  console.log('共有ボタン', type, imageId, messageId, shareStatus, createdAt);
 
   async function updateShare(updateType: number) {
     setWait(true);
@@ -132,7 +133,7 @@ export default function ShareButton({
 
   return (
     <Popconfirm
-      placement='right'
+      placement='top'
       title='共有を解除しますか？'
       description='共有を解除すると他のユーザーが見ることができなくなります'
       open={isConfirm}
@@ -149,11 +150,14 @@ export default function ShareButton({
     >
       <Button
         onClick={async () => {
+          console.log('共有ボタンクリック');
           if (isShare) {
+            console.log('共有を解除');
             // 共有を解除
             console.log('共有を解除 modalを出す');
             setConfirm(true);
           } else {
+            console.log('今日にする');
             // shareStatusを1に更新
             const response = await updateShare(SHARE.SAVE);
             if (response && response.ok) {
