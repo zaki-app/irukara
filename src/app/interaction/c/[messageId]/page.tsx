@@ -40,11 +40,11 @@ export default async function ChatInteraction({
   }
 
   return (
-    <section className='h-full w-full'>
+    <PrimaryWrapper type={3} isScroll>
       {/* chatGpt3.5のやり取り詳細 */}
-      <div>
+      <>
         {resData ? (
-          <PrimaryWrapper type={3}>
+          <div className='mb-6'>
             <UserCard
               question={resData.question}
               createdAt={resData.createdAt}
@@ -54,16 +54,17 @@ export default async function ChatInteraction({
               createdAt={resData.createdAt}
               messageId={resData.messageId}
               shareStatus={resData.shareStatus}
+              isShareButton
             />
-          </PrimaryWrapper>
+          </div>
         ) : (
           'データを取得できませんでした'
         )}
-      </div>
+      </>
       {/* shareエリア */}
-      <div className=''>
+      <div className='border-t-2'>
         <ShareServerTmp type={SELECT_MODE.GPT3} />
       </div>
-    </section>
+    </PrimaryWrapper>
   );
 }
