@@ -9,7 +9,8 @@ import { API } from '@/common/constants/path';
 import { useChat, Message } from 'ai/react';
 import { ImageGenerateRes } from '@/types/image';
 import { MessageType } from '@/types/message';
-import { DATA, SELECT_MODE } from '@/common/constants';
+import { DATA, DEFAULT_USER, SELECT_MODE } from '@/common/constants';
+import type { AuthUserDataType } from '@/types/auth';
 import ChatGpt from './chatgpt/ChatGpt';
 import MenuTab from '../../atoms/ui/tab/MenuTab';
 import IllustImage from './illust/IllustImage';
@@ -17,7 +18,7 @@ import RealImage from './real/RealImage';
 import GenerateInput from '../../atoms/input/GenerateInput';
 
 interface GenerateAreaProps {
-  userData: GetUserIdRes;
+  userData: AuthUserDataType;
   todayData: MessageType[] | ImageGenerateRes[];
   type: number;
   selectedMode: number;
@@ -54,6 +55,33 @@ export default function GenerateArea({
         setAuthUserData({
           userId: userData.userId,
           status: userData.status,
+          name:
+            userData.name === '' || !userData.name
+              ? DEFAULT_USER.NAME
+              : userData.name,
+          email:
+            userData.email === '' || !userData.email
+              ? DEFAULT_USER.EMAIL
+              : userData.email,
+          pictureUrl:
+            userData.pictureUrl === '' || !userData.pictureUrl
+              ? DEFAULT_USER.PICTURE
+              : userData.pictureUrl,
+          // gpt3.5
+          weekMsg: userData.weekMsg,
+          totalMsg: userData.totalMsg,
+          weekMsgSave: userData.weekMsgSave,
+          totalMsgSave: userData.totalMsgSave,
+          // gpt4
+          weekMsg4: userData.weekMsg4,
+          totalMsg4: userData.totalMsg4,
+          weekMsgSave4: userData.weekMsgSave4,
+          totalMsgSave4: userData.totalMsgSave4,
+          // image
+          weekImg: userData.weekImg,
+          totalImg: userData.totalImg,
+          weekImgSave: userData.weekImgSave,
+          totalImgSave: userData.totalImgSave,
         }),
       );
     }

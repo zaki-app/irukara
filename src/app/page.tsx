@@ -8,7 +8,7 @@ import {
 } from '@/components/client/organisms';
 import TopPlayGround from '@/components/client/organisms/top/nologin/TopPlayGround';
 import { getServerSession } from 'next-auth';
-import { SessionUserInfo } from '@/types/auth';
+import { AuthUserDataType, SessionUserInfo } from '@/types/auth';
 import { getCookie } from '@/common/utils/cookie/manageCookies';
 import { COOKIE_NAME, IMAGE_TYPE, SELECT_MODE } from '@/common/constants';
 import { IRUKARA_API } from '@/common/constants/path';
@@ -35,7 +35,7 @@ export default async function Home() {
 
   if (userId) {
     const getUserEndpoint = IRUKARA_API.GET_USER_ID.replace('{userId}', userId);
-    const { data }: { data: GetUserIdRes } = await getApi(getUserEndpoint);
+    const { data }: { data: AuthUserDataType } = await getApi(getUserEndpoint);
     userData = data;
     // メニューごとに今日のデータを取得
     const selectedMenu = (await getCookie(COOKIE_NAME.SELECTED_MENU)) ?? '0';
@@ -51,11 +51,9 @@ export default async function Home() {
       const { data }: { data: MessageType[] } = await getApi(path);
       console.log('chatgpt3のデータ', data);
       todayData = data;
-      // todayData.push(data);
     } else if (Number(selectedMenu) === SELECT_MODE.GPT4) {
       // chatgpt4.0
       todayData = [];
-      // todayData.push(data)
     } else if (Number(selectedMenu) === SELECT_MODE.ILLUST) {
       // イラスト生成
       path = IRUKARA_API.GET_IMAGES.replace('{userId}', userId)
@@ -64,7 +62,6 @@ export default async function Home() {
         .replace('{imageType}', IMAGE_TYPE.ILLUST.toString());
       const { data }: { data: ImageTableRes[] } = await getApi(path);
       todayData = data;
-      // todayData.push(data);
     } else if (Number(selectedMenu) === SELECT_MODE.REAL) {
       // リアル画像生成
       path = IRUKARA_API.GET_IMAGES.replace('{userId}', userId)
@@ -73,7 +70,6 @@ export default async function Home() {
         .replace('{imageType}', IMAGE_TYPE.REAL.toString());
       const { data }: { data: ImageTableRes[] } = await getApi(path);
       todayData = data;
-      // todayData.push(data);
     } else {
       todayData = [];
     }
