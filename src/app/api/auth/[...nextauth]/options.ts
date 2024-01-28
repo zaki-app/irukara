@@ -1,11 +1,10 @@
 import type { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import LineProvider from 'next-auth/providers/line';
-import { COOKIE_NAME } from '@/common/constants';
+import { COOKIE_NAME, DEFAULT_USER } from '@/common/constants';
 import createUserIdHash from '@/common/libs/createHash';
 import { currentUnix } from '@/common/libs/dateFormat';
 import { Adapter } from 'next-auth/adapters';
-// import { getCsrfToken } from 'next-auth/react';
 import { getApi, postApi } from '@/common/libs/api/lambda/requestClient';
 import { IRUKARA_API } from '@/common/constants/path';
 import { getCookie, setCookie } from '@/common/utils/cookie/manageCookies';
@@ -74,6 +73,9 @@ export const options: NextAuthOptions = {
         if (!data) {
           const params = {
             userId,
+            name: DEFAULT_USER.NAME,
+            email: DEFAULT_USER.EMAIL,
+            pictureUrl: DEFAULT_USER.PICTURE,
             lineId: provider, // GSIは空文字で登録できない
             registerMethod: 'web',
             providerType: provider,

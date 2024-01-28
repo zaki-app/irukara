@@ -11,10 +11,10 @@ export const LINK_PATH = {
   MEMBER: 'for-users/membership',
 };
 
-// Lambda API
+// Lambda API endpoint
 export const LAMBDA_API = process.env.IRUKARA_API_ENDPOINT;
 
-// API
+// 中間API
 export const API = {
   TOP_GPT: '/api/playground/top',
   RATE_LIMIT_TOP_CHAT: '/api/rate-limit/top-limit?type={:type}',
@@ -30,12 +30,18 @@ export const API = {
   RELAY_POST_REAL: '/api/backend/real',
   // 画像共通
   RELAY_PUT_ILLUST: '/api/backend/image/{:userId}',
+  // ユーザー更新
+  PUT_USER: '/api/backend/user/{:userId}',
+  // プロフィール画像S3アップロード
+  POST_S3_UPLOAD: '/api/backend/s3-upload',
 };
 
+// LambdaAPI
 export const IRUKARA_API: IrukaraApiUnion = {
   // user
   GET_USER_ID: `${LAMBDA_API}search-user/{userId}`,
   POST_USER: `${LAMBDA_API}register-user`,
+  PUT_USER: `${LAMBDA_API}update-user/{userId}`,
   // message
   GET_MSG_DATE: `${LAMBDA_API}save-messages/{userId}?type=date&start={startUnix}&end={endUnix}`,
   GET_MSG_REFE: `${LAMBDA_API}save-messages/{userId}?type=reference&status={num}`,

@@ -100,3 +100,18 @@ export const DATA = {
   TODAY: 1,
   HISTORY: 2,
 };
+
+// デフォルトユーザー
+export const DEFAULT_USER = {
+  NAME: 'Irukaraユーザー',
+  EMAIL: '登録されていません',
+  PICTURE: '/images/irukamo.png',
+  ALT: 'デフォルトユーザー画像',
+};
+
+// プロフィール編集
+export const EDIT_PROFILE = {
+  NAME: 1,
+  EMAIL: 2,
+  PICTURE: 3,
+};
