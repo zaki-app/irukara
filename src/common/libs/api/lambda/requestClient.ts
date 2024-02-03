@@ -37,6 +37,7 @@ async function getAuthInfo(): Promise<GetAuthInfoRes> {
 
 // GET
 export async function getApi(path: string) {
+  console.log('getApi path', path);
   let response;
   try {
     const { token, provider } = await getAuthInfo();
@@ -56,8 +57,6 @@ export async function getApi(path: string) {
     console.error('get request...', err);
     response = false;
   }
-
-  console.log('get finish response...', response);
 
   return response;
 }

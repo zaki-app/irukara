@@ -13,6 +13,8 @@ type IrukaraApiObjkey =
   | 'GET_IMAGES'
   | 'POST_ILLUST_IMAGE'
   | 'POST_REAL_IMAGE'
-  | 'PUT_ILLUST_IMAGE';
+  | 'PUT_ILLUST_IMAGE'
+  | 'GET_S3_OBJECT'
+  | 'POST_S3_UPLOAD';
 
 export type IrukaraApiUnion = Record<IrukaraApiObjkey, string>;

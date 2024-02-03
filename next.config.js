@@ -27,12 +27,17 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'pub-3626123a908346a7a8be8d9295f44e26.r2.dev',
       },
+      {
+        protocol: 'https',
+        hostname: 'dev-irukara-profile-image.s3.ap-northeast-1.amazonaws.com',
+      },
     ],
     domains: [
       'scdn.line-apps.com',
       'cdn.stablediffusionapi.com',
       'cdn2.stablediffusionapi.com',
       'pub-3626123a908346a7a8be8d9295f44e26.r2.dev',
+      'dev-irukara-profile-image.s3.ap-northeast-1.amazonaws.com',
     ],
   },
   // サーバー側で使用する環境変数
@@ -58,6 +63,7 @@ const nextConfig = {
     AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
     AWS_REGION: process.env.AWS_REGION,
     AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME,
+    AWS_S3_BUCKET_URL: process.env.AWS_S3_BUCKET_URL,
   },
 };
 

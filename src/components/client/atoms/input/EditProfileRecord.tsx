@@ -9,23 +9,20 @@ import { Spin } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 
 interface EditProfileRecordProps {
   showName: string;
   type: number;
-  altText?: string;
 }
 
 /**
- * ユーザープロフィール画面から現在の情報を表示、更新する
+ * ユーザープロフィール画面から現在の情報を表示、更新する(テキスト)
  * @param showName 表示するプロフィール情報
- * @param type 1..name, 2..email, 3..picture
+ * @param type 1..name, 2..email
  */
 export default function EditProfileRecord({
   showName,
   type,
-  altText,
 }: EditProfileRecordProps) {
   const editProfileRef = useRef<HTMLDivElement>(null);
 
@@ -50,8 +47,6 @@ export default function EditProfileRecord({
       params = { name: strShowName };
     } else if (type === EDIT_PROFILE.EMAIL) {
       params = { email: strShowName };
-    } else if (type === EDIT_PROFILE.PICTURE) {
-      params = { picture: strShowName };
     }
 
     const path = API.PUT_USER.replace('{:userId}', userId);
@@ -95,18 +90,7 @@ export default function EditProfileRecord({
           }}
         />
       ) : (
-        <>
-          {type === EDIT_PROFILE.PICTURE ? (
-            <Image
-              src={showName}
-              alt={altText as string}
-              width={100}
-              height={100}
-            />
-          ) : (
-            <>{showName}</>
-          )}
-        </>
+        <>{showName}</>
       )}
       {isClick ? (
         <button className='' onClick={() => editProfile()}>
