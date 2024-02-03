@@ -32,7 +32,7 @@ export const API = {
   RELAY_PUT_ILLUST: '/api/backend/image/{:userId}',
   // ユーザー更新
   PUT_USER: '/api/backend/user/{:userId}',
-  // プロフィール画像S3アップロード
+  // S3
   POST_S3_UPLOAD: '/api/backend/s3-upload',
 };
 
@@ -56,6 +56,9 @@ export const IRUKARA_API: IrukaraApiUnion = {
   POST_ILLUST_IMAGE: `${LAMBDA_API}save-illust-image`,
   PUT_ILLUST_IMAGE: `${LAMBDA_API}save-image-update/{imageId}/createdAt/{createdAt}`,
   POST_REAL_IMAGE: `${LAMBDA_API}save-real-image`,
+  // s3
+  GET_S3_OBJECT: `${LAMBDA_API}get-s3?Key={key}`,
+  POST_S3_UPLOAD: `${LAMBDA_API}upload-s3`,
 };
 
 // CALLBACK

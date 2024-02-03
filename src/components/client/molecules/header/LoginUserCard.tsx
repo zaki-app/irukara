@@ -28,6 +28,10 @@ export default function LoginUserCard() {
     setDropDown(!isDropdown);
   }
 
+  function closeDropdown() {
+    setDropDown(false);
+  }
+
   // dropdown以外の部分がクリックされた閉じる
   function clickOutSide(event: MouseEvent) {
     if (
@@ -69,15 +73,22 @@ export default function LoginUserCard() {
           </div>
           <div className='flex flex-col gap-2'>
             <div className='hover:bg-neutral-100 p-2 rounded-md cursor-pointer'>
-              <Link href={PAGE_LINK.PROFILE}>プロフィール</Link>
+              <Link href={PAGE_LINK.PROFILE} onClick={() => closeDropdown()}>
+                プロフィール
+              </Link>
             </div>
             <div className='hover:bg-neutral-100 p-2 rounded-md cursor-pointer'>
-              <Link href='/'>プラン変更</Link>
+              <Link href='/' onClick={() => closeDropdown()}>
+                プラン変更
+              </Link>
             </div>
             <div className='hover:bg-neutral-100 p-2 rounded-md'>
               <div
                 className='cursor-pointer'
-                onClick={async () => authSignOut()}
+                onClick={async () => {
+                  authSignOut();
+                  closeDropdown();
+                }}
               >
                 サインアウト
               </div>

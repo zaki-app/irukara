@@ -1,3 +1,5 @@
+import { IRUKARA_API } from '@/common/constants/path';
+import { postApi } from '@/common/libs/api/lambda/requestClient';
 import { NextRequest, NextResponse } from 'next/server';
 
 /**
@@ -5,17 +7,21 @@ import { NextRequest, NextResponse } from 'next/server';
  * @param req
  */
 export async function POST(req: NextRequest) {
-  console.log('アップロードリクエスト', req);
-  let response;
-  let status;
+  // console.log('front req', req);
+  // let response;
+  // let status;
+  // try {
+  //   const body = await req.json();
 
-  try {
-    response = '成功';
-    status = 200;
-  } catch (err) {
-    response = false;
-    status = 500;
-  }
+  //   response = await postApi(IRUKARA_API.POST_S3_UPLOAD, body);
+  //   status = 200;
+  //   console.log('upload result', response);
+  // } catch (err) {
+  //   console.error('upload error...', err);
+  //   response = false;
+  //   status = 500;
+  // }
 
-  return NextResponse.json(response, { status });
+  // return NextResponse.json(response, { status });
+  return NextResponse.json('hello');
 }
