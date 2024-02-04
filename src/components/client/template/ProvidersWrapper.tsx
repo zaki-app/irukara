@@ -28,6 +28,8 @@ export default function ProvidersWrapper({
     if (session) {
       const authUser = { ...session, isAuth: true };
       store.dispatch(setUserProfile(authUser));
+
+      console.log('セッション情報？', session);
     } else {
       store.dispatch(clearUserProfile());
     }

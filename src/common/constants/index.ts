@@ -115,8 +115,3 @@ export const EDIT_PROFILE = {
   EMAIL: 2,
   PICTURE: 3,
 };
-
-// サイズ容量
-export const SIZE = {
-  FIVE_MB: 5242880,
-};

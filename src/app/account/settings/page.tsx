@@ -107,12 +107,6 @@ export default async function AccountSettings() {
         <div className='h-[130px]'>
           <UserProfileCard />
         </div>
-        <Image
-          src='https://dev-irukara-profile-image.s3.ap-northeast-1.amazonaws.com/ikura.jpeg'
-          alt='s3画像'
-          width={100}
-          height={100}
-        />
         {/* テーブル */}
         <div className='mt-6'>
           <Table<User>

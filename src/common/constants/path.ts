@@ -33,7 +33,8 @@ export const API = {
   // ユーザー更新
   PUT_USER: '/api/backend/user/{:userId}',
   // S3
-  POST_S3_UPLOAD: '/api/backend/s3-upload',
+  GET_SIGNED_URL:
+    '/api/backend/s3/get-signed-url?type={:type}&size={:size}&checksum={:checksum}',
 };
 
 // LambdaAPI
