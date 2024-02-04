@@ -1,13 +1,15 @@
 'use client';
 
-import { SIZE } from '@/common/constants';
-// import { API, IRUKARA_API } from '@/common/constants/path';
-// import { getApi, relayPostApi } from '@/common/libs/api/lambda/requestClient';
-// import { convertToBinary } from '@/common/utils/assets/convertToBinary';
+import { COOKIE_NAME } from '@/common/constants';
+import { API } from '@/common/constants/path';
+import { VALIDATE } from '@/common/constants/validate';
+import { getApi, relayPutApi } from '@/common/libs/api/lambda/requestClient';
+import { getCookie } from '@/common/utils/cookie/manageCookies';
+import { computeSHA256 } from '@/common/utils/image';
 import { Alert, Modal, Upload } from 'antd';
 import Image from 'next/image';
-import { ChangeEvent, ChangeEventHandler, useEffect, useState } from 'react';
-// import { AiOutlinePlus } from 'react-icons/ai';
+import { ChangeEvent, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 interface UploadImageProps {
   srcPath: string;
@@ -26,35 +28,74 @@ export default function UploadImage({
   height,
 }: UploadImageProps) {
   const [isChange, setChange] = useState<boolean>(false);
+  const [isButtonChange, setButtonChange] = useState<boolean>(false);
   const [isAlert, setAlert] = useState<boolean>(false);
-
-  // デフォルトの選択モーダル出現
-  function handleClick(e: any) {
-    console.log('イベントです', e);
-  }
+  const [alertMsg, setAlertMsg] = useState<string>('');
+  const [file, setFile] = useState<File | undefined>(undefined);
+  const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
 
   // 画像選択後
-  async function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    console.log('画像選択後');
-    const fileInput = e.target;
-    if (fileInput.files && fileInput.files[0]) {
-      const fileInfo = fileInput.files[0];
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    console.log('画像選択後', e);
+    const file = e.target.files?.[0];
+    setFile(file);
 
-      // 5MBを超える場合はアラートを表示
-      if (fileInfo.size < SIZE.FIVE_MB) {
-        // S3へのアップデート処理
-        console.log('name', fileInfo.name);
-        console.log('size', fileInfo.size);
-        console.log('mime', fileInfo.type);
-        // バイナリデータへ変換
-        // const binaryData = await convertToBinary(fileInfo);
-        // console.log('バイナリデータ', binaryData);
-        // const uploadResult = await relayPostApi(API.POST_S3_UPLOAD, {
-        //   file: binaryData,
-        // });
-        // console.log('バイナリデータアップロード', uploadResult);
+    if (fileUrl) {
+      URL.revokeObjectURL(fileUrl);
+    }
+
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setFileUrl(url);
+    } else {
+      setFileUrl(undefined);
+    }
+
+    setChange(true);
+    setButtonChange(true);
+  }
+
+  // s3へアップロード
+  async function s3upload(e: any) {
+    e.preventDefault();
+    setButtonChange(false);
+
+    if (file) {
+      // 著名付きURLを取得
+      const checksum = await computeSHA256(file);
+      const path = API.GET_SIGNED_URL.replace('{:type}', file.type)
+        .replace('{:size}', file.size.toString())
+        .replace('{:checksum}', checksum);
+      const { success, url, message } = await getApi(path);
+
+      if (success) {
+        // 著名付きURLを使用して実際にアップロード
+        const res = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': file.type,
+          },
+          body: file,
+        });
+
+        if (res.ok) {
+          const imageUrl = res.url.split('?')[0];
+          // UsersTableを更新する
+          const userId = await getCookie(COOKIE_NAME.IRUKARA_ID);
+          const path = API.PUT_USER.replace('{:userId}', userId);
+          const result = await relayPutApi(path, { pictureUrl: imageUrl });
+          console.log('DB更新終了', result);
+        } else {
+          setAlert(true);
+          setAlertMsg(VALIDATE.OTHER_ERROR);
+          setTimeout(() => {
+            setAlert(false);
+          }, 6000);
+        }
       } else {
+        // 著名付きURLが発行できなかった場合はエラーを表示
         setAlert(true);
+        setAlertMsg(message);
         setTimeout(() => {
           setAlert(false);
         }, 6000);
@@ -62,43 +103,58 @@ export default function UploadImage({
     }
   }
 
-  useEffect(() => {}, []);
+  // アップロードをキャンセル
+  function uploadCancel() {
+    setChange(false);
+  }
 
   return (
     <>
       {isAlert && (
         <div className='mb-4'>
-          <Alert
-            message='画像サイズは5MBまでになります'
-            type='error'
-            showIcon
-          />
+          <Alert message={alertMsg} type='error' showIcon />
         </div>
       )}
       <section className='flex justify-between items-center'>
-        <Image
-          src={srcPath}
-          alt={altText}
-          width={width || 100}
-          height={height || 100}
-          className='rounded-full border-2 p-0 m-0'
-        />
-        <button className='text-[0.7rem] font-semibold cursor-pointer'>
-          <label
-            onClick={(e) => handleClick(e)}
-            className='cursor-pointer'
-            htmlFor='fileInput'
-          >
-            {isChange ? '保存' : '変更'}
-            <input
-              id='fileInput'
-              type='file'
-              accept='.jpg, .jpeg, .png, .webp'
-              className='hidden'
-              onChange={handleChange}
-            />
-          </label>
-        </button>
+        {/* 変更した時は現在の画像から変更後の画像をpreview */}
+        {isChange && file && fileUrl ? (
+          <Image
+            src={fileUrl}
+            alt='プロフィール画像のプレビュー'
+            // width={width || 100}
+            // height={height || 100}
+            layout='fill'
+            objectFit='cover'
+            className='rounded-full border-2 p-0 m-0 w-[100px] h-[100px]'
+          />
+        ) : (
+          <Image
+            src={srcPath}
+            alt={altText}
+            width={width || 100}
+            height={height || 100}
+            className='rounded-full border-2 p-0 m-0 object-contain h-auto'
+          />
+        )}
+        <div className='text-[0.7rem] font-semibold'>
+          {isButtonChange ? (
+            <div className='flex flex-col gap-2'>
+              <button onClick={(e) => s3upload(e)}>保存</button>
+              <button onClick={() => uploadCancel()}>キャンセル</button>
+            </div>
+          ) : (
+            <label htmlFor='fileInput' className='cursor-pointer'>
+              変更
+              <input
+                type='file'
+                id='fileInput'
+                onChange={(e) => handleChange(e)}
+                style={{ display: 'none' }}
+                accept='image/jpeg,image/png,image/webp,image/jpg'
+              />
+            </label>
+          )}
+        </div>
       </section>
     </>
   );

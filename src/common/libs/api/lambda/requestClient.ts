@@ -168,3 +168,29 @@ export async function relayPutApi(path: string, body: any) {
 
   return response;
 }
+
+// 中間POST(ファイルアップロード)
+export async function filePostApi(path: string, body: any, fileType: string) {
+  console.log('post message arg...', path, body, fileType);
+  let response;
+  try {
+    const res = await fetch(path, {
+      method: 'POST',
+      headers: {
+        'Content-Type': fileType,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) throw new Error(`post response error... ${res.status}`);
+
+    response = await res.json();
+  } catch (err) {
+    console.error('post request...', err);
+    response = false;
+  }
+
+  console.log('post finish response...', response);
+
+  return response;
+}
