@@ -65,7 +65,7 @@ export default function ProvidersWrapper({
             ) : (
               <RoundSpinner />
             )}
-            <div id='login-modal' />
+            <div id='app-modal' />
             <div id='hamburger' />
             {/* <Footer /> */}
           </Provider>
