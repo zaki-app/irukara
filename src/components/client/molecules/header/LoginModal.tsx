@@ -143,6 +143,6 @@ export default function LoginModal({
         </div>
       </div>
     </>,
-    document.getElementById('login-modal') as HTMLElement,
+    document.getElementById('app-modal') as HTMLElement,
   );
 }

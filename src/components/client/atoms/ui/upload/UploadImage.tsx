@@ -10,6 +10,7 @@ import { Alert, Modal, Upload } from 'antd';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
+import CropImage from '../crop/CropImage';
 
 interface UploadImageProps {
   srcPath: string;
@@ -27,6 +28,7 @@ export default function UploadImage({
   width,
   height,
 }: UploadImageProps) {
+  console.log('サイズ', width, height);
   const [isChange, setChange] = useState<boolean>(false);
   const [isButtonChange, setButtonChange] = useState<boolean>(false);
   const [isAlert, setAlert] = useState<boolean>(false);
@@ -117,43 +119,42 @@ export default function UploadImage({
       )}
       <section className='flex justify-between items-center'>
         {/* 変更した時は現在の画像から変更後の画像をpreview */}
-        {isChange && file && fileUrl ? (
-          <Image
-            src={fileUrl}
-            alt='プロフィール画像のプレビュー'
-            // width={width || 100}
-            // height={height || 100}
-            layout='fill'
-            objectFit='cover'
-            className='rounded-full border-2 p-0 m-0 w-[100px] h-[100px]'
-          />
-        ) : (
-          <Image
-            src={srcPath}
-            alt={altText}
-            width={width || 100}
-            height={height || 100}
-            className='rounded-full border-2 p-0 m-0 object-contain h-auto'
-          />
-        )}
+        <div className='w-[100px] h-[100px] aspect-square'>
+          {isChange && file && fileUrl ? (
+            <CropImage
+              fileUrl={fileUrl}
+              setChange={setChange}
+              s3upload={(e) => s3upload(e)}
+            />
+          ) : (
+            <Image
+              src={srcPath}
+              alt={altText}
+              width={100}
+              height={100}
+              objectFit=''
+              className='rounded-full border-2 shadow-sm h-full w-full'
+            />
+          )}
+        </div>
         <div className='text-[0.7rem] font-semibold'>
-          {isButtonChange ? (
+          {/* {isButtonChange ? (
             <div className='flex flex-col gap-2'>
               <button onClick={(e) => s3upload(e)}>保存</button>
               <button onClick={() => uploadCancel()}>キャンセル</button>
             </div>
-          ) : (
-            <label htmlFor='fileInput' className='cursor-pointer'>
-              変更
-              <input
-                type='file'
-                id='fileInput'
-                onChange={(e) => handleChange(e)}
-                style={{ display: 'none' }}
-                accept='image/jpeg,image/png,image/webp,image/jpg'
-              />
-            </label>
-          )}
+          ) : ( */}
+          <label htmlFor='fileInput' className='cursor-pointer'>
+            変更
+            <input
+              type='file'
+              id='fileInput'
+              onChange={(e) => handleChange(e)}
+              style={{ display: 'none' }}
+              accept='image/jpeg,image/png,image/webp,image/jpg'
+            />
+          </label>
+          {/* )} */}
         </div>
       </section>
     </>
